@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import './NavBar.css';
 import { Link } from 'react-router-dom';
 import { context } from '../Context/Store';
+import { BiSolidCartAlt } from "react-icons/bi";
+
 
 function NavBar() {
     const { UserData, fetchCartItems, SearchInput } = useContext(context);
@@ -41,9 +43,13 @@ function NavBar() {
                     <li><Link className="link" to="/">Home</Link></li>
                     <li><Link className="link" to="/">Mens</Link></li>
                     <li><Link className="link" to="/">Womens</Link></li>
+
+
                     <li onClick={() => fetchCartItems()}>
-                        <Link className="link" to="/user/cart">Cart</Link>
+                        <Link className="link fs-3" to="/user/cart" >  <BiSolidCartAlt/> </Link>
                     </li>
+
+
                     <li>
                         {UserData.username ? (
                             UserData.username

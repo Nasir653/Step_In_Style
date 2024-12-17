@@ -1,4 +1,5 @@
 
+import { Category } from "./Category";
 import "./HomePage.scss";
 import NewCollection from "./NewCollection";
 import Trending from "./Trending";
@@ -133,7 +134,7 @@ function Home() {
                     <div className="New-collection bg-warning">  <NewCollection />   </div>
 
 
-                    <div className="category">
+                    <div className="Gender-category">
 
 
                         <div className="col-mens">1</div>
@@ -150,8 +151,28 @@ function Home() {
                     </div>
 
 
+                    
+
 
                 </div>
+
+
+
+            {/* --------------------------------------------- Items Category ----------------------------------------- */}
+
+
+                
+                <div className="items-category">
+
+              
+                    <Category/>
+
+  
+
+                </div>
+
+
+
 
             
             

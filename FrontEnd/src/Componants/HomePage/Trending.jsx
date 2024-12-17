@@ -26,8 +26,7 @@ const Trending = () => {
                                 className="item"
                                 onClick={(e) => {
                                     //navigate(`/product/details/${product._id}`);
-
-                                }}
+ }}
                             >
                                 <img
                                     src={product.imageUrl}
