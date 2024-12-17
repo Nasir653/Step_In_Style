@@ -1,0 +1,75 @@
+.conatainer {
+
+
+    display: flex;
+    justify-content: center;
+    padding: 5vh;
+
+
+}
+
+.signup-div {
+
+    width: 40vw;
+    box-shadow: 3px 3px 5px rgb(151, 131, 43), -0.2em 0 .4em rgb(158, 134, 28);
+    display: flex;
+    flex-direction: column;
+     padding-bottom: 1vh;
+    align-items: center;
+    gap: 2vw;
+
+
+    >.heading {
+        background-color: rgb(194, 127, 21);
+        text-align: center;
+        color: white;
+        font-family: "Josefin Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 600;
+        font-style: normal;
+        padding: 1vh;
+
+    }
+
+
+    >form {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        gap: 4vh;
+
+
+
+        >input {
+            border-top: 0px;
+            border-left: 0px;
+            border-right: 0px;
+
+
+            padding-left: 0px;
+            height: 4vh;
+
+        }
+
+
+        >button {
+            width: 30%;
+            height: 5vh;
+            border-style: none;
+            margin-top: 1.5vh;
+            align-self: self-end;
+            background-color: rgb(194, 127, 21);
+            color: white;
+        }
+
+
+    }
+
+}
+
+.loginBtn {
+    
+    
+   padding: 0.8vh;
+    color: black;
+}

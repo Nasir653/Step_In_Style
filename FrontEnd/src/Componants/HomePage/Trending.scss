@@ -1,0 +1,24 @@
+.Trending{
+
+width: 100%;
+height: 60vh;
+
+}
+
+.products {
+
+    display: flex;
+    gap: 2vw;
+}
+
+.item{
+ width: 25%;
+    border: 2px solid rgb(255, 140, 0);
+    height: 100%;
+
+}
+
+.image{
+    width: 100%;
+    height: 40vh;
+}

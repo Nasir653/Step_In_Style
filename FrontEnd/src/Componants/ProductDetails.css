@@ -1,0 +1,40 @@
+
+.container-fuild{
+    /* padding: 2vw; */
+}
+
+.items{
+    display: flex;
+    /* gap: 1vw; */
+
+
+    width: 50%;
+   
+    >img{
+        height: 80vh;
+    }
+
+  .text{
+
+    >h4 {
+            background-color: rgb(98, 97, 97);
+            color: white;
+        }
+    }
+
+
+  }
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
