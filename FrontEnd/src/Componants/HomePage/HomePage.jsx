@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom";
 import { Category } from "./Category";
 import "./HomePage.scss";
 import NewCollection from "./NewCollection";
@@ -9,9 +10,9 @@ import Trending from "./Trending";
 //import IsAuthorized from '../utils/IsAuthorized';
 
 function Home() {
-   
 
-    
+
+
 
 
     return (
@@ -50,8 +51,8 @@ function Home() {
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img
-                                    src="https://img.freepik.com/free-photo/studio-close-up-portrait-young-fresh-blonde-woman-brown-straw-poncho-wool-black-trendy-hat-round-glasses-looking-camera-green-leather-had-bag_273443-1121.jpg"
-                                    class="d-block w-100"
+                                    src="https://www.beyoung.in/api/catalog/homepage-nov/goat-sale/banner/goat-sale_desktop_30nov.jpg"
+                                    class="d-block w-100 img"
                                     alt="..."
                                 ></img>
                                 <div class="carousel-caption d-none d-md-block">
@@ -63,8 +64,8 @@ function Home() {
                             </div>
                             <div class="carousel-item">
                                 <img
-                                    src="https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-noel-24/s5169ubxpm01e/44577664-1-eng-GB/s5169ubxpm01e_1440_1200.jpg?imwidth=640"
-                                    class="d-block w-100"
+                                    src="https://www.beyoung.in/api/catalog/homepage-nov/goat-sale/banner/GOAT-Sale-winter-desktop-12-dec-24.jpg"
+                                    class="d-block w-100 img"
                                     alt="..."
                                 ></img>
                                 <div class="carousel-caption d-none d-md-block">
@@ -77,8 +78,8 @@ function Home() {
                             </div>
                             <div class="carousel-item">
                                 <img
-                                    src="https://media.istockphoto.com/id/1180369198/photo/winter-portrait-of-happy-children.jpg?s=612x612&w=0&k=20&c=XIPGl3abW8We99MgURR0S1HDu_iYCpajdP50HTnfmhk="
-                                    class="d-block w-100"
+                                    src="https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2024/12/6/5de27ff7-9f3a-48d1-9dac-882ed0a83b801733424846403-Sale_1920x504-HP-----5.jpg "
+                                    class="d-block w-100 img"
                                     alt="..."
                                 ></img>
                                 <div class="carousel-caption d-none d-md-block">
@@ -118,7 +119,7 @@ function Home() {
 
                 {/* ------------------------------------------ Content --------------------------------------------------------------        */}
 
-             
+
 
 
                 {/* ------------------------- End ------------------ ------------------------ */}
@@ -126,19 +127,41 @@ function Home() {
 
 
             <div className="container-fluid">
-            
-            
+
+
                 <div className="content   d-flex  flex-column">
 
 
-                    <div className="New-collection bg-warning">  <NewCollection />   </div>
+                    <div className="New-collection ">  <NewCollection />   </div>
 
 
                     <div className="Gender-category">
 
+                        <Link  to="/Category/mens">
+                        <div className="col-mens">
+                        <img src="https://img.freepik.com/premium-vector/men-fashion-collection-social-media-banner-template-design_596383-109.jpg" alt="" />
+                        </div>
+                        </Link>
+                      
+                        
+                        <Link to="/Category/womens"> 
+                        
+                        <div className="col-womens">
 
-                        <div className="col-mens">1</div>
-                        <div className="col-womens">2</div>
+                            <img src="https://www.primeemarket.com/cdn/shop/files/1643651730_550x.jpg?v=1645386541" alt="" />
+
+
+                            </div>
+                            
+
+                        </Link>
+
+                        <div className="col-kids">
+
+                            <img src="https://t3.ftcdn.net/jpg/02/11/82/88/360_F_211828832_OnMaambs24g0vZM8HLjqZ8tU5wH4y1oD.jpg" alt="" />
+
+
+                        </div>
 
 
                     </div>
@@ -146,37 +169,37 @@ function Home() {
 
                     <div className="Trending">
 
-                              <Trending/>
+                        <Trending />
 
                     </div>
 
 
-                    
+
 
 
                 </div>
 
 
 
-            {/* --------------------------------------------- Items Category ----------------------------------------- */}
+                {/* --------------------------------------------- Items Category ----------------------------------------- */}
 
 
-                
+
                 <div className="items-category">
 
-              
-                    <Category/>
 
-  
+                    <Category />
+
+
 
                 </div>
 
 
 
 
-            
-            
-            </div> 
+
+
+            </div>
 
 
 

@@ -1,17 +1,16 @@
 
 .container-fuild{
-    /* padding: 2vw; */
+     padding: 2vw; 
 }
 
 .items{
     display: flex;
-    /* gap: 1vw; */
-
-
+     gap: 1vw; 
     width: 50%;
+    text-align: center;
    
     >img{
-        height: 80vh;
+        height: 60vh;
     }
 
   .text{

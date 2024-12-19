@@ -9,8 +9,8 @@
     display: flex;
     justify-content: space-between;
     padding: 0.5vw;
-    background-color: rgb(128, 84, 12);
-    color: white;
+    color: black;
+    
 
    }
 
@@ -24,21 +24,24 @@
     bottom: 92vh;
     left: 75%;
     gap: 3vw;
-    color: white;
+    color: black;
     font-size: 1vw;
+
+    align-items: center;
 
  
 }
 
 .link{
-    color: white;
+    color: black;
     text-decoration: none;
 }
 
 
 .link:hover {
   
-    color: bisque;
+    border-bottom: 2px solid black;
+    border-radius: 3px solid black;
 }
 
 .search-div {
@@ -51,13 +54,13 @@
     height: 5vh;
     border-radius: 3vw;
     padding: 1vw;
-    background-color: rgba(255, 255, 255, 0.264);
+    background-color: rgba(234, 224, 184, 0.601);
     border-style: none;
-    color: aliceblue;
+    color: black;
 
 }
 .search-input::placeholder{
-    color: aliceblue;
+    color: rgb(42, 43, 44);
 }
 
 .search-icon {

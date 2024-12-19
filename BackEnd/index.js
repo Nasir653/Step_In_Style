@@ -16,6 +16,7 @@ const {
   fetchCartItems,
   removeFromCart,
   searchInput,
+  Logout,
 } = require("./controllers/userController");
 const verifyUSer = require("./utils/isAuth");
 const {
@@ -60,6 +61,7 @@ app.get("/", (req, res) => {
 app.post("/user/register", signup);
 
 app.post("/user/login", loginHandler);
+app.get("/user/logout", Logout);
 
 app.post("/user/forgetpassword", forgetPass);
 app.put("/user/resetpassword/:userId", ResetPass);
@@ -85,8 +87,3 @@ app.post("/user/create/order", IsAuthenticated, CreateOrder);
 app.listen(port, () => {
   console.log("Server is listening on port", port);
 });
-
-
-
-
-

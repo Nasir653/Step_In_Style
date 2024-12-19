@@ -1,4 +1,8 @@
+.New-collection{
 
+    text-align: center;
+    padding-top: 1vh;
+}
 
 
 .New_Collections {
@@ -12,10 +16,11 @@
     height: 70vh;
     padding: 1vw;
     padding-top: 3vh;
+   
 
 
     >.items {
-        width: 25%;
+        width: 20%;
         // border: $border;
 
         text-wrap: wrap;

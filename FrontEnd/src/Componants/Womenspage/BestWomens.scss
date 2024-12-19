@@ -1,0 +1,26 @@
+.bestCollection-womens{
+    width: 100%;
+   
+    >.row {
+        
+        height: 60vh;
+        padding: 2vh;
+        padding-top: 5vh;
+
+        >.col {
+            height: 100%;
+            transition: 1s;
+
+            >img {
+                width: 100%;
+                width: 38vh;
+            }
+
+            :hover{
+                scale: 1.01;
+            }
+        }
+
+
+    }
+}

@@ -2,6 +2,10 @@ $border : 2px solid black;
 $border-red : 2px solid red;
 
 
+.img{
+    height: 60vh;
+}
+
 .content{
 
     width: 100%;
@@ -15,18 +19,39 @@ $border-red : 2px solid red;
     justify-content: center; 
     align-items: center;
     height: 40vh;
-    gap: 1vw;
+    gap: 5vw;
 }
 
 .col-mens{
     width: 20vw;
-    border: 2px solid red;
     height: 50%;
+
+    >img{
+        
+        width: 100%;
+        height: 100%;
+    
+    }
 }
 .col-womens{
     width: 20vw;
-    border: 2px solid red;
     height: 50%;
+
+    >img{
+        width: 100%;
+
+        height: 100%;
+    }
+}
+.col-kids{
+    width: 20vw;
+    height: 50%;
+
+    >img{
+        width: 100%;
+
+        height: 100%;
+    }
 }
 
 

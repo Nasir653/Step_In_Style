@@ -8,7 +8,7 @@ export const Category = () => {
 
             <div className='category-elements d-flex flex-column gap-3'>
 
-                <div className="row  gap-5">
+                <div className="row  gap-5 row-col-lg-5">
 
                     <div className="col">
 
@@ -97,9 +97,9 @@ export const Category = () => {
                     <div className="col">
 
 
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREBeQR0MYgrOeFuD6fUHR3Hs0OS0Xw4rZ_0g&s" alt="" />
+                        <img src="https://cdn.shopify.com/s/files/1/0266/6276/4597/files/blazers_for_men.jpg?v=1677785341" alt="" />
 
-                        <h5>WesternWear Wear</h5>
+                        <h5>Office Wear</h5>
                         <button className='btn '>Shop Now</button>
                     </div>
 

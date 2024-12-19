@@ -1,10 +1,10 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import App from "../App";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/ApiInstances";
-
+import Cookies from "js-cookie";
 
 
 export const context = createContext();
@@ -13,12 +13,12 @@ const Store = () => {
   const navigate = useNavigate();
 
   const [store, setStore] = useState({
-    loading : false,
+    loading: false,
     LogedInn: false,
     UserData: [],
     productData: [],
     cart: [],
-    SearchedItems : []
+    SearchedItems: []
 
   });
 
@@ -37,7 +37,7 @@ const Store = () => {
       const response = await axios.post(url, formData);
       toast.success(response.data.message);
       console.log(response);
-      
+
     } catch (error) {
       console.error(error);
     }
@@ -54,9 +54,14 @@ const Store = () => {
 
       if (res.status === 200 && res.data.message === "Login Successfully") {
         //toast.success(res.data.message);
-
+        setStore((prev) => ({ ...prev, loading: true }));
         navigate("/");
-      } else {
+         
+      }
+      
+    
+      
+      else {
         toast.success(res.data.message);
       }
     } catch (error) {
@@ -64,15 +69,30 @@ const Store = () => {
     }
   };
 
-  const fetchUserData = async () => {
+  const logout = async () => {
     try {
-      //const url = "http://localhost:4000";
+     
+      const res = await api.get("/user/logout");
+
+      toast.success(res.data.message);
+
+      navigate("/");
+    } catch (error) {
+    
+      console.error("Logout error:", error);
+      toast.error("Something went wrong! Try again later.");
+    }
+  };
+
+  const fetchUserData = useCallback(async () => {
+    try {
+      
       const res = await api.get("/fetch/user");
       setStore((prev) => ({ ...prev, UserData: res.data.payload }));
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
   const ResetLink = async (e, email) => {
     e.preventDefault();
@@ -105,7 +125,7 @@ const Store = () => {
     }
   };
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       const url = "http://localhost:4000/getProducts";
       const res = await axios.get(url);
@@ -114,15 +134,17 @@ const Store = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[] )
+
+
 
   const ProductDeatail = async (ProductId) => {
     try {
       const response = await api.get(
         `product/details/${ProductId}`
       );
-     return response
-     
+      return response
+
     } catch (error) {
       console.log(Error);
     }
@@ -136,7 +158,7 @@ const Store = () => {
 
       const res = await api.get(`/user/cart/${productId}`);
       console.log(res);
-      
+
       toast.success(res.data.message);
       toast.error(res.response.data.message);
 
@@ -151,69 +173,69 @@ const Store = () => {
 
 
   const fetchCartItems = async () => {
-    
+
     try {
-   
+
       const res = await api.get("/user/fetch/cartItems");
       console.log(res);
-    setStore((prev) => ({ ...prev, cart: res.data.payload }));
+      setStore((prev) => ({ ...prev, cart: res.data.payload }));
 
 
-  
- } catch (error) {
-   console.log(Error);
-   
-  
- }
+
+    } catch (error) {
+      console.log(Error);
+
+
+    }
 
 
   }
 
   const removeFromCart = async (productId) => {
-  
-    try {
-      
-   
 
-    const res = await api.get(`/user/remove/cartItems/${productId}`)
+    try {
+
+
+
+      const res = await api.get(`/user/remove/cartItems/${productId}`)
 
       console.log(res);
-      
+
     } catch (error) {
 
       console.log(error);
-      
-    }
-    
 
-}
+    }
+
+
+  }
 
 
   const SearchInput = async (value) => {
-   
+
     try {
-      
-       
-    console.log("value " + value);
-    
-    const res = await api.post(`/product/search/${value}`);
-    
 
-    if (res) {
-      navigate("/Searched/items");
 
-       setStore((pre)=> ({...pre, SearchedItems : res.data.payload } ) )
-    
+      console.log("value " + value);
+
+      const res = await api.post(`/product/search/${value}`);
+
+
+      if (res) {
+        navigate("/Searched/items");
+
+        setStore((pre) => ({ ...pre, SearchedItems: res.data.payload }))
+
       }
-      
+
     } catch (error) {
 
       console.log("Server Error" + Error);
-      
-    } 
-     
 
-   }
+    }
+
+
+  }
 
 
   return (
@@ -230,7 +252,8 @@ const Store = () => {
         addToCart,
         fetchCartItems,
         removeFromCart,
-        SearchInput
+        SearchInput,
+        logout
       }}
     >
       <App />

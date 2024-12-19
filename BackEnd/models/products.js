@@ -10,7 +10,8 @@ const Products = moongoose.model("Products", {
     details: { type: String },
     price: { type: String },
     imageUrl: { type: String },
-    category : {type:String , enum: ["New Collection", "Trending", "Mens", "Womens"]}
+    category: { type: String, enum: ["New Collection", "Trending", "Mens", "Womens"] },
+    type:{type:String}
 })
 
 

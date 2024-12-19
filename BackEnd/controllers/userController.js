@@ -80,6 +80,19 @@ const loginHandler = async (req, res) => {
   }
 };
 
+const Logout = async (req, res) => {
+  try {
+    const LoggingOut = res.clearCookie("token", { path: "/" });
+
+    if (LoggingOut) {
+      messageHandler(res, 200, "Logout Successfully");
+    }
+  } catch (error) {
+    console.log(error);
+    messageHandler(res, 500, "Server Error");
+  }
+};
+
 const fetchUserData = async (req, res) => {
   try {
     const userId = req.userId;
@@ -365,4 +378,5 @@ module.exports = {
   fetchCartItems,
   removeFromCart,
   searchInput,
+  Logout,
 };

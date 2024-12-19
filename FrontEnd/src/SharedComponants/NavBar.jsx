@@ -3,10 +3,11 @@ import './NavBar.css';
 import { Link } from 'react-router-dom';
 import { context } from '../Context/Store';
 import { BiSolidCartAlt } from "react-icons/bi";
+import { RiAccountPinCircleFill } from "react-icons/ri";
 
 
 function NavBar() {
-    const { UserData, fetchCartItems, SearchInput } = useContext(context);
+    const { UserData, fetchCartItems, SearchInput, logout } = useContext(context);
     const [searchInput, setSearchInput] = useState("");
 
     console.log(UserData);
@@ -21,6 +22,8 @@ function NavBar() {
     };
 
     return (
+
+        <>
         <div className="NavBar">
             <div className="header">
               
@@ -41,12 +44,13 @@ function NavBar() {
                
                 <nav className="header-nav">
                     <li><Link className="link" to="/">Home</Link></li>
-                    <li><Link className="link" to="/">Mens</Link></li>
-                    <li><Link className="link" to="/">Womens</Link></li>
+                    <li><Link className="link" to="/Category/mens">Men's</Link></li>
+                        <li><Link className="link" to="/Category/womens">Women's</Link></li>
+                    <li><Link className="link" to="/">Kid's</Link></li>
 
 
                     <li onClick={() => fetchCartItems()}>
-                        <Link className="link fs-3" to="/user/cart" >  <BiSolidCartAlt/> </Link>
+                        <Link className="link fs-5 border" to="/user/cart" >  <BiSolidCartAlt/> </Link>
                     </li>
 
 
@@ -56,10 +60,63 @@ function NavBar() {
                         ) : (
                             <Link className="link" to="/user/login">Login</Link>
                         )}
-                    </li>
+                        </li>
+                        
+
+                        
+                     
+                               
+                                <div class="dropdown">
+                                    <button
+                                        class="btn btn-light dropdown-toggle"
+                                        type="button"
+                                        id="accountDropdown"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                <RiAccountPinCircleFill />
+                                    </button>
+                            <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                                <li>
+                                    <Link className="dropdown-item" to="/profile">
+                                        Profile
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link className="dropdown-item" to="/settings">
+                                        Settings
+                                    </Link>
+                                </li>
+                                <li onClick={logout}>
+                                    <Link className="dropdown-item" to="/logout">
+                                        Logout
+                                    </Link>
+                                </li>
+                                <li >
+                                    <Link className="dropdown-item" to="/admin/portal">
+                                        Admin
+                                    </Link>
+                                </li>
+                            </ul>
+                                </div>
                 </nav>
             </div>
         </div>
+
+
+        
+        {/* // --------------------------------------  Footer ----------------------------------------------- */}
+        
+        
+           
+         
+           
+
+
+
+        </>    
+        
+        
     );
 }
 
