@@ -5,6 +5,7 @@ const { messageHandler } = require("../utils/MessageHandler");
 const { Orders } = require("../models/OrdersModel");
 const User = require("../models/UserModel");
 const Products = require("../models/products");
+const cloudinary = require("cloudinary").v2;
 
 const signup = async (req, res) => {
   try {
@@ -210,6 +211,32 @@ const ResetPass = async (req, res) => {
   }
 };
 
+const ProfilePic = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    console.log(req.file.path);
+
+    const upload = await cloudinary.uploader.upload(req.file.path, {
+      folder: "pp",
+    });
+    console.log(upload);
+
+    const user = await User.findByIdAndUpdate(userId, {
+      profilePic: upload.secure_url,
+    });
+
+    if (!user) {
+      return messageHandler(res, 401, "UnAuthorized");
+    }
+
+    return messageHandler(res, 200, "Profile Pic Changed");
+  } catch (error) {
+    messageHandler(res, 500, "Server Error");
+    console.error(error);
+  }
+};
+
 const searchInput = async (req, res) => {
   try {
     const { value } = req.params;
@@ -379,4 +406,5 @@ module.exports = {
   removeFromCart,
   searchInput,
   Logout,
+  ProfilePic,
 };

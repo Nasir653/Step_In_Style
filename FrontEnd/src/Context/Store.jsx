@@ -4,7 +4,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/ApiInstances";
-import Cookies from "js-cookie";
 
 
 export const context = createContext();
@@ -13,6 +12,7 @@ const Store = () => {
   const navigate = useNavigate();
 
   const [store, setStore] = useState({
+
     loading: false,
     LogedInn: false,
     UserData: [],
@@ -36,7 +36,7 @@ const Store = () => {
 
       const response = await axios.post(url, formData);
       toast.success(response.data.message);
-      console.log(response);
+
 
     } catch (error) {
       console.error(error);
@@ -56,11 +56,11 @@ const Store = () => {
         //toast.success(res.data.message);
         setStore((prev) => ({ ...prev, loading: true }));
         navigate("/");
-         
+
       }
-      
-    
-      
+
+
+
       else {
         toast.success(res.data.message);
       }
@@ -71,14 +71,14 @@ const Store = () => {
 
   const logout = async () => {
     try {
-     
+
       const res = await api.get("/user/logout");
 
       toast.success(res.data.message);
 
       navigate("/");
     } catch (error) {
-    
+
       console.error("Logout error:", error);
       toast.error("Something went wrong! Try again later.");
     }
@@ -86,7 +86,7 @@ const Store = () => {
 
   const fetchUserData = useCallback(async () => {
     try {
-      
+
       const res = await api.get("/fetch/user");
       setStore((prev) => ({ ...prev, UserData: res.data.payload }));
     } catch (error) {
@@ -106,6 +106,26 @@ const Store = () => {
       console.log(error);
     }
   };
+
+
+  const ProfiePic = async (form) => {
+    try {
+
+      console.log(form);
+
+      const res = await api.post("/user/profilePic", form)
+
+      toast.success(res.data.message)
+      console.log(res);
+      
+
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
+
 
   const CreateProducts = async (e, fileUpload) => {
     try {
@@ -134,7 +154,7 @@ const Store = () => {
     } catch (error) {
       console.log(error);
     }
-  },[] )
+  }, [])
 
 
 
@@ -253,7 +273,8 @@ const Store = () => {
         fetchCartItems,
         removeFromCart,
         SearchInput,
-        logout
+        logout,
+        ProfiePic,
       }}
     >
       <App />

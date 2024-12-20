@@ -1,8 +1,6 @@
 const express = require("express");
 const connDb = require("./config/connectDb");
 const app = express();
-const path = require("path");
-
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const {
@@ -17,6 +15,7 @@ const {
   removeFromCart,
   searchInput,
   Logout,
+  ProfilePic,
 } = require("./controllers/userController");
 const verifyUSer = require("./utils/isAuth");
 const {
@@ -58,32 +57,33 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+// User Routes
 app.post("/user/register", signup);
-
 app.post("/user/login", loginHandler);
 app.get("/user/logout", Logout);
-
 app.post("/user/forgetpassword", forgetPass);
 app.put("/user/resetpassword/:userId", ResetPass);
-
+app.post("/user/profilePic", IsAuthenticated, multMid, ProfilePic);
 app.get("/user/verify/:token", verifyUSer);
+app.get("/fetch/user", IsAuthenticated, fetchUserData);
 
+// Admin Routes
 app.post("/admin/createProducts", multMid, CreateProducts);
 
+// Products Routes
 app.get("/getProducts", getNewCollection);
-
 app.get("/product/details/:ProductId", productDetails);
-
-app.get("/fetch/user", IsAuthenticated, fetchUserData);
 app.post("/product/search/:value", IsAuthenticated, searchInput);
 
+//Cart Routes
 app.get("/user/cart/:ProductId", IsAuthenticated, AddToCart);
 app.get("/user/fetch/cartItems", IsAuthenticated, fetchCartItems);
 app.get("/user/remove/cartItems/:productId", IsAuthenticated, removeFromCart);
 
+// Order Routes
 app.post("/user/create/order", IsAuthenticated, CreateOrder);
 
-// Start Server
+// Start Server   Port
 app.listen(port, () => {
   console.log("Server is listening on port", port);
 });

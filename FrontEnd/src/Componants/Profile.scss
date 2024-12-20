@@ -1,0 +1,60 @@
+.img-input{
+    display: none;
+}
+
+.card{
+    width: 30%;
+    margin: 0% auto;
+    border:1px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    padding: 1vw;
+    
+
+    
+}
+
+.imgDiv{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 0.5px solid black;
+    padding-bottom: 3vh;
+    gap: 2vh;
+
+
+    >label{
+
+        background-color: rgb(120, 123, 123);
+        padding: 0.2vw;
+
+    }
+
+    >img{
+        width: 30%;
+        border-radius: 4vw;
+    }
+
+
+    >button{
+        width: 30%;
+        border-style: none;
+        
+        
+    }
+}
+
+
+.user-details{
+
+    text-align: center;
+
+    span {
+    
+            font-weight: 300;
+        }
+}
+
