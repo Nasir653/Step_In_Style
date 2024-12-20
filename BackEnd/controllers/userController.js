@@ -245,7 +245,9 @@ const searchInput = async (req, res) => {
 
     const product = await Products.find();
 
-    const getProduct = product.filter((ele) => ele.title.startsWith(value));
+    const getProduct = product.filter(
+      (ele) => ele.type === value || ele.title.startsWith(value)
+    );
 
     if (getProduct) {
       return messageHandler(res, 200, "Your Searched Items", getProduct);

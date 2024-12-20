@@ -5,20 +5,20 @@ const CreateProducts = async (req, res) => {
   try {
     const { title, details, price, category, type } = req.body;
 
+    console.log(type);
+
     const upload = await cloudinary.uploader.upload(req.file.path, {
       folder: "pp",
     });
 
     const creates = await Products({
-      title: title,
-      details: details,
+      title: capitalize(title),
+      details: capitalize(details),
       price: price,
-      category: category,
+      category: capitalize(category),
       imageUrl: upload.secure_url,
-      type: type,
+      type: capitalize(type),
     });
-
-    console.log(creates);
 
     if (!creates) {
       return res
@@ -33,7 +33,7 @@ const CreateProducts = async (req, res) => {
       .json({ message: "Product Created  Succesfully", payload: creates });
   } catch (error) {
     res.json({ message: "Server Error" });
-    console.log("server Error");
+    console.log(error);
   }
 };
 
