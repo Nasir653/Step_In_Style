@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import "./NewCollection.scss";
 
 const NewCollection = () => {
-  const { productData } = useContext(context);
+  const { allProducts } = useContext(context);
   const navigate = useNavigate();
 
 
-  const data = productData.filter((ele) => ele.category === "New Collection");
+  const data = allProducts.filter((ele) => ele.category === "New Collection");
 
   return (
     <div>

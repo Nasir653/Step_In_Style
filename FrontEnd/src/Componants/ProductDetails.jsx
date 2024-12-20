@@ -2,25 +2,25 @@ import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { context } from "../Context/Store";
 import "./ProductDetails.css";
-import { ToastContainer } from "react-toastify";
+
 
 const ProductDetails = () => {
-  const { productData, addToCart } = useContext(context);
+  const { allProducts, addToCart } = useContext(context);
 
 
 
   const { productId } = useParams();
 
-  const product = productData.filter((item) => item._id === productId);
-  
+  const product = allProducts.filter((item) => item._id === productId);
+
 
   return (
 
 
 
-    <div className="container-fuild"> 
-      
-    
+    <div className="container-fuild">
+
+
 
       {product.map((ele) => (
         <div key={ele._id} className="items">
@@ -32,7 +32,7 @@ const ProductDetails = () => {
 
 
 
-            <button  onClick={ ()=> addToCart(ele._id) }>Add To Cart</button>
+            <button onClick={() => addToCart(ele._id)}>Add To Cart</button>
           </div>
 
 

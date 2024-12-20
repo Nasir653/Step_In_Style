@@ -11,11 +11,11 @@ function NavBar() {
     const [searchInput, setSearchInput] = useState("");
 
     console.log(UserData);
-    
-    
+
+
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            SearchInput(searchInput); 
+            SearchInput(searchInput);
         }
 
         //setSearchInput("")
@@ -24,58 +24,58 @@ function NavBar() {
     return (
 
         <>
-        <div className="NavBar">
-            <div className="header">
-              
-                <img className="logo" src="Screenshot (39).png" alt="Error"></img>
+            <div className="NavBar">
+                <div className="header">
 
-                
-                <div className="search-div">
-                    <input
-                        type="search"
-                        className="search-input"
-                        placeholder="Search Your Item"
-                        value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)} 
-                        onKeyDown={handleKeyDown} 
-                    />
-                </div>
+                    <img className="logo" src="Screenshot (39).png" alt="Error"></img>
 
-               
-                <nav className="header-nav">
-                    <li><Link className="link" to="/">Home</Link></li>
-                    <li><Link className="link" to="/Category/mens">Men's</Link></li>
+
+                    <div className="search-div">
+                        <input
+                            type="search"
+                            className="search-input"
+                            placeholder="Search Your Item"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                        />
+                    </div>
+
+
+                    <nav className="header-nav">
+                        <li><Link className="link" to="/">Home</Link></li>
+                        <li><Link className="link" to="/Category/mens">Men's</Link></li>
                         <li><Link className="link" to="/Category/womens">Women's</Link></li>
-                    <li><Link className="link" to="/">Kid's</Link></li>
+                        <li><Link className="link" to="/">Kid's</Link></li>
 
 
-                    <li onClick={() => fetchCartItems()}>
-                        <Link className="link fs-5 border" to="/user/cart" >  <BiSolidCartAlt/> </Link>
-                    </li>
-
-
-                    <li>
-                        {UserData.username ? (
-                            UserData.username
-                        ) : (
-                            <Link className="link" to="/user/login">Login</Link>
-                        )}
+                        <li onClick={() => fetchCartItems()}>
+                            <Link className="link fs-5 border" to="/user/cart" >  <BiSolidCartAlt /> </Link>
                         </li>
-                        
 
-                        
-                     
-                               
-                                <div class="dropdown">
-                                    <button
-                                        class="btn btn-light dropdown-toggle"
-                                        type="button"
-                                        id="accountDropdown"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
+
+                        <li>
+                            {UserData.username ? (
+                                UserData.username
+                            ) : (
+                                <Link className="link" to="/user/login">Login</Link>
+                            )}
+                        </li>
+
+
+
+
+
+                        <div class="dropdown">
+                            <button
+                                class="btn btn-light dropdown-toggle"
+                                type="button"
+                                id="accountDropdown"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
                                 <RiAccountPinCircleFill />
-                                    </button>
+                            </button>
                             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
                                 <li>
                                     <Link className="dropdown-item" to="/user/profile">
@@ -93,30 +93,30 @@ function NavBar() {
                                     </Link>
                                 </li>
                                 <li >
-                                    <Link className="dropdown-item" to="/admin/portal">
+                                    <Link className="dropdown-item" to="/admin">
                                         Admin
                                     </Link>
                                 </li>
                             </ul>
-                                </div>
-                </nav>
+                        </div>
+                    </nav>
+                </div>
             </div>
-        </div>
-
-
-        
-        {/* // --------------------------------------  Footer ----------------------------------------------- */}
-        
-        
-           
-         
-           
 
 
 
-        </>    
-        
-        
+            {/* // --------------------------------------  Footer ----------------------------------------------- */}
+
+
+
+
+
+
+
+
+        </>
+
+
     );
 }
 

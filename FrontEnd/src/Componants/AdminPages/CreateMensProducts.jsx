@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { context } from '../../Context/Store';
 
 const CreateMensProducts = () => {
-   const { CreateProducts} = useContext(context);
+    const { CreateProducts } = useContext(context);
 
 
     const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ const CreateMensProducts = () => {
         details: "",
         price: "",
         category: "",
-        type:"",
+        type: "",
         size: "",
         color: ""
 
@@ -74,30 +74,31 @@ const CreateMensProducts = () => {
                     <select
                         name="category"
                         value={formData.category}
-                       
+                        onChange={handleChange}
                     >
                         <option value="" disabled>
                             Choose Category
                         </option>
                         <option value="Mens">Mens</option>
-                      
+
                     </select>
 
 
-                    <label htmlFor="type">Select Category:</label>
+                    <label htmlFor="type">Select Type:</label>
                     <select
                         name="type"
                         value={formData.type}
-                       
+                        onChange={handleChange}
+
                     >
                         <option value="" disabled>
                             Choose type
                         </option>
-                        <option value="Mens">Shirts</option>
-                        <option value="Mens">T-Shirts</option>
-                        <option value="Mens">Jeans</option>
-                        <option value="Mens">Shoes</option>
-                      
+                        <option value="Shirts">Shirts</option>
+                        <option value="T-Shirts">T-Shirts</option>
+                        <option value="Jeans">Jeans</option>
+                        <option value="Shoes">Shoes</option>
+
                     </select>
 
 

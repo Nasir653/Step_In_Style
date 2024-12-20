@@ -6,10 +6,10 @@ import "./Trending.scss"
 const Trending = () => {
 
 
-    const { productData } = useContext(context);
+    const { allProducts } = useContext(context);
 
 
-    const data = productData.filter((ele) => ele.category === "Trending");
+    const data = allProducts.filter((ele) => ele.category === "Trending");
 
     return (
 
@@ -26,7 +26,7 @@ const Trending = () => {
                                 className="item"
                                 onClick={(e) => {
                                     //navigate(`/product/details/${product._id}`);
- }}
+                                }}
                             >
                                 <img
                                     src={product.imageUrl}

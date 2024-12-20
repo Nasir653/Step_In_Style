@@ -16,7 +16,7 @@ const Store = () => {
     loading: false,
     LogedInn: false,
     UserData: [],
-    productData: [],
+    allProducts: [],
     cart: [],
     SearchedItems: []
 
@@ -117,7 +117,7 @@ const Store = () => {
 
       toast.success(res.data.message)
       console.log(res);
-      
+
 
     } catch (error) {
       console.log(error);
@@ -149,7 +149,7 @@ const Store = () => {
     try {
       const url = "http://localhost:4000/getProducts";
       const res = await axios.get(url);
-      setStore((prev) => ({ ...prev, productData: res.data.getData }));
+      setStore((prev) => ({ ...prev, allProducts: res.data.getData }));
 
     } catch (error) {
       console.log(error);

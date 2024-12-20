@@ -17,6 +17,8 @@ import Womens from "./Componants/Womenspage/Womens";
 import Profile from "./Componants/Profile";
 import CreateProducts from "./Componants/AdminPages/CreateProducts";
 import CreateMensProducts from "./Componants/AdminPages/CreateMensProducts";
+import AdminHomePage from "./Componants/AdminPages/AdminHomePage";
+import MensShirts from "./Componants/MensPage/MensShirts";
 
 function App() {
   const { getData, fetchUserData, loading } = useContext(context);
@@ -35,7 +37,7 @@ function App() {
           {/* Universal Routes */}
           <Route path="*" element={<NoPageFound />} />
           <Route path="/" element={<HomePage />} />
-          {/* <Route path='/products' element={<CategoryPage/>} /> */}
+         
 
           {/* User Routes */}
           <Route path="/user/register" element={<Registration />} />
@@ -52,10 +54,12 @@ function App() {
             path="/product/details/:productId"
             element={<ProductDetails />}
           />
-          <Route path="/Create/mensProduct" element={<CreateMensProducts />} />
+          <Route path="/mens/shirts" element={<MensShirts />} />
 
           {/* Admin route */}
+          <Route path="/admin" element={<AdminHomePage />} />
           <Route path="/admin/portal" element={<CreateProducts />} />
+          <Route path="/Create/mensProducts" element={<CreateMensProducts />} />
 
           {/* Cart Routes */}
           <Route path="/user/cart" element={<Cart />} />
