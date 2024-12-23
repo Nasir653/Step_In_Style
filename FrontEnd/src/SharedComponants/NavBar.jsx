@@ -5,30 +5,24 @@ import { context } from '../Context/Store';
 import { BiSolidCartAlt } from "react-icons/bi";
 import { RiAccountPinCircleFill } from "react-icons/ri";
 
-
 function NavBar() {
     const { UserData, fetchCartItems, SearchInput, logout } = useContext(context);
     const [searchInput, setSearchInput] = useState("");
 
     console.log(UserData);
 
-
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             SearchInput(searchInput);
         }
-
-        //setSearchInput("")
     };
 
     return (
-
         <>
             <div className="NavBar">
                 <div className="header">
-
-                    <img className="logo" src="Screenshot (39).png" alt="Error"></img>
-
+                    {/* Replace with your new logo */}
+                    <img className="logo" src="step-in-style-logo.png" alt="Step in Style Logo" />
 
                     <div className="search-div">
                         <input
@@ -41,18 +35,15 @@ function NavBar() {
                         />
                     </div>
 
-
                     <nav className="header-nav">
                         <li><Link className="link" to="/">Home</Link></li>
                         <li><Link className="link" to="/Category/mens">Men's</Link></li>
                         <li><Link className="link" to="/Category/womens">Women's</Link></li>
                         <li><Link className="link" to="/">Kid's</Link></li>
 
-
                         <li onClick={() => fetchCartItems()}>
-                            <Link className="link fs-5 border" to="/user/cart" >  <BiSolidCartAlt /> </Link>
+                            <Link className="link fs-5 border" to="/user/cart">  <BiSolidCartAlt /> </Link>
                         </li>
-
 
                         <li>
                             {UserData.username ? (
@@ -62,13 +53,9 @@ function NavBar() {
                             )}
                         </li>
 
-
-
-
-
-                        <div class="dropdown">
+                        <div className="dropdown">
                             <button
-                                class="btn btn-light dropdown-toggle"
+                                className="btn btn-light dropdown-toggle"
                                 type="button"
                                 id="accountDropdown"
                                 data-bs-toggle="dropdown"
@@ -102,21 +89,7 @@ function NavBar() {
                     </nav>
                 </div>
             </div>
-
-
-
-            {/* // --------------------------------------  Footer ----------------------------------------------- */}
-
-
-
-
-
-
-
-
         </>
-
-
     );
 }
 

@@ -16,8 +16,10 @@ const Store = () => {
     loading: false,
     LogedInn: false,
     UserData: [],
+    AdminData: [],
     allProducts: [],
     cart: [],
+    Womensproducts: [],
     SearchedItems: []
 
   });
@@ -45,12 +47,14 @@ const Store = () => {
 
   const loginHandler = async (e, formData) => {
     try {
+
+      setStore((prev) => ({ ...prev, loading: true }));
       e.preventDefault();
 
       const url = "/user/login";
       const res = await api.post(url, formData);
 
-      console.log(res);
+
 
       if (res.status === 200 && res.data.message === "Login Successfully") {
         //toast.success(res.data.message);
@@ -60,29 +64,39 @@ const Store = () => {
       }
 
 
-
       else {
         toast.success(res.data.message);
       }
     } catch (error) {
       console.log(error);
     }
+
+    finally {
+      setStore((prev) => ({ ...prev, loading: false }));
+    }
   };
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
 
+      setStore((prev) => ({ ...prev, loading: true }));
       const res = await api.get("/user/logout");
 
       toast.success(res.data.message);
 
       navigate("/");
+
     } catch (error) {
 
       console.error("Logout error:", error);
       toast.error("Something went wrong! Try again later.");
     }
-  };
+
+    finally {
+      setStore((prev) => ({ ...prev, loading: false }));
+    }
+
+  }, []);
 
   const fetchUserData = useCallback(async () => {
     try {
@@ -101,7 +115,7 @@ const Store = () => {
 
       const res = await axios.post(url, { email: email });
 
-      console.log(res);
+
     } catch (error) {
       console.log(error);
     }
@@ -111,12 +125,12 @@ const Store = () => {
   const ProfiePic = async (form) => {
     try {
 
-      console.log(form);
+
 
       const res = await api.post("/user/profilePic", form)
 
       toast.success(res.data.message)
-      console.log(res);
+
 
 
     } catch (error) {
@@ -134,7 +148,7 @@ const Store = () => {
       const url = "http://localhost:4000/admin/createProducts";
       const res = await axios.post(url, fileUpload);
 
-      console.log(res);
+
 
       if (res) {
         toast.success(res.data.message);
@@ -145,10 +159,54 @@ const Store = () => {
     }
   };
 
-  const getData = useCallback(async () => {
+
+  const CreateWomensProducts = async (e, fileUpload) => {
     try {
-      const url = "http://localhost:4000/getProducts";
-      const res = await axios.get(url);
+      e.preventDefault();
+
+
+      const res = await api.post("/admin/create/womensProducts", fileUpload);
+
+
+
+      if (res) {
+        toast.success(res.data.message);
+      }
+
+      else {
+        toast.error(res.data.message);
+
+      }
+    } catch (error) {
+      console.log(error);
+      //toast.error(res.data.message);
+    }
+  };
+
+
+
+  const getWomensProducts = useCallback(async () => {
+    try {
+
+      const res = await api.get("/fetch/womensProducts");
+
+      if (res.status === 200) {
+        setStore((prev) => ({ ...prev, Womensproducts: res.data.payload }));
+
+      }
+
+
+    } catch (error) {
+      console.log(error);
+    }
+  }, [])
+
+  const getData = useCallback(async (Shirts) => {
+    try {
+    
+      const res = await api.get(`/getProducts/${Shirts}`);
+
+      
       setStore((prev) => ({ ...prev, allProducts: res.data.getData }));
 
     } catch (error) {
@@ -177,7 +235,7 @@ const Store = () => {
     try {
 
       const res = await api.get(`/user/cart/${productId}`);
-      console.log(res);
+
 
       toast.success(res.data.message);
       toast.error(res.response.data.message);
@@ -192,15 +250,13 @@ const Store = () => {
   }
 
 
-  const fetchCartItems = async () => {
+  const fetchCartItems = useCallback(async () => {
 
     try {
 
       const res = await api.get("/user/fetch/cartItems");
-      console.log(res);
+
       setStore((prev) => ({ ...prev, cart: res.data.payload }));
-
-
 
     } catch (error) {
       console.log(Error);
@@ -210,16 +266,13 @@ const Store = () => {
 
 
   }
+    , []);
 
   const removeFromCart = async (productId) => {
 
     try {
 
-
-
       const res = await api.get(`/user/remove/cartItems/${productId}`)
-
-      console.log(res);
 
     } catch (error) {
 
@@ -258,6 +311,56 @@ const Store = () => {
   }
 
 
+  //  Admin Api's
+
+
+  const adminSignUp = async (e, formData) => {
+    try {
+      e.preventDefault();
+
+      const response = await api.post("/admin/signup", formData);
+      toast.success(response.data.message);
+
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const adminLogin = async (e, formData) => {
+
+    try {
+
+      setStore((prev) => ({ ...prev, loading: true }));
+      e.preventDefault();
+
+
+      const res = await api.post("/admin/login", formData);
+
+
+
+      if (res.status === 200 && res.data.message === "Login Successfully") {
+        toast.success(res.data.message);
+        setStore((prev) => ({ ...prev, loading: true }));
+        setStore((prev) => ({ ...prev, AdminData: res.data.payload }));
+        navigate("/admin");
+
+      }
+
+      else {
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    finally {
+      setStore((prev) => ({ ...prev, loading: false }));
+    }
+  }
+
+
+
   return (
     <context.Provider
       value={{
@@ -275,6 +378,10 @@ const Store = () => {
         SearchInput,
         logout,
         ProfiePic,
+        CreateWomensProducts,
+        getWomensProducts,
+        adminSignUp,
+        adminLogin,
       }}
     >
       <App />

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { context } from "../../Context/Store";
-import "./CreateMensProducts.scss";
+import "./CreateWomens.scss";
 
-const CreateMensProducts = () => {
-    const { CreateProducts } = useContext(context);
+const CreateWomens = () => {
+    const { CreateWomensProducts } = useContext(context);
 
     const [formData, setFormData] = useState({
         title: "",
@@ -33,11 +33,11 @@ const CreateMensProducts = () => {
 
     return (
         <div className="create-product-container container py-5">
-            <h2 className="text-center mb-4">Create Men's Product</h2>
+            <h2 className="text-center mb-4">Create Womens's Product</h2>
             <form
                 encType="multipart/form-data"
                 className="create-product-form"
-                onSubmit={(e) => CreateProducts(e, fileUpload)}
+                onSubmit={(e) => CreateWomensProducts(e, fileUpload)}
             >
                 {/* Title */}
                 <div className="mb-3">
@@ -96,8 +96,7 @@ const CreateMensProducts = () => {
                         required
                     >
                         <option value="" disabled>Choose Category</option>
-                        <option value="Mens">Mens</option>
-                        <option value="New Collection">New Collection</option>
+                        <option value="Womens">Womens</option>
                     </select>
                 </div>
 
@@ -114,10 +113,12 @@ const CreateMensProducts = () => {
                     >
                         <option value="" disabled>Choose Type</option>
                         <option value="Shirts">Shirts</option>
-
-                        <option value="T-Shirts">T-Shirts</option>
+                        <option value="Kurtas">Kurtas</option>
+                        <option value="Sarees">Saares</option>
+                        <option value="Dresses">Dresses</option>
                         <option value="Jeans">Jeans</option>
-                        <option value="Shoes">Shoes</option>
+                        <option value="ShoesAndHeels">ShoesAndHeels</option>
+                        <option value="HandBags">HandBags</option>
                     </select>
                 </div>
 
@@ -179,4 +180,4 @@ const CreateMensProducts = () => {
     );
 };
 
-export default CreateMensProducts;
+export default CreateWomens;

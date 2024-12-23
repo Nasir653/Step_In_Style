@@ -1,0 +1,103 @@
+.create-product-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+    font-family: 'Poppins', sans-serif;
+    animation: fadeIn 0.5s ease-in-out;
+
+    h2 {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+    }
+}
+
+.create-product-form {
+    .form-label {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 12px 15px;
+        font-size: 1rem;
+        color: #333;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #ff416c;
+        box-shadow: 0 4px 10px rgba(255, 65, 108, 0.2);
+        outline: none;
+    }
+
+    textarea {
+        resize: none;
+        min-height: 100px;
+    }
+
+    .form-control:hover,
+    .form-select:hover {
+        background-color: #fefefe;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, #ff416c, #ff4b2b);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, #ff4b2b, #ff416c);
+        box-shadow: 0 4px 10px rgba(255, 65, 108, 0.2), 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .mb-3 {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    input[type="file"] {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        color: #666;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

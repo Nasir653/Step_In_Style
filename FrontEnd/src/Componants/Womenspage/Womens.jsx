@@ -2,6 +2,7 @@ import React from 'react'
 
 import "./Womens.scss";
 import BestWomensCollection from './BestWomensCollection';
+import { Link } from "react-router-dom"
 
 const Womens = () => {
     return (
@@ -115,31 +116,46 @@ const Womens = () => {
 
                 <div className="womens-category-row row row-cols-lg-5 gy-6">
 
+                    <Link className='link' to="/womens/kurtas">
+
                     <div className="col">
 
 
                         <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/8d992d81-49e6-4dec-89a4-49a8af8beb5d1594222967220-Kurtas-_-Kurta-Sets.jpg" alt="" />
-                    </div>
+                        </div>
+                        
+                    </Link>
+
+                    <Link className='link' to="/womens/kurtas">
                     <div className="col">
 
                         <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/a048cca8-7b5d-417e-9645-ca98f4b6e52c1594222967506-Sarees.jpg" alt="" />
-                    </div>
+                        </div>
+                    </Link>
+
+                    <Link className='link' to="/womens/kurtas">
                     <div className="col">
 
                         <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/b0f459a0-9ef0-4392-a9ed-23892a36e79c1594222966859-Dresses.jpg" alt="" />
 
-                    </div>
+                        </div>
+                    </Link>
+
+                    <Link className='link' to="/womens/kurtas">
                     <div className="col">
 
                         <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/a4dedaa4-3710-4061-b7d6-ca8c83ce9d021594222967117-Heels.jpg" alt="" />
 
-                    </div>
+                        </div>
+                    </Link>
+                            
+                    <Link className='link' to="/womens/kurtas">
                     <div className="col">
 
                         <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/a352f908-57c8-4c66-b052-18137cf15e6c1594222967074-Handbags.jpg" alt="" />
 
                     </div>
-
+                    </Link>
 
 
                 </div>

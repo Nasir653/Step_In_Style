@@ -9,7 +9,7 @@ const ProductDetails = () => {
 
 
 
-  const { productId } = useParams();
+  const { productId } = useParams(); 
 
   const product = allProducts.filter((item) => item._id === productId);
 

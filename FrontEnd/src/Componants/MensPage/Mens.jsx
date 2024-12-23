@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "./Mens.scss";
 import BestMensCollection from './BestMensCollection';
 import { Link } from 'react-router-dom';
+import { context } from '../../Context/Store';
 
 const Mens = () => {
 
+  const { getData } = useContext(context);
 
+  
 
   return (
 
@@ -122,7 +125,7 @@ const Mens = () => {
 
           <div className="mens-category-row row row-cols-lg-5 gy-6">
 
-            <Link className='link' to="/mens/shirts">
+            <Link className='link'  to="/mens/shirts">
               <div className="col shirts" >
 
 

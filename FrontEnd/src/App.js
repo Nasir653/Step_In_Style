@@ -19,14 +19,20 @@ import CreateProducts from "./Componants/AdminPages/CreateProducts";
 import CreateMensProducts from "./Componants/AdminPages/CreateMensProducts";
 import AdminHomePage from "./Componants/AdminPages/AdminHomePage";
 import MensShirts from "./Componants/MensPage/MensShirts";
+import CreateWomens from "./Componants/AdminPages/CreateWomens";
+import WomensKurtas from "./Componants/Womenspage/WomensKurtas";
+import AdminLogin from "./Componants/AdminPages/AdminLogin";
+import AdminSignUp from "./Componants/AdminPages/AdminSignUp";
 
 function App() {
-  const { getData, fetchUserData, loading } = useContext(context);
+  const { getData, fetchUserData, getWomensProducts, loading, fetchCartItems } =
+    useContext(context);
 
   useEffect(() => {
-    getData();
     fetchUserData();
-  }, [getData, fetchUserData]);
+    getWomensProducts();
+    fetchCartItems();
+  }, [getData, fetchUserData, getWomensProducts, loading, fetchCartItems]);
 
   return (
     <div>
@@ -37,7 +43,6 @@ function App() {
           {/* Universal Routes */}
           <Route path="*" element={<NoPageFound />} />
           <Route path="/" element={<HomePage />} />
-         
 
           {/* User Routes */}
           <Route path="/user/register" element={<Registration />} />
@@ -55,11 +60,15 @@ function App() {
             element={<ProductDetails />}
           />
           <Route path="/mens/shirts" element={<MensShirts />} />
+          <Route path="/womens/kurtas" element={<WomensKurtas />} />
 
           {/* Admin route */}
+          <Route path="/admin/signup" element={<AdminSignUp />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminHomePage />} />
           <Route path="/admin/portal" element={<CreateProducts />} />
           <Route path="/Create/mensProducts" element={<CreateMensProducts />} />
+          <Route path="/Create/womensProducts" element={<CreateWomens />} />
 
           {/* Cart Routes */}
           <Route path="/user/cart" element={<Cart />} />

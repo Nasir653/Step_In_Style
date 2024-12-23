@@ -1,0 +1,39 @@
+.kurtas-title {
+
+    color: brown;
+    margin-left: 3vw;
+    margin-top: 2vh;
+}
+
+.kurtas-div {
+    width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 2vh;
+
+
+    gap: 2vw;
+
+
+
+    .items {
+
+        width: 22%;
+        height: 65vh;
+        display: flex;
+        flex-direction: column;
+
+
+
+        >img {
+            width: 100%;
+            height: 80%;
+        }
+
+
+    }
+
+
+}

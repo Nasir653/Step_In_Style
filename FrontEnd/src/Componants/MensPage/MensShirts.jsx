@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { context } from '../../Context/Store';
 import { useNavigate } from 'react-router-dom';
 import "./MensShirt.scss";
@@ -6,38 +6,53 @@ import "./MensShirt.scss";
 const MensShirts = () => {
 
     const navigate = useNavigate();
-    const { allProducts } = useContext(context);
+    const { allProducts, getData } = useContext(context);
 
-    const Allshirts = allProducts.filter((ele) => ele.type === "Shirts");
+    useEffect(() => {
+
+        getData("Shirts");
+
+    }, [])
+
+
+
 
     return (
         <>
 
             <div className='container-fluid'>
-  
-                
+
+                <h2 className='Shirts-title'>Shirts</h2>
+
                 <div className="shirts-div">
-                
-                {Allshirts &&
-                    Allshirts.map((shirt) => (
-                        <div
-                            className="items "
-                        onClick={(e) => {
-                            navigate(`/product/details/${shirt._id}`);
 
-                        }}
-                        >
-                            <img
-                                src={shirt.imageUrl}
-                                alt={shirt.title}
-                                className="coll-img"
-                            />
 
-                            <span> {shirt.title} </span>
 
-                            <span> INR : {shirt.price} </span>
-                        </div>
-                    ))}
+                    {allProducts &&
+                        allProducts.map((shirt) => (
+                            <div
+                                className="items "
+                                onClick={(e) => {
+                                    navigate(`/product/details/${shirt._id}`);
+
+                                }}
+                            >
+                                <img
+                                    src={shirt.imageUrl}
+                                    alt={shirt.title}
+                                    className="coll-img"
+                                />
+
+                                <span> {shirt.title} </span>
+
+                                <span> INR : {shirt.price} </span>
+
+                                <button onClick={() => shirt._id}>Add To Cart</button>
+                                <button>Order Now </button>
+
+
+                            </div>
+                        ))}
 
                 </div>
             </div>
