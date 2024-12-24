@@ -167,7 +167,10 @@ const CreateWomensProducts = async (req, res) => {
 
 const fetchWomensProducts = async (req, res) => {
   try {
-    const Data = await WomensModel.find();
+    const { category } = req.params;
+    
+
+    const Data = await WomensModel.find({ type: category });
 
     if (!Data) {
       return messageHandler(res, 404, "No Data Found");

@@ -9,7 +9,6 @@ function NavBar() {
     const { UserData, fetchCartItems, SearchInput, logout } = useContext(context);
     const [searchInput, setSearchInput] = useState("");
 
-    console.log(UserData);
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {

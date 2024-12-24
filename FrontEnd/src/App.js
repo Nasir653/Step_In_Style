@@ -25,14 +25,17 @@ import AdminLogin from "./Componants/AdminPages/AdminLogin";
 import AdminSignUp from "./Componants/AdminPages/AdminSignUp";
 
 function App() {
-  const { getData, fetchUserData, getWomensProducts, loading, fetchCartItems } =
-    useContext(context);
+  const {
+    fetchUserData,
+
+    loading,
+    fetchCartItems,
+  } = useContext(context);
 
   useEffect(() => {
     fetchUserData();
-    getWomensProducts();
     fetchCartItems();
-  }, [getData, fetchUserData, getWomensProducts, loading, fetchCartItems]);
+  }, [fetchUserData, loading, fetchCartItems]);
 
   return (
     <div>

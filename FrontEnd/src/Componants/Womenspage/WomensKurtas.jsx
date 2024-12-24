@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { context } from '../../Context/Store';
 import { useNavigate } from 'react-router-dom';
 import "./WomensKurtas.scss";
@@ -6,11 +6,13 @@ import "./WomensKurtas.scss";
 const WomensKurtas = () => {
 
     const navigate = useNavigate();
-    const { Womensproducts } = useContext(context);
-    console.log(Womensproducts);
+    const { getWomensProducts, Womensproducts } = useContext(context);
 
 
-    const AllKurtas = Womensproducts.filter((ele) => ele.type === "Kurtas");
+    useEffect(() => {
+        getWomensProducts("Kurtas");
+    }, [])
+
 
 
     return (
@@ -24,8 +26,8 @@ const WomensKurtas = () => {
 
 
 
-                    {AllKurtas ?
-                        AllKurtas.map((kurta) => (
+                    {Womensproducts ?
+                        Womensproducts.map((kurta) => (
                             <div
                                 className="items "
                                 onClick={(e) => {

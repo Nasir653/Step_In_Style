@@ -125,7 +125,7 @@ const Store = () => {
   const ProfiePic = async (form) => {
     try {
 
-
+      setStore((prev) => ({ ...prev, loading: true }));
 
       const res = await api.post("/user/profilePic", form)
 
@@ -137,8 +137,11 @@ const Store = () => {
       console.log(error);
 
     }
+    finally {
+      setStore((prev) => ({ ...prev, loading: false }));
+    }
 
-  }
+  };
 
 
   const CreateProducts = async (e, fileUpload) => {
@@ -185,15 +188,15 @@ const Store = () => {
 
 
 
-  const getWomensProducts = useCallback(async () => {
+  const getWomensProducts = useCallback(async (category) => {
     try {
 
-      const res = await api.get("/fetch/womensProducts");
+      const res = await api.get(`/fetch/womensProducts/${category}`);
 
-      if (res.status === 200) {
-        setStore((prev) => ({ ...prev, Womensproducts: res.data.payload }));
 
-      }
+      setStore((prev) => ({ ...prev, Womensproducts: res.data.payload }));
+
+
 
 
     } catch (error) {
@@ -201,12 +204,12 @@ const Store = () => {
     }
   }, [])
 
-  const getData = useCallback(async (Shirts) => {
+  const getMensProducts = useCallback(async (category) => {
     try {
-    
-      const res = await api.get(`/getProducts/${Shirts}`);
 
-      
+      const res = await api.get(`/getProducts/${category}`);
+
+
       setStore((prev) => ({ ...prev, allProducts: res.data.getData }));
 
     } catch (error) {
@@ -370,7 +373,6 @@ const Store = () => {
         ResetLink,
         CreateProducts,
         ProductDeatail,
-        getData,
         fetchUserData,
         addToCart,
         fetchCartItems,
@@ -382,6 +384,7 @@ const Store = () => {
         getWomensProducts,
         adminSignUp,
         adminLogin,
+        getMensProducts,
       }}
     >
       <App />

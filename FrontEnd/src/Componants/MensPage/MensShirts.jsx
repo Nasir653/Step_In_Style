@@ -6,11 +6,11 @@ import "./MensShirt.scss";
 const MensShirts = () => {
 
     const navigate = useNavigate();
-    const { allProducts, getData } = useContext(context);
+    const { allProducts, getMensProducts } = useContext(context);
 
     useEffect(() => {
 
-        getData("Shirts");
+        getMensProducts("Shirts");
 
     }, [])
 

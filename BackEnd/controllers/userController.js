@@ -215,12 +215,10 @@ const ProfilePic = async (req, res) => {
   try {
     const userId = req.userId;
 
-    console.log(req.file.path);
-
     const upload = await cloudinary.uploader.upload(req.file.path, {
       folder: "pp",
     });
-    console.log(upload);
+    
 
     const user = await User.findByIdAndUpdate(userId, {
       profilePic: upload.secure_url,

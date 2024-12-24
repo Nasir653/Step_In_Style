@@ -6,7 +6,6 @@ import { context } from '../../Context/Store';
 
 const Mens = () => {
 
-  const { getData } = useContext(context);
 
   
 

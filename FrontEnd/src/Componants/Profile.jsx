@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { context } from '../Context/Store';
 import "./Profile.scss";
 
@@ -13,6 +13,8 @@ const Profile = () => {
 
     form.append("image", formData);
 
+
+    
 
     return (
 
