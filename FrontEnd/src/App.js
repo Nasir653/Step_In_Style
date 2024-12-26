@@ -30,11 +30,13 @@ function App() {
 
     loading,
     fetchCartItems,
+   
   } = useContext(context);
 
   useEffect(() => {
     fetchUserData();
     fetchCartItems();
+   
   }, [fetchUserData, loading, fetchCartItems]);
 
   return (
@@ -63,6 +65,7 @@ function App() {
             element={<ProductDetails />}
           />
           <Route path="/mens/shirts" element={<MensShirts />} />
+          <Route path="/womens/kurtas" element={<WomensKurtas />} />
           <Route path="/womens/kurtas" element={<WomensKurtas />} />
 
           {/* Admin route */}

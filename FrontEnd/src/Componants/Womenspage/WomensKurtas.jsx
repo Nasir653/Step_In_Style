@@ -6,11 +6,11 @@ import "./WomensKurtas.scss";
 const WomensKurtas = () => {
 
     const navigate = useNavigate();
-    const { getWomensProducts, Womensproducts } = useContext(context);
+    const { getWomensProducts, allProducts } = useContext(context);
 
 
     useEffect(() => {
-        getWomensProducts("Kurtas");
+        getWomensProducts("womens", "Kurtas");
     }, [])
 
 
@@ -26,8 +26,8 @@ const WomensKurtas = () => {
 
 
 
-                    {Womensproducts ?
-                        Womensproducts.map((kurta) => (
+                    {allProducts ?
+                        allProducts.map((kurta) => (
                             <div
                                 className="items "
                                 onClick={(e) => {

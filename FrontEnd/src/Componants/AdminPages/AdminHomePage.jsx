@@ -36,6 +36,7 @@ const AdminHomePage = () => {
                                 </li>
                             </ul>
                         </div>
+                        <h6>Edit Landing Page</h6>
                         <h6>Offers</h6>
                         <h6>Inventory</h6>
                         <h6>Orders</h6>

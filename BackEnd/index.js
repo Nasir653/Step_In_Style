@@ -20,11 +20,12 @@ const {
 const verifyUSer = require("./utils/isAuth");
 const {
   CreateProducts,
-  getNewCollection,
+  getAllProducts,
   CreateWomensProducts,
   fetchWomensProducts,
   AdminRegistration,
   AdminLogin,
+  newCollectionProducts,
 } = require("./controllers/adminControler");
 const { multMid } = require("./middleWares/imgUploader");
 const { productDetails } = require("./controllers/Products");
@@ -75,12 +76,15 @@ app.get("/fetch/user", IsAuthenticated, fetchUserData);
 app.post("/admin/signup", AdminRegistration);
 app.post("/admin/login", AdminLogin);
 app.post("/admin/createProducts", multMid, CreateProducts);
-app.post("/admin/create/womensProducts", multMid, CreateWomensProducts);
-app.get("/fetch/womensProducts/:category", fetchWomensProducts);
+
+app.get("/get/newCollection/:category", newCollectionProducts);
 
 // Products Routes
-app.get("/getProducts/:category", getNewCollection);
+app.get("/getAllProducts/:category/:type", getAllProducts);
+app.get("/get/newCollection/:category", getAllProducts);
+
 app.get("/product/details/:ProductId", productDetails);
+
 app.post("/product/search/:value", IsAuthenticated, searchInput);
 
 //Cart Routes

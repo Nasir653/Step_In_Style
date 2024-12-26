@@ -1,7 +1,6 @@
 const cloudinary = require("cloudinary").v2;
 const AdminModel = require("../models/AdminModel");
 const Products = require("../models/products");
-const WomensModel = require("../models/WomensModel");
 const { messageHandler } = require("../utils/MessageHandler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -84,9 +83,9 @@ const AdminLogin = async (req, res) => {
 
 const CreateProducts = async (req, res) => {
   try {
-    const { title, details, price, category, type } = req.body;
+    const { title, details, price, category, subCategory, type } = req.body;
 
-    console.log(type);
+    console.log(subCategory);
 
     const upload = await cloudinary.uploader.upload(req.file.path, {
       folder: "pp",
@@ -97,6 +96,7 @@ const CreateProducts = async (req, res) => {
       details: details,
       price: price,
       category: category,
+      subCategory: subCategory,
       imageUrl: upload.secure_url,
       type: type,
     });
@@ -118,59 +118,30 @@ const CreateProducts = async (req, res) => {
   }
 };
 
-const getNewCollection = async (req, res) => {
+const getAllProducts = async (req, res) => {
   try {
-    const { category } = req.params;
-    const getData = await Products.find({ type: category });
+    const { category, type } = req.params;
+    const getData = await Products.find({
+      $and: [
+        { category: { $regex: category, $options: "i" } },
+        { type: { $regex: type, $options: "i" } },
+      ],
+    });
 
     if (getData) {
-      res.status(200).json({ getData });
+      messageHandler(res, 200, "Your data", getData);
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-const CreateWomensProducts = async (req, res) => {
-  try {
-    const { title, details, price, category, type } = req.body;
-
-    const upload = await cloudinary.uploader.upload(req.file.path, {
-      folder: "Womens Products",
-    });
-
-    const creates = await WomensModel({
-      title: title,
-      details: details,
-      price: price,
-      category: category,
-      imageUrl: upload.secure_url,
-      type: type,
-    });
-
-    if (!creates) {
-      return res
-        .status(400)
-        .json({ message: "SomeThing went wrong ! Try After Sometime" });
-    }
-
-    creates.save();
-
-    return res
-      .status(200)
-      .json({ message: "Product Created  Succesfully", payload: creates });
-  } catch (error) {
-    res.json({ message: "Server Error" });
-    console.log(error);
-  }
-};
-
-const fetchWomensProducts = async (req, res) => {
+const newCollectionProducts = async (req, res) => {
   try {
     const { category } = req.params;
-    
+    console.log(category);
 
-    const Data = await WomensModel.find({ type: category });
+    const Data = await Products.find({ subCategory: category });
 
     if (!Data) {
       return messageHandler(res, 404, "No Data Found");
@@ -185,9 +156,8 @@ const fetchWomensProducts = async (req, res) => {
 
 module.exports = {
   CreateProducts,
-  getNewCollection,
-  CreateWomensProducts,
-  fetchWomensProducts,
+  getAllProducts,
   AdminRegistration,
   AdminLogin,
+  newCollectionProducts,
 };

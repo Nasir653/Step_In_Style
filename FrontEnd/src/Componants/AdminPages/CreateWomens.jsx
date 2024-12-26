@@ -3,7 +3,7 @@ import { context } from "../../Context/Store";
 import "./CreateWomens.scss";
 
 const CreateWomens = () => {
-    const { CreateWomensProducts } = useContext(context);
+    const { CreateProducts } = useContext(context);
 
     const [formData, setFormData] = useState({
         title: "",
@@ -37,7 +37,7 @@ const CreateWomens = () => {
             <form
                 encType="multipart/form-data"
                 className="create-product-form"
-                onSubmit={(e) => CreateWomensProducts(e, fileUpload)}
+                onSubmit={(e) => CreateProducts(e, fileUpload)}
             >
                 {/* Title */}
                 <div className="mb-3">

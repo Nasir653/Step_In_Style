@@ -6,11 +6,11 @@ import "./MensShirt.scss";
 const MensShirts = () => {
 
     const navigate = useNavigate();
-    const { allProducts, getMensProducts } = useContext(context);
+    const { allProducts, getMensProducts, addToCart } = useContext(context);
 
     useEffect(() => {
 
-        getMensProducts("Shirts");
+        getMensProducts("Mens", "Shirts");
 
     }, [])
 
@@ -32,22 +32,24 @@ const MensShirts = () => {
                         allProducts.map((shirt) => (
                             <div
                                 className="items "
-                                onClick={(e) => {
+
+                            >
+
+                                <div className="item-details" onClick={(e) => {
                                     navigate(`/product/details/${shirt._id}`);
 
-                                }}
-                            >
-                                <img
-                                    src={shirt.imageUrl}
-                                    alt={shirt.title}
-                                    className="coll-img"
-                                />
+                                }}>
+                                    <img
+                                        src={shirt.imageUrl}
+                                        alt={shirt.title}
+                                        className="coll-img"
+                                    />
 
-                                <span> {shirt.title} </span>
+                                    <span> {shirt.title} </span>
 
-                                <span> INR : {shirt.price} </span>
-
-                                <button onClick={() => shirt._id}>Add To Cart</button>
+                                    <span> INR : {shirt.price} </span>
+                                </div>
+                                <button onClick={() => addToCart(shirt._id)}>Add To Cart</button>
                                 <button>Order Now </button>
 
 

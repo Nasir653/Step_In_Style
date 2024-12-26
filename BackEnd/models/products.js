@@ -7,12 +7,18 @@ const Products = moongoose.model("Products", {
   imageUrl: { type: String },
   category: {
     type: String,
-    enum: ["New Collection", "Trending", "Mens", "Womens"],
+    enum: ["Mens", "Womens", "Kids"],
+    default: null,
+  },
+
+  subCategory: {
+    type: String,
+    enum: ["New Collection", "Trending"],
     default: null,
   },
   type: {
     type: String,
-    enum: ["Shirts", "T-Shirts", "Jeans", "Shoes"],
+    enum: ["Shirts", "T-Shirts", "Jeans", "Shoes", "Kurtas"],
     default: null,
   },
 });

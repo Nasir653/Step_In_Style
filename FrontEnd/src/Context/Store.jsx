@@ -14,12 +14,10 @@ const Store = () => {
   const [store, setStore] = useState({
 
     loading: false,
-    LogedInn: false,
     UserData: [],
     AdminData: [],
     allProducts: [],
     cart: [],
-    Womensproducts: [],
     SearchedItems: []
 
   });
@@ -187,14 +185,13 @@ const Store = () => {
   };
 
 
-
-  const getWomensProducts = useCallback(async (category) => {
+  const getWomensProducts = useCallback(async (category, type) => {
     try {
 
-      const res = await api.get(`/fetch/womensProducts/${category}`);
+      const res = await api.get(`/getAllProducts/${category}/${type}`);
 
 
-      setStore((prev) => ({ ...prev, Womensproducts: res.data.payload }));
+      setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
 
 
 
@@ -204,13 +201,13 @@ const Store = () => {
     }
   }, [])
 
-  const getMensProducts = useCallback(async (category) => {
+  const getMensProducts = useCallback(async (category, type) => {
     try {
 
-      const res = await api.get(`/getProducts/${category}`);
+      const res = await api.get(`/getAllProducts/${category}/${type}`);
 
 
-      setStore((prev) => ({ ...prev, allProducts: res.data.getData }));
+      setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
 
     } catch (error) {
       console.log(error);
@@ -218,6 +215,21 @@ const Store = () => {
   }, [])
 
 
+  const getNewCollection = useCallback(async (category) => {
+    
+     try {
+       const res = await api.get(`/get/newCollection/${category}`);
+
+       setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
+
+       
+     } catch (error) {
+      console.log("Server Error");
+      
+     }
+
+
+  })
 
   const ProductDeatail = async (ProductId) => {
     try {
@@ -239,9 +251,11 @@ const Store = () => {
 
       const res = await api.get(`/user/cart/${productId}`);
 
+      console.log(res);
 
       toast.success(res.data.message);
-      toast.error(res.response.data.message);
+
+
 
     } catch (error) {
 
@@ -274,7 +288,7 @@ const Store = () => {
   const removeFromCart = async (productId) => {
 
     try {
-
+      setStore((prev) => ({ ...prev, loading: true }));
       const res = await api.get(`/user/remove/cartItems/${productId}`)
 
     } catch (error) {
@@ -282,8 +296,24 @@ const Store = () => {
       console.log(error);
 
     }
+    finally {
+      setStore((prev) => ({ ...prev, loading: false }));
+    }
 
 
+  }
+
+
+  const Order = async (productId) => {
+    try {
+
+      const res = await api.post("/user/create/orde")
+
+    } catch (error) {
+      console.log("Server error");
+
+
+    }
   }
 
 
@@ -385,6 +415,7 @@ const Store = () => {
         adminSignUp,
         adminLogin,
         getMensProducts,
+        getNewCollection,
       }}
     >
       <App />

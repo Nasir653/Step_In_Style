@@ -10,6 +10,7 @@ const CreateMensProducts = () => {
         details: "",
         price: "",
         category: "",
+        subCategory: "",
         type: "",
         size: "",
         color: "",
@@ -29,6 +30,7 @@ const CreateMensProducts = () => {
     fileUpload.append("details", formData.details);
     fileUpload.append("price", formData.price);
     fileUpload.append("category", formData.category);
+    fileUpload.append("subCategory", formData.subCategory);
     fileUpload.append("type", formData.type);
 
     return (
@@ -96,8 +98,30 @@ const CreateMensProducts = () => {
                         required
                     >
                         <option value="" disabled>Choose Category</option>
-                        <option value="Mens">Mens</option>
+                        <option value="Mens">Men's</option>
+                        <option value="Womens">Women's</option>
+                        <option value="Kids">Kid's</option>
+
+                    </select>
+                </div>
+
+
+                <div className="mb-3">
+                    <label htmlFor="Sub-category" className="form-label">Also Display On</label>
+                    <select
+                        id="Sub-category"
+                        className="form-select"
+                        name="subCategory"
+                        value={formData.subCategory}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="" disabled>Set on</option>
                         <option value="New Collection">New Collection</option>
+                        <option value="Trending">Trending</option>
+                        <option value="No">Don't Display</option>
+
+
                     </select>
                 </div>
 
@@ -114,10 +138,10 @@ const CreateMensProducts = () => {
                     >
                         <option value="" disabled>Choose Type</option>
                         <option value="Shirts">Shirts</option>
-
                         <option value="T-Shirts">T-Shirts</option>
                         <option value="Jeans">Jeans</option>
                         <option value="Shoes">Shoes</option>
+                        <option value="Kurtas">Kurtas</option>
                     </select>
                 </div>
 

@@ -218,7 +218,6 @@ const ProfilePic = async (req, res) => {
     const upload = await cloudinary.uploader.upload(req.file.path, {
       folder: "pp",
     });
-    
 
     const user = await User.findByIdAndUpdate(userId, {
       profilePic: upload.secure_url,
@@ -273,7 +272,7 @@ const AddToCart = async (req, res) => {
     );
 
     if (alreadyInCart > -1) {
-      return messageHandler(res, 401, "Already in Cart ");
+      return messageHandler(res, 200, "Already in Cart ");
     }
 
     const product = await Products.findById(ProductId);

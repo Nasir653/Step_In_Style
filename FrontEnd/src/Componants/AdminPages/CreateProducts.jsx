@@ -11,6 +11,7 @@ const CreateProducts = () => {
         details: "",
         price: "",
         category: "",
+        subCategory: "",
         size: "",
         color: ""
 
@@ -32,6 +33,7 @@ const CreateProducts = () => {
     fileUpload.append("details", formData.details)
     fileUpload.append("price", formData.price)
     fileUpload.append("category", formData.category)
+    fileUpload.append("subCategory", formData.subCategory)
 
 
     return (

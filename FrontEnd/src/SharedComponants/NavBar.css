@@ -1,12 +1,12 @@
 :root {
     --primary-color: #FF5733;
-   
+    /* Accent color for hover and active states */
     --text-color: #333;
-
-    --link-hover-color: #41371a;
-   
+    /* Dark text color */
+    --link-hover-color: #FFC107;
+    /* Hover color for links */
     --nav-background: #fff;
-
+    /* White background for the navbar */
 }
 
 body {
@@ -23,9 +23,9 @@ body {
     align-items: center;
     padding: 1vw 3vw;
     background-color: var(--nav-background);
-    /* White background */
+    
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    /* Subtle shadow for depth */
+    
 }
 
 .logo {
@@ -75,48 +75,41 @@ body {
     font-size: 1rem;
     color: var(--text-color);
     align-items: center;
+}
 
->li {
+.header-nav li {
     position: relative;
+}
 
-
->.link {
+.link {
     color: var(--text-color);
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     transition: background-color 0.3s ease, color 0.3s ease;
- 
-   &&:hover{
-            background-color: var(--link-hover-color);
-            color: white;
-   }
-
 }
 
-}
+.link:hover {
+    background-color: var(--link-hover-color);
+    color: white;
 }
 
 .dropdown-menu {
     background-color: var(--nav-background);
     border-radius: 5px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-  
-
-
->.dropdown-item {
+.dropdown-item {
     color: var(--text-color);
     padding: 10px;
     transition: background-color 0.3s ease;
-
-
-  && :hover {
-    background-color: var(--link-hover-color);
-    
-    color: white;
 }
- 
+
+.dropdown-item:hover {
+    background-color: var(--link-hover-color);
+    /* Hover effect for dropdown items */
+    color: white;
 }
 
 .dropdown-toggle {
@@ -129,12 +122,10 @@ body {
 
 .dropdown-toggle:hover {
     color: var(--link-hover-color);
-  
+    /* Color change on hover */
 }
 
-}
-
-/* @media (max-width: 768px) {
+@media (max-width: 768px) {
     .header-nav {
         flex-direction: column;
         align-items: flex-start;
@@ -144,4 +135,6 @@ body {
     .search-input {
         width: 70vw;
     }
-} */
+}
+
+
