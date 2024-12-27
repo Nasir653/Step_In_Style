@@ -26,6 +26,7 @@ const {
   AdminRegistration,
   AdminLogin,
   newCollectionProducts,
+  CreateNewCategory,
 } = require("./controllers/adminControler");
 const { multMid } = require("./middleWares/imgUploader");
 const { productDetails } = require("./controllers/Products");
@@ -76,12 +77,13 @@ app.get("/fetch/user", IsAuthenticated, fetchUserData);
 app.post("/admin/signup", AdminRegistration);
 app.post("/admin/login", AdminLogin);
 app.post("/admin/createProducts", multMid, CreateProducts);
-
 app.get("/get/newCollection/:category", newCollectionProducts);
+app.post("/admin/Creates/newCategory",  CreateNewCategory);
 
 // Products Routes
 app.get("/getAllProducts/:category/:type", getAllProducts);
 app.get("/get/newCollection/:category", getAllProducts);
+app.get("/get/trendingCollection/:category", getAllProducts);
 
 app.get("/product/details/:ProductId", productDetails);
 

@@ -1,5 +1,6 @@
 const cloudinary = require("cloudinary").v2;
 const AdminModel = require("../models/AdminModel");
+const CategoryModel = require("../models/CategoryModel");
 const Products = require("../models/products");
 const { messageHandler } = require("../utils/MessageHandler");
 const bcrypt = require("bcrypt");
@@ -85,10 +86,8 @@ const CreateProducts = async (req, res) => {
   try {
     const { title, details, price, category, subCategory, type } = req.body;
 
-    console.log(subCategory);
-
     const upload = await cloudinary.uploader.upload(req.file.path, {
-      folder: "pp",
+      folder: "AllProducts",
     });
 
     const creates = await Products({
@@ -154,10 +153,47 @@ const newCollectionProducts = async (req, res) => {
   }
 };
 
+const CreateNewCategory = async (req, res) => {
+  try {
+    const { header } = req.body;
+
+    const upload = await cloudinary.uploader.upload(req.file.path, {
+      folder: "Category",
+    });
+
+    if (!upload) {
+      return messageHandler(
+        res,
+        404,
+        "Image Not uploaded ! Something went wrong"
+      );
+    }
+
+    const CreateCategory = await CategoryModel.create({
+      img: upload.secure_url,
+      header: header,
+    });
+
+    if (!CreateCategory) {
+      return messageHandler(
+        res,
+        404,
+        "Something Went Wrong ! Try After Some Time"
+      );
+    } else {
+      return messageHandler(res, 200, "New Category Created Successfully");
+    }
+  } catch (error) {
+    messageHandler(res, 500, "Server Error");
+    console.log(error);
+  }
+};
+
 module.exports = {
   CreateProducts,
   getAllProducts,
   AdminRegistration,
   AdminLogin,
   newCollectionProducts,
+  CreateNewCategory,
 };

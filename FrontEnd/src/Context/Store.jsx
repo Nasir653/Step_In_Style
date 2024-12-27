@@ -215,6 +215,21 @@ const Store = () => {
   }, [])
 
 
+  const getTrendingProducts = useCallback(async (category) => {
+    
+     try {
+       const res = await api.get(`/get/trendingCollection/${category}`);
+
+       setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
+
+       
+     } catch (error) {
+      console.log("Server Error");
+      
+     }
+
+
+  })
   const getNewCollection = useCallback(async (category) => {
     
      try {
@@ -230,6 +245,8 @@ const Store = () => {
 
 
   })
+
+
 
   const ProductDeatail = async (ProductId) => {
     try {
@@ -392,6 +409,17 @@ const Store = () => {
     }
   }
 
+  const newCategory = async (e, formData) => {
+    
+    try {
+
+      
+      
+    } catch (error) {
+      console.log("Server Error");
+      
+    }
+  }
 
 
   return (
@@ -416,6 +444,7 @@ const Store = () => {
         adminLogin,
         getMensProducts,
         getNewCollection,
+        getTrendingProducts,
       }}
     >
       <App />

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { context } from '../../Context/Store';
 
 import "./Trending.scss"
@@ -6,10 +6,14 @@ import "./Trending.scss"
 const Trending = () => {
 
 
-    const { allProducts } = useContext(context);
+    const { allProducts, getTrendingProducts } = useContext(context);
 
 
-    const data = allProducts.filter((ele) => ele.category === "Trending");
+    useEffect(() => {  
+        getTrendingProducts("Trending");
+    }, [])
+
+
 
     return (
 
@@ -20,8 +24,8 @@ const Trending = () => {
 
                 <div className="products">
 
-                    {data &&
-                        data.map((product) => (
+                    {allProducts &&
+                        allProducts.map((product) => (
                             <div
                                 className="item"
                                 onClick={(e) => {
