@@ -153,9 +153,11 @@ const newCollectionProducts = async (req, res) => {
   }
 };
 
+
 const CreateNewCategory = async (req, res) => {
   try {
-    const { header } = req.body;
+    const { title } = req.body;
+   
 
     const upload = await cloudinary.uploader.upload(req.file.path, {
       folder: "Category",
@@ -169,25 +171,95 @@ const CreateNewCategory = async (req, res) => {
       );
     }
 
-    const CreateCategory = await CategoryModel.create({
+    const create = await CategoryModel.create({
       img: upload.secure_url,
-      header: header,
+      title: title,
     });
 
-    if (!CreateCategory) {
+    if (!create) {
       return messageHandler(
         res,
         404,
         "Something Went Wrong ! Try After Some Time"
       );
     } else {
-      return messageHandler(res, 200, "New Category Created Successfully");
+      return messageHandler(
+        res,
+        200,
+        "New Category Created Successfully",
+        create
+      );
     }
   } catch (error) {
     messageHandler(res, 500, "Server Error");
     console.log(error);
   }
 };
+
+
+
+const EditNewCategory = async (req, res) => {
+  try {
+    const { title } = req.body;
+    const { categoryId } = req.params;
+   
+
+    const upload = await cloudinary.uploader.upload(req.file.path, {
+      folder: "Category",
+    });
+
+    if (!upload) {
+      return messageHandler(
+        res,
+        404,
+        "Image Not uploaded ! Something went wrong"
+      );
+    }
+
+    const update = await CategoryModel.findByIdAndUpdate(categoryId, {
+      img: upload.secure_url,
+      title: title,
+    });
+
+
+    if (!update) {
+      return messageHandler(
+        res,
+        404,
+        "Something Went Wrong ! Try After Some Time"
+      );
+    } else {
+      return messageHandler(
+        res,
+        200,
+        "Edited Successfully",
+        update
+      );
+    }
+  } catch (error) {
+    messageHandler(res, 500, "Server Error");
+    console.log(error);
+  }
+};
+
+
+const fetchNewCategory = async (req, res) => {
+  
+  try {
+
+    const fetch = await CategoryModel.find().lean();
+    
+    if (!fetch) {
+      return messageHandler(res, 404, "Something Went wrong");
+     }
+    return messageHandler(res, 200, "Your Data" , fetch); 
+    
+    
+  } catch (error) {
+     return messageHandler(res, 500, "Server Error");
+  }
+}
+
 
 module.exports = {
   CreateProducts,
@@ -196,4 +268,6 @@ module.exports = {
   AdminLogin,
   newCollectionProducts,
   CreateNewCategory,
+  EditNewCategory,
+  fetchNewCategory,
 };

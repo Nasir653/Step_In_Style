@@ -23,6 +23,8 @@ import CreateWomens from "./Componants/AdminPages/CreateWomens";
 import WomensKurtas from "./Componants/Womenspage/WomensKurtas";
 import AdminLogin from "./Componants/AdminPages/AdminLogin";
 import AdminSignUp from "./Componants/AdminPages/AdminSignUp";
+import LandingPage from "./Componants/AdminPages/LandingPage/LandingPage";
+
 
 function App() {
   const {
@@ -30,13 +32,13 @@ function App() {
 
     loading,
     fetchCartItems,
-   
+    fetchNewCategory,
   } = useContext(context);
 
   useEffect(() => {
     fetchUserData();
     fetchCartItems();
-   
+    fetchNewCategory();
   }, [fetchUserData, loading, fetchCartItems]);
 
   return (
@@ -48,6 +50,7 @@ function App() {
           {/* Universal Routes */}
           <Route path="*" element={<NoPageFound />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/admin/landingPage" element={<LandingPage />} />
 
           {/* User Routes */}
           <Route path="/user/register" element={<Registration />} />

@@ -18,6 +18,7 @@ const Store = () => {
     AdminData: [],
     allProducts: [],
     cart: [],
+    AllCategories: [],
     SearchedItems: []
 
   });
@@ -216,32 +217,32 @@ const Store = () => {
 
 
   const getTrendingProducts = useCallback(async (category) => {
-    
-     try {
-       const res = await api.get(`/get/trendingCollection/${category}`);
 
-       setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
+    try {
+      const res = await api.get(`/get/trendingCollection/${category}`);
 
-       
-     } catch (error) {
+      setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
+
+
+    } catch (error) {
       console.log("Server Error");
-      
-     }
+
+    }
 
 
   })
   const getNewCollection = useCallback(async (category) => {
-    
-     try {
-       const res = await api.get(`/get/newCollection/${category}`);
 
-       setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
+    try {
+      const res = await api.get(`/get/newCollection/${category}`);
 
-       
-     } catch (error) {
+      setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
+
+
+    } catch (error) {
       console.log("Server Error");
-      
-     }
+
+    }
 
 
   })
@@ -265,7 +266,7 @@ const Store = () => {
 
 
     try {
-
+      setStore((prev) => ({ ...prev, loading: true }));
       const res = await api.get(`/user/cart/${productId}`);
 
       console.log(res);
@@ -279,7 +280,9 @@ const Store = () => {
       console.log(error);
 
     }
-
+    finally {
+      setStore((prev) => ({ ...prev, loading: false }));
+    }
 
   }
 
@@ -307,6 +310,7 @@ const Store = () => {
     try {
       setStore((prev) => ({ ...prev, loading: true }));
       const res = await api.get(`/user/remove/cartItems/${productId}`)
+      toast.success(res.data.message);
 
     } catch (error) {
 
@@ -409,19 +413,63 @@ const Store = () => {
     }
   }
 
-  const newCategory = async (e, formData) => {
-    
+  const addNewCategory = async (e, formData) => {
+
     try {
 
-      
-      
+      const res = await api.post("/create/newCategory", formData);
+      toast.success(res.data.message);
     } catch (error) {
-      console.log("Server Error");
-      
+
+      console.log(error);
+
     }
   }
 
+  const editNewCategory = useCallback(async (e, formData, categoryId) => {
 
+    try {
+      setStore((prev) => ({ ...prev, loading: true }));
+
+      e.preventDefault();
+      const res = await api.post(`/admin/Creates/newCategory/${categoryId}`, formData);
+
+
+      toast.success(res.data.message);
+
+    } catch (error) {
+      console.log("Server Error");
+
+    }
+    finally {
+      setStore((prev) => ({ ...prev, loading: false }));
+    }
+  }, []
+  )
+
+
+  const fetchNewCategory = async () => {
+    try {
+      setStore((prev) => ({ ...prev, loading: true }));
+
+      const res = await api.get("/fetch/allNewCatwgory");
+
+      console.log(res);
+
+      setStore((prev) => ({ ...prev, AllCategories: res.data.payload }));
+
+
+
+    } catch (error) {
+      console.log("Server Error");
+
+    }
+
+    finally {
+      setStore((prev) => ({ ...prev, loading: false }));
+    }
+
+  }
   return (
     <context.Provider
       value={{
@@ -445,6 +493,9 @@ const Store = () => {
         getMensProducts,
         getNewCollection,
         getTrendingProducts,
+        addNewCategory,
+        editNewCategory,
+        fetchNewCategory
       }}
     >
       <App />

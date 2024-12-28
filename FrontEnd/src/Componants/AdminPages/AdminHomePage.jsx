@@ -6,7 +6,7 @@ const AdminHomePage = () => {
     return (
         <div className="container-fluid">
             <div className="row row1">
-           
+
                 <div className="col dashboard col-lg-2">
                     <div className="header">
                         <h4>Admin Panel</h4>
@@ -14,7 +14,7 @@ const AdminHomePage = () => {
                     <div className="list">
                         <h5>Dashboard</h5>
                         <h6>Overview</h6>
-                       
+
                         <div className="btn-group dropend">
                             <label
                                 className="dropdown-toggle"
@@ -26,17 +26,17 @@ const AdminHomePage = () => {
                             </label>
                             <ul className="dropdown-menu">
                                 <li>
-                                    <Link to="/Create/mensProducts" className="dropdown-item">Mens Sector</Link>
+                                    <Link to="/Create/mensProducts" className="dropdown-item">Create Product</Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link to="/Create/womensProducts" className="dropdown-item">Womens Sector</Link>
                                 </li>
                                 <li>
                                     <Link to="/Create/kidsProducts" className="dropdown-item">Kids Sector</Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
-                        <h6>Edit Landing Page</h6>
+                        <h6> <Link to="/admin/landingPage" >Edit Landing Page</Link>   </h6>
                         <h6>Offers</h6>
                         <h6>Inventory</h6>
                         <h6>Orders</h6>
@@ -50,19 +50,19 @@ const AdminHomePage = () => {
                     <div className="row order-status">
                         <div className="col">
                             <h4>Total Orders:</h4>
-                      
+
                         </div>
                         <div className="col">
                             <h4>Pending Orders:</h4>
-                       
+
                         </div>
                         <div className="col">
                             <h4>Delivery Status:</h4>
-                       
+
                         </div>
                         <div className="col">
                             <h4>New Users:</h4>
-                          
+
                         </div>
                     </div>
                 </div>

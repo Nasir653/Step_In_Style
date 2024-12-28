@@ -21,11 +21,11 @@ const verifyUSer = require("./utils/isAuth");
 const {
   CreateProducts,
   getAllProducts,
-  CreateWomensProducts,
-  fetchWomensProducts,
   AdminRegistration,
   AdminLogin,
   newCollectionProducts,
+  EditNewCategory,
+  fetchNewCategory,
   CreateNewCategory,
 } = require("./controllers/adminControler");
 const { multMid } = require("./middleWares/imgUploader");
@@ -78,7 +78,9 @@ app.post("/admin/signup", AdminRegistration);
 app.post("/admin/login", AdminLogin);
 app.post("/admin/createProducts", multMid, CreateProducts);
 app.get("/get/newCollection/:category", newCollectionProducts);
-app.post("/admin/Creates/newCategory",  CreateNewCategory);
+app.post("/create/newCategory", multMid, CreateNewCategory);
+app.post("/admin/Creates/newCategory/:categoryId", multMid, EditNewCategory);
+app.get("/fetch/allNewCatwgory", fetchNewCategory);
 
 // Products Routes
 app.get("/getAllProducts/:category/:type", getAllProducts);
