@@ -23,7 +23,7 @@ import CreateWomens from "./Componants/AdminPages/CreateWomens";
 import WomensKurtas from "./Componants/Womenspage/WomensKurtas";
 import AdminLogin from "./Componants/AdminPages/AdminLogin";
 import AdminSignUp from "./Componants/AdminPages/AdminSignUp";
-import LandingPage from "./Componants/AdminPages/LandingPage/LandingPage";
+import LandingPage from "./Componants/AdminPages/EditLandingPage/LandingPage";
 
 
 function App() {

@@ -1,0 +1,66 @@
+.New-collection {
+
+    text-align: center;
+    padding-top: 0.5vh;
+    margin-bottom: 5vh;
+    align-items: center;
+}
+
+
+.EditNew_Collections {
+
+    //border: $border ;
+    gap: 1vw;
+    white-space: nowrap;
+    display: flex;
+    //    overflow-x: scroll;
+//    overflow-y: hidden;
+    height: 70vh;
+    padding: 0.5vw;
+    padding-top: 3vh;
+  
+
+
+
+    >.items {
+        width: 20%;
+        // border: $border;
+        height: 75vh;
+        text-wrap: wrap;
+        display: flex;
+        flex-direction: column;
+        transition: 0.3s;
+      
+
+
+
+
+        >img {
+            width: 100%;
+            height: 45vh;
+           
+           
+        }
+
+        >.info{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            >button{
+                margin-bottom: 1vh;
+                margin-top: 1vh;
+                width: 50%;
+            
+            }
+          
+        }
+
+    }
+
+    >.items:hover {
+        scale: 1.01;
+    }
+
+}

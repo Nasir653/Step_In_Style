@@ -1,20 +1,23 @@
-import React, { useState } from 'react'
+
+import { useContext, useState } from 'react';
 import { context } from '../../../Context/Store';
+import "./EditCategory.scss";
 
-const adminCategoryPage = () => {
+
+const EditCategoryPage = () => {
 
 
-    const { editNewCategory, AllCategories, addNewCategory } = useContext(context);
+    const { editNewCategory, AllCategories, addNewCategory } = useContext(context)
 
-    const [editingCategoryId, setEditingCategoryId] = useState(null); // For editing categories
-    const [isAddingNew, setIsAddingNew] = useState(false); // For adding a new category
+    const [editingCategoryId, setEditingCategoryId] = useState(null);
+    const [isAddingNew, setIsAddingNew] = useState(false);
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState("");
     const [image, setImage] = useState(null);
 
     const handleEdit = (category) => {
         setEditingCategoryId(category.id || category._id);
-        setIsAddingNew(false); // Close "Add New" form if open
+        setIsAddingNew(false);
         setTitle(category.title);
         setImage(null);
     };
@@ -28,7 +31,7 @@ const adminCategoryPage = () => {
         setLoading(true);
         try {
             if (categoryId) {
-                await editNewCategory(e, formData, categoryId); // Edit existing category
+                await editNewCategory(e, formData, categoryId);
             } else {
                 await addNewCategory(e, formData); // Add a new category
                 setIsAddingNew(false); // Close "Add New" form after submission
@@ -52,13 +55,15 @@ const adminCategoryPage = () => {
                     <div className="row gap-5">
                         {/* Map through existing categories */}
                         {AllCategories.map((ele) => (
-                            <div key={ele.id || ele._id}>
-                                {editingCategoryId === (ele.id || ele._id) ? (
+                            <div key={ ele._id}>
+                                {editingCategoryId === ( ele._id) ? (
                                     // Edit category form
                                     <form
                                         encType="multipart/form-data"
                                         onSubmit={(e) => handleSubmit(e, ele._id)}
                                     >
+
+
                                         <input
                                             type="text"
                                             name="title"
@@ -155,4 +160,4 @@ const adminCategoryPage = () => {
     )
 }
 
-export default adminCategoryPage
+export default EditCategoryPage

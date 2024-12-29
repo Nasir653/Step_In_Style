@@ -10,6 +10,7 @@ export const Category = () => {
 
         <>
 
+        
 
             <div className='category-elements d-flex flex-column gap-3'>
 
