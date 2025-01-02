@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import "./NewCollection.scss";
 
 const NewCollection = () => {
-  const { allProducts, getNewCollection, } = useContext(context);
+  const { NewCollection, getNewCollection, } = useContext(context);
   const navigate = useNavigate();
 
-  console.log(allProducts);
 
   useEffect(() => {
     getNewCollection("New Collection");
@@ -20,9 +19,10 @@ const NewCollection = () => {
       <div className="New-collection">
         <h1>New Collections</h1>
         <div className="New_Collections">
-          {allProducts &&
-            allProducts.map((product) => (
-              <div
+          {NewCollection &&
+            NewCollection.map((product) => (
+              <div 
+                key={product._id}
                 className="items"
                 onClick={(e) => {
                   navigate(`/product/details/${product._id}`);

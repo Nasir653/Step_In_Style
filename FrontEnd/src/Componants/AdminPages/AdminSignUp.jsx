@@ -6,8 +6,6 @@ import { context } from '../../Context/Store';
 
 
 
-
-
 export const AdminSignUp = () => {
 
     const { adminSignUp } = useContext(context)

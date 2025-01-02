@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./EditNewCollection.scss";
+import "./EditTrending.scss";
 import { context } from "../../../Context/Store";
 import { Link } from "react-router-dom";
 
-const EditNewCollection = () => {
-    const { NewCollection, getNewCollection, EditProducts, deleteProducts } = useContext(context);
+const EditTrending = () => {
+    const { TrendingProducts, getNewCollection, EditProducts, deleteProducts } = useContext(context);
     const navigate = useNavigate();
 
     const [editingProductId, setEditingProductId] = useState(null);
@@ -48,11 +48,11 @@ const EditNewCollection = () => {
 
     return (
         <div>
-            <div className="New-collection">
-                <h1>New Collections</h1>
-                <div className="EditNew_Collections">
-                    {NewCollection &&
-                        NewCollection.map((product) => (
+            <div className="EditTrending">
+                <h1>Trending</h1>
+                <div className="EditTrending-div">
+                    {TrendingProducts &&
+                        TrendingProducts.map((product) => (
                             <div key={product._id} className="items">
                                 {editingProductId === product._id ? (
                                     // Form for editing the specific product
@@ -122,4 +122,4 @@ const EditNewCollection = () => {
     );
 };
 
-export default EditNewCollection;
+export default EditTrending;

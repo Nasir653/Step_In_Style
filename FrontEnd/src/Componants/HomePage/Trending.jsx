@@ -6,10 +6,10 @@ import "./Trending.scss"
 const Trending = () => {
 
 
-    const { allProducts, getTrendingProducts } = useContext(context);
+    const { TrendingProducts, getTrendingProducts } = useContext(context);
 
 
-    useEffect(() => {  
+    useEffect(() => {
         getTrendingProducts("Trending");
     }, [])
 
@@ -24,9 +24,9 @@ const Trending = () => {
 
                 <div className="products">
 
-                    {allProducts &&
-                        allProducts.map((product) => (
-                            <div
+                    {TrendingProducts &&
+                        TrendingProducts.map((product) => (
+                            <div key={product._id}
                                 className="item"
                                 onClick={(e) => {
                                     //navigate(`/product/details/${product._id}`);

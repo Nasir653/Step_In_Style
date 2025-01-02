@@ -16,7 +16,7 @@ const EditCategoryPage = () => {
     const [image, setImage] = useState(null);
 
     const handleEdit = (category) => {
-        setEditingCategoryId(category.id || category._id);
+        setEditingCategoryId(category._id);
         setIsAddingNew(false);
         setTitle(category.title);
         setImage(null);
@@ -51,13 +51,14 @@ const EditCategoryPage = () => {
 
             <div className="container-fluid">
 
+                <h2>All Category</h2>
                 <div className="items-category">
                     <div className="row gap-5">
-                        {/* Map through existing categories */}
+                  
                         {AllCategories.map((ele) => (
                             <div key={ ele._id}>
                                 {editingCategoryId === ( ele._id) ? (
-                                    // Edit category form
+                                  
                                     <form
                                         encType="multipart/form-data"
                                         onSubmit={(e) => handleSubmit(e, ele._id)}

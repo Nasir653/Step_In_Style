@@ -24,22 +24,20 @@ import WomensKurtas from "./Componants/Womenspage/WomensKurtas";
 import AdminLogin from "./Componants/AdminPages/AdminLogin";
 import AdminSignUp from "./Componants/AdminPages/AdminSignUp";
 import LandingPage from "./Componants/AdminPages/EditLandingPage/LandingPage";
+import MensTshirts from "./Componants/MensPage/MensTshirts";
 
 
 function App() {
   const {
     fetchUserData,
-
-    loading,
     fetchCartItems,
-    fetchNewCategory,
+    loading
   } = useContext(context);
 
   useEffect(() => {
     fetchUserData();
-    fetchCartItems();
-    fetchNewCategory();
-  }, [fetchUserData, loading, fetchCartItems]);
+    fetchCartItems()
+  }, [fetchUserData, fetchCartItems, loading]);
 
   return (
     <div>
@@ -68,6 +66,7 @@ function App() {
             element={<ProductDetails />}
           />
           <Route path="/mens/shirts" element={<MensShirts />} />
+          <Route path="/mens/tshirts" element={<MensTshirts />} />
           <Route path="/womens/kurtas" element={<WomensKurtas />} />
           <Route path="/womens/kurtas" element={<WomensKurtas />} />
 

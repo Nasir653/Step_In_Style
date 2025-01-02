@@ -1,4 +1,4 @@
-.New-collection {
+.EditTrending {
     text-align: center;
     padding-top: 0.5vh;
     margin-bottom: 5vh;
@@ -12,7 +12,7 @@
     }
 }
 
-.EditNew_Collections {
+.EditTrending-div {
     gap: 2vw;
     white-space: nowrap;
     display: flex;
@@ -20,7 +20,7 @@
     justify-content: center;
     height: auto;
     padding: 1vw;
-   
+
 
     >.items {
         width: 22%;
@@ -31,34 +31,34 @@
         overflow: hidden;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s, box-shadow 0.3s;
-      
+
 
         &:hover {
             transform: scale(1.01);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
-        >form{
+        >form {
             display: flex;
             flex-direction: column;
-          align-items: center;
-          gap: 2vh;
+            align-items: center;
+            gap: 2vh;
 
-            > input{
+            >input {
                 width: 80%;
             }
 
-            >button{
+            >button {
                 width: 60%;
                 background-color: #007bff;
                 border-style: none;
-                    color: #fff;
-                    transition: 0.2s;
+                color: #fff;
+                transition: 0.2s;
 
-                    &:hover {
-                            background-color: #0056b3;
-                            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-                        }
+                &:hover {
+                    background-color: #0056b3;
+                    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+                }
             }
         }
 
@@ -72,7 +72,7 @@
             width: 100%;
             padding: 1rem;
             text-align: center;
-            
+
 
             span {
                 display: block;

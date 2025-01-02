@@ -14,21 +14,16 @@ export const Registration = () => {
 
 
 
-  const [username, setuserName] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
+  const [Username, setuserName] = useState("");
+  const [Email, setemail] = useState("");
+  const [Password, setpassword] = useState("");
 
 
   const formData = {
 
-    username, email, password
+    Username, Email, Password
 
   }
-
-
-
-
-
 
 
   return (
@@ -52,9 +47,9 @@ export const Registration = () => {
         <form>
 
 
-          <input type="text" placeholder=' Username' value={username} onChange={(e) => { setuserName(e.target.value) }} />
-          <input type="email" placeholder=' Email' value={email} onChange={(e) => { setemail(e.target.value) }} />
-          <input type="password" placeholder=' Password' value={password} onChange={(e) => { setpassword(e.target.value) }} />
+          <input type="text" placeholder=' Username' value={Username} onChange={(e) => { setuserName(e.target.value) }} />
+          <input type="email" placeholder=' Email' value={Email} onChange={(e) => { setemail(e.target.value) }} />
+          <input type="password" placeholder=' Password' value={Password} onChange={(e) => { setpassword(e.target.value) }} />
 
           <button onClick={(e) => { registerHandler(e, formData) }}>Register</button>
 
@@ -67,9 +62,7 @@ export const Registration = () => {
 
       </div>
 
-
-
-
+ 
     </div>
 
 

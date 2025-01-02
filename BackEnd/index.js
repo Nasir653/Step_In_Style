@@ -27,6 +27,8 @@ const {
   EditNewCategory,
   fetchNewCategory,
   CreateNewCategory,
+  editNewCollection,
+  deleteNewCollection,
 } = require("./controllers/adminControler");
 const { multMid } = require("./middleWares/imgUploader");
 const { productDetails } = require("./controllers/Products");
@@ -74,10 +76,13 @@ app.get("/user/verify/:token", verifyUSer);
 app.get("/fetch/user", IsAuthenticated, fetchUserData);
 
 // Admin Routes
-app.post("/admin/signup", AdminRegistration);
+//app.post("/admin/signup", AdminRegistration);
 app.post("/admin/login", AdminLogin);
 app.post("/admin/createProducts", multMid, CreateProducts);
 app.get("/get/newCollection/:category", newCollectionProducts);
+app.put("/admin/edits/newCollection/:productId", multMid, editNewCollection);
+app.delete("/admin/delete/newCollection/:productId", deleteNewCollection);
+
 app.post("/create/newCategory", multMid, CreateNewCategory);
 app.post("/admin/Creates/newCategory/:categoryId", multMid, EditNewCategory);
 app.get("/fetch/allNewCatwgory", fetchNewCategory);

@@ -8,7 +8,6 @@ try {
     
     const { ProductId } = req.params;
     
-    console.log(ProductId);
     
 
 

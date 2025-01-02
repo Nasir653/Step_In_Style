@@ -4,7 +4,7 @@ import "./Profile.scss";
 
 const Profile = () => {
 
-    const { UserData, ProfiePic, cart } = useContext(context);
+    const { UserData, ProfiePic, cart, fetchUserData, loading } = useContext(context);
 
 
     const [formData, setFormData] = useState(null)
@@ -13,8 +13,10 @@ const Profile = () => {
 
     form.append("image", formData);
 
+    // useEffect(() => {
+    //     fetchUserData()
+    // }, [loading])
 
-    
 
     return (
 

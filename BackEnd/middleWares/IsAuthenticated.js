@@ -4,6 +4,7 @@ const { messageHandler } = require("../utils/MessageHandler");
 const IsAuthenticated = async (req, res, next) => {
   try {
     const token = req.cookies.token;
+
     //const {token} = req.query;
 
     const secretKey = "secretKeyForLogin";

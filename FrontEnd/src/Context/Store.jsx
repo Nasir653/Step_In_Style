@@ -17,6 +17,8 @@ const Store = () => {
     UserData: [],
     AdminData: [],
     allProducts: [],
+    NewCollection: [],
+    TrendingProducts: [],
     cart: [],
     AllCategories: [],
     SearchedItems: []
@@ -24,18 +26,15 @@ const Store = () => {
   });
 
 
-  useEffect(() => {
-    console.log(store);
-  }, [store]);
-
-
 
   const registerHandler = async (e, formData) => {
     try {
       e.preventDefault();
       const url = "http://localhost:4000/user/register";
+      const url2 = "https://localhost:7247/api/Values/register";
 
-      const response = await axios.post(url, formData);
+      const response = await axios.post(url2, formData)
+
       toast.success(response.data.message);
 
 
@@ -105,6 +104,7 @@ const Store = () => {
     } catch (error) {
       console.log(error);
     }
+
   }, []);
 
   const ResetLink = async (e, email) => {
@@ -121,7 +121,7 @@ const Store = () => {
   };
 
 
-  const ProfiePic = async (form) => {
+  const ProfiePic = useCallback(async (form) => {
     try {
 
       setStore((prev) => ({ ...prev, loading: true }));
@@ -140,7 +140,7 @@ const Store = () => {
       setStore((prev) => ({ ...prev, loading: false }));
     }
 
-  };
+  }, [])
 
 
   const CreateProducts = async (e, fileUpload) => {
@@ -219,9 +219,9 @@ const Store = () => {
   const getTrendingProducts = useCallback(async (category) => {
 
     try {
-      const res = await api.get(`/get/trendingCollection/${category}`);
+      const res = await api.get(`/get/newCollection/${category}`);
 
-      setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
+      setStore((prev) => ({ ...prev, TrendingProducts: res.data.payload }));
 
 
     } catch (error) {
@@ -231,22 +231,26 @@ const Store = () => {
 
 
   })
+
+
   const getNewCollection = useCallback(async (category) => {
 
     try {
+
       const res = await api.get(`/get/newCollection/${category}`);
 
-      setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
+      setStore((prev) => ({ ...prev, NewCollection: res.data.payload }));
 
 
     } catch (error) {
       console.log("Server Error");
 
     }
+    finally {
 
+    }
 
   })
-
 
 
   const ProductDeatail = async (ProductId) => {
@@ -269,11 +273,7 @@ const Store = () => {
       setStore((prev) => ({ ...prev, loading: true }));
       const res = await api.get(`/user/cart/${productId}`);
 
-      console.log(res);
-
       toast.success(res.data.message);
-
-
 
     } catch (error) {
 
@@ -291,14 +291,13 @@ const Store = () => {
 
     try {
 
+
       const res = await api.get("/user/fetch/cartItems");
 
       setStore((prev) => ({ ...prev, cart: res.data.payload }));
 
     } catch (error) {
       console.log(Error);
-
-
     }
 
 
@@ -317,9 +316,11 @@ const Store = () => {
       console.log(error);
 
     }
+
     finally {
       setStore((prev) => ({ ...prev, loading: false }));
     }
+
 
 
   }
@@ -413,6 +414,49 @@ const Store = () => {
     }
   }
 
+
+  const EditProducts = async (formData, productId) => {
+
+
+    try {
+
+
+      const res = await api.put(`/admin/edits/newCollection/${productId}`, formData);
+
+
+      toast.success(res.data.message);
+
+    } catch (error) {
+      console.log("Server Error");
+
+    }
+    finally {
+
+    }
+  }
+
+
+  const deleteProducts = async (productId) => {
+
+
+    try {
+
+
+
+      const res = await api.delete(`/admin/delete/newCollection/${productId}`);
+
+
+      toast.success(res.data.message);
+
+    } catch (error) {
+      console.log("Server Error");
+
+    }
+
+  }
+
+
+
   const addNewCategory = async (e, formData) => {
 
     try {
@@ -450,11 +494,10 @@ const Store = () => {
 
   const fetchNewCategory = async () => {
     try {
-      setStore((prev) => ({ ...prev, loading: true }));
+
 
       const res = await api.get("/fetch/allNewCatwgory");
 
-      console.log(res);
 
       setStore((prev) => ({ ...prev, AllCategories: res.data.payload }));
 
@@ -465,11 +508,13 @@ const Store = () => {
 
     }
 
-    finally {
-      setStore((prev) => ({ ...prev, loading: false }));
-    }
+
 
   }
+
+
+
+
   return (
     <context.Provider
       value={{
@@ -495,7 +540,11 @@ const Store = () => {
         getTrendingProducts,
         addNewCategory,
         editNewCategory,
-        fetchNewCategory
+        fetchNewCategory,
+        EditProducts,
+        deleteProducts,
+
+
       }}
     >
       <App />

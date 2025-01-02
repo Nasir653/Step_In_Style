@@ -1,13 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { context } from '../Context/Store'
 import "./Cart.scss";
 
 const Cart = () => {
 
-  const { cart, removeFromCart } = useContext(context);
+  const { cart, removeFromCart, fetchCartItems, loading } = useContext(context);
+  
 
-
-
+ 
   return (
 
 
@@ -17,7 +17,7 @@ const Cart = () => {
 
       {cart.length > 0 ? (cart.map((ele) => (
 
-        <div className="items">
+        <div key={ele._id} className="items">
 
           <img src={ele.imageUrl} alt="ele.title" className="img" />
 
@@ -39,7 +39,7 @@ const Cart = () => {
 
 
 
-      ))) : ( <p>Empty</p>)
+      ))) : (<p>Empty</p>)
 
 
       }
