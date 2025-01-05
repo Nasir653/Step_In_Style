@@ -18,25 +18,21 @@ import Profile from "./Componants/Profile";
 import CreateProducts from "./Componants/AdminPages/CreateProducts";
 import CreateMensProducts from "./Componants/AdminPages/CreateMensProducts";
 import AdminHomePage from "./Componants/AdminPages/AdminHomePage";
-import MensShirts from "./Componants/MensPage/MensShirts";
 import CreateWomens from "./Componants/AdminPages/CreateWomens";
-import WomensKurtas from "./Componants/Womenspage/WomensKurtas";
 import AdminLogin from "./Componants/AdminPages/AdminLogin";
 import AdminSignUp from "./Componants/AdminPages/AdminSignUp";
 import LandingPage from "./Componants/AdminPages/EditLandingPage/LandingPage";
-import MensTshirts from "./Componants/MensPage/MensTshirts";
-
+import MensCategory from "./Componants/MensPage/MensCategory";
+import WomensCategory from "./Componants/Womenspage/WomensCategory";
 
 function App() {
-  const {
-    fetchUserData,
-    fetchCartItems,
-    loading
-  } = useContext(context);
+  const { fetchUserData, fetchCartItems, loading, fetchNewCategory } =
+    useContext(context);
 
   useEffect(() => {
     fetchUserData();
-    fetchCartItems()
+    fetchCartItems();
+    fetchNewCategory();
   }, [fetchUserData, fetchCartItems, loading]);
 
   return (
@@ -65,10 +61,8 @@ function App() {
             path="/product/details/:productId"
             element={<ProductDetails />}
           />
-          <Route path="/mens/shirts" element={<MensShirts />} />
-          <Route path="/mens/tshirts" element={<MensTshirts />} />
-          <Route path="/womens/kurtas" element={<WomensKurtas />} />
-          <Route path="/womens/kurtas" element={<WomensKurtas />} />
+          <Route path="/mens/shirts/:category" element={<MensCategory />} />
+          <Route path="/womens/:category" element={<WomensCategory />} />
 
           {/* Admin route */}
           <Route path="/admin/signup" element={<AdminSignUp />} />

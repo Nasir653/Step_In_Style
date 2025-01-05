@@ -26,12 +26,12 @@ const IsAuthorized = () => {
             const res = await axios.get(url);
 
 
-            console.log(res);
-           
+
+
             if (res.data.message === " User Verified") {
                 navigate("/")
             }
-   
+
         } catch (error) {
 
             console.log("server error");

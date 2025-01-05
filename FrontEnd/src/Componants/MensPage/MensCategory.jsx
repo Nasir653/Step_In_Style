@@ -1,19 +1,22 @@
 import React, { useContext, useEffect } from 'react'
 import { context } from '../../Context/Store';
-import { useNavigate } from 'react-router-dom';
-import "./MensTShirt.scss";
+import { useNavigate, useParams } from 'react-router-dom';
+import "./MensCategory.scss";
 
-const MensTshirts = () => {
+const MensCategory = () => {
+
+    const { allProducts, getMensProducts, addToCart } = useContext(context);
+
+    const { category } = useParams();
 
     const navigate = useNavigate();
-    const { allProducts, getMensProducts, addToCart } = useContext(context);
+
 
     useEffect(() => {
 
-        getMensProducts("Mens", "T-Shirts");
+        getMensProducts("Mens", category);
 
     }, [])
-
 
 
 
@@ -22,34 +25,35 @@ const MensTshirts = () => {
 
             <div className='container-fluid'>
 
-                <h2 className='tshirt-title'>T-Shirts</h2>
+                <h2 className='Shirts-title'>{category}</h2>
 
-                <div className="tshirt-div">
+                <div className="shirts-div">
 
 
 
                     {allProducts &&
-                        allProducts.map((tshirt) => (
+                        allProducts.map((shirt) => (
                             <div
                                 className="items "
+                                key={shirt._id}
 
                             >
 
                                 <div className="item-details" onClick={(e) => {
-                                    navigate(`/product/details/${tshirt._id}`);
+                                    navigate(`/product/details/${shirt._id}`);
 
                                 }}>
                                     <img
-                                        src={tshirt.imageUrl}
-                                        alt={tshirt.title}
+                                        src={shirt.imageUrl}
+                                        alt={shirt.title}
                                         className="coll-img"
                                     />
 
-                                    <span> {tshirt.title} </span>
+                                    <span> {shirt.title} </span>
 
-                                    <span> INR : {tshirt.price} </span>
+                                    <span> INR : {shirt.price} </span>
                                 </div>
-                                <button onClick={() => addToCart(tshirt._id)}>Add To Cart</button>
+                                <button onClick={() => addToCart(shirt._id)}>Add To Cart</button>
                                 <button>Order Now </button>
 
 
@@ -67,4 +71,4 @@ const MensTshirts = () => {
     )
 }
 
-export default MensTshirts
+export default MensCategory

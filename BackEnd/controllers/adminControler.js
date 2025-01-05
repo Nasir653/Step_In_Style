@@ -135,6 +135,22 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+const getProductById = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const getPro = await Products.findById(productId);
+
+    if (!getPro) {
+      return messageHandler(req, 404, "Product Not Found");
+    }
+
+    return messageHandler(res, 200, "Your Product", getPro);
+  } catch (error) {
+    messageHandler(res, 500, "Server Error");
+    console.log(error);
+  }
+};
 const newCollectionProducts = async (req, res) => {
   try {
     const { category } = req.params;
@@ -305,4 +321,5 @@ module.exports = {
   fetchNewCategory,
   editNewCollection,
   deleteNewCollection,
+  getProductById,
 };

@@ -13,7 +13,7 @@ const Products = moongoose.model("Products", {
 
   subCategory: {
     type: String,
-    enum: ["New Collection", "Trending"],
+    enum: ["New Collection", "Trending", "None"],
     default: null,
   },
   type: {

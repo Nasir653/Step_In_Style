@@ -17,14 +17,12 @@ const Store = () => {
     UserData: [],
     AdminData: [],
     allProducts: [],
-    NewCollection: [],
-    TrendingProducts: [],
+    productById: [],
     cart: [],
     AllCategories: [],
     SearchedItems: []
 
   });
-
 
 
   const registerHandler = async (e, formData) => {
@@ -253,12 +251,12 @@ const Store = () => {
   })
 
 
-  const ProductDeatail = async (ProductId) => {
+  const ProductDetails = async (ProductId) => {
     try {
-      const response = await api.get(
-        `product/details/${ProductId}`
+      const res = await api.get(
+        `/getProductById/${ProductId}`
       );
-      return response
+      setStore((prev) => ({ ...prev, productById: res.data.payload }));
 
     } catch (error) {
       console.log(Error);
@@ -386,7 +384,7 @@ const Store = () => {
 
     try {
 
-      setStore((prev) => ({ ...prev, loading: true }));
+
       e.preventDefault();
 
 
@@ -396,8 +394,6 @@ const Store = () => {
 
       if (res.status === 200 && res.data.message === "Login Successfully") {
         toast.success(res.data.message);
-        setStore((prev) => ({ ...prev, loading: true }));
-        setStore((prev) => ({ ...prev, AdminData: res.data.payload }));
         navigate("/admin");
 
       }
@@ -461,7 +457,12 @@ const Store = () => {
 
     try {
 
+      e.preventDefault();
       const res = await api.post("/create/newCategory", formData);
+
+      console.log(res);
+
+
       toast.success(res.data.message);
     } catch (error) {
 
@@ -470,6 +471,7 @@ const Store = () => {
     }
   }
 
+
   const editNewCategory = useCallback(async (e, formData, categoryId) => {
 
     try {
@@ -477,6 +479,9 @@ const Store = () => {
 
       e.preventDefault();
       const res = await api.post(`/admin/Creates/newCategory/${categoryId}`, formData);
+      console.log(res);
+
+
 
 
       toast.success(res.data.message);
@@ -523,7 +528,7 @@ const Store = () => {
         loginHandler,
         ResetLink,
         CreateProducts,
-        ProductDeatail,
+        ProductDetails,
         fetchUserData,
         addToCart,
         fetchCartItems,

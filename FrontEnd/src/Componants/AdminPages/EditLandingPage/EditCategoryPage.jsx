@@ -7,7 +7,7 @@ import "./EditCategory.scss";
 const EditCategoryPage = () => {
 
 
-    const { editNewCategory, AllCategories, addNewCategory } = useContext(context)
+    const { editNewCategory, AllCategories, addNewCategory } = useContext(context);
 
     const [editingCategoryId, setEditingCategoryId] = useState(null);
     const [isAddingNew, setIsAddingNew] = useState(false);
@@ -54,11 +54,11 @@ const EditCategoryPage = () => {
                 <h2>All Category</h2>
                 <div className="items-category">
                     <div className="row gap-5">
-                  
+
                         {AllCategories.map((ele) => (
-                            <div key={ ele._id}>
-                                {editingCategoryId === ( ele._id) ? (
-                                  
+                            <div key={ele._id}>
+                                {editingCategoryId === (ele._id) ? (
+
                                     <form
                                         encType="multipart/form-data"
                                         onSubmit={(e) => handleSubmit(e, ele._id)}

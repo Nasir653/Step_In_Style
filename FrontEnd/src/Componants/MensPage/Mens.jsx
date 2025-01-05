@@ -1,12 +1,17 @@
-import React, { useContext } from 'react'
+
 import "./Mens.scss";
 import BestMensCollection from './BestMensCollection';
-import { Link } from 'react-router-dom';
-import { context } from '../../Context/Store';
+import { useNavigate } from 'react-router-dom';
+
 
 const Mens = () => {
 
+  const navigate = useNavigate();
+  const handelRoute = (category) => {
 
+    navigate(`/mens/shirts/${category}`)
+
+  }
 
 
   return (
@@ -14,12 +19,10 @@ const Mens = () => {
 
     <>
 
-
-
       <div>
         <div
           id="carouselExampleCaptions"
-          classNamename="carousel slide"
+          className="carousel slide"
           data-bs-ride="carousel"
         >
           <div className="carousel-indicators">
@@ -124,48 +127,46 @@ const Mens = () => {
 
           <div className="mens-category-row row row-cols-lg-5 gy-6">
 
-            <Link className='link' to="/mens/shirts">
-              <div className="col shirts" >
+
+            <div className="col shirts" onClick={() => handelRoute("Shirts")} >
 
 
-                <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/89f1bd9d-3a28-456d-888a-beff717a06f81594222908155-Shirts.jpg" alt="" />
-              </div>
-            </Link>
-
-            <Link className='link' to="/mens/tshirts">
-              <div className="col t-shirts">
-
-                <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/9ff1f34e-9242-47fd-9566-e7d7a5c240511594222908483-T-shirt.jpg" alt="" />
-              </div>
-
-            </Link>
+              <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/89f1bd9d-3a28-456d-888a-beff717a06f81594222908155-Shirts.jpg" alt="" />
+            </div>
 
 
-            <Link className='link' to="/mens/jeans">
-              <div className="col jeans">
 
-                <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/720cf6ef-3be4-4825-8211-0125c942e3821594222907960-Jeans.jpg" alt="" />
+            <div className="col t-shirts" onClick={() => handelRoute("T-Shirts")}>
 
-              </div>
-            </Link>
-
-            <Link className='link' to="/mens/trousers">
-              <div className="col shorts">
-
-                <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/2bac5e2d-337b-42c0-88c7-3d4e2dc464141594222908262-Shorts-_-Trousers.jpg" alt="" />
-
-              </div>
-
-            </Link>
+              <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/9ff1f34e-9242-47fd-9566-e7d7a5c240511594222908483-T-shirt.jpg" alt="" />
+            </div>
 
 
-            <Link className='link' to="/mens/shoes">
-              <div className="col shoes">
 
-                <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/ae14f627-9fd9-41ce-80a4-f107c316c7eb1594222907625-Casual-shoes.jpg" alt="" />
 
-              </div>
-            </Link>
+
+            <div className="col jeans" onClick={() => handelRoute("Jeans")}>
+
+              <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/720cf6ef-3be4-4825-8211-0125c942e3821594222907960-Jeans.jpg" alt="" />
+
+            </div>
+
+
+
+            <div className="col shorts">
+
+              <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/2bac5e2d-337b-42c0-88c7-3d4e2dc464141594222908262-Shorts-_-Trousers.jpg" alt="" />
+
+            </div>
+
+
+
+            <div className="col shoes" onClick={() => handelRoute("Shoes")}>
+
+              <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/ae14f627-9fd9-41ce-80a4-f107c316c7eb1594222907625-Casual-shoes.jpg" alt="" />
+
+            </div>
+
 
 
           </div>

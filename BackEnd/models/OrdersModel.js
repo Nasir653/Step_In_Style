@@ -4,7 +4,7 @@ const Orders = mongoose.model("Orders", {
   productId: { type: mongoose.Schema.Types.ObjectId },
   ordercost: { type: Number },
   size: { type: String },
-  quntity : {type : Number},
+  quntity: { type: Number },
   orderStatus: {
     type: String,
     enum: ["completed", "pending", "cancelled", "refunded", "inTransit"],

@@ -29,6 +29,7 @@ const {
   CreateNewCategory,
   editNewCollection,
   deleteNewCollection,
+  getProductById,
 } = require("./controllers/adminControler");
 const { multMid } = require("./middleWares/imgUploader");
 const { productDetails } = require("./controllers/Products");
@@ -89,6 +90,7 @@ app.get("/fetch/allNewCatwgory", fetchNewCategory);
 
 // Products Routes
 app.get("/getAllProducts/:category/:type", getAllProducts);
+app.get("/getProductById/:productId", getProductById);
 app.get("/get/newCollection/:category", getAllProducts);
 app.get("/get/trendingCollection/:category", getAllProducts);
 

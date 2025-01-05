@@ -119,7 +119,7 @@ const CreateMensProducts = () => {
                         <option value="" disabled>Set on</option>
                         <option value="New Collection">New Collection</option>
                         <option value="Trending">Trending</option>
-                        <option value="No">Don't Display</option>
+                        <option value="None">None</option>
 
 
                     </select>

@@ -4,17 +4,19 @@ import { context } from '../../Context/Store';
 export const Category = () => {
 
     const { AllCategories } = useContext(context);
+    console.log(AllCategories);
+
 
     return (
 
 
         <>
 
-        
+
 
             <div className='category-elements d-flex flex-column gap-3'>
 
-                <div className="row  gap-5 row-col-lg-5">
+                <div className="row row-cols-3  row-cols-md-4 row-cols-lg-6">
 
                     {AllCategories.map((ele) => (
 

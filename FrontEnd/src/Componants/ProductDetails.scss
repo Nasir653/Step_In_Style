@@ -5,7 +5,7 @@
   --nav-background: #fff;
   --button-color: #FF5733;
   --button-hover-color: #ff704d;
-  --image-border-radius: 8px;
+  --image-border-radius: 15px;
   --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -16,24 +16,20 @@ body {
   background-color: #f8f8f8;
 }
 
-.container-fuild {
-  padding: 2vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
 
-.items {
+
+.productDetails-items {
   display: flex;
   gap: 1.5vw;
   width: 80%;
   margin-bottom: 3vw;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 1.5vw;
   box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
+  flex-direction: row;
+
 
   &:hover {
     transform: translateY(-3px);
@@ -45,13 +41,15 @@ body {
     align-items: center;
     width: 85%;
     padding: 2vw;
+    gap: 1vw;
   }
 
   >.img {
-    width: 35%;
-    height: auto;
+    width: 50%;
+    height: 100vh;
     border-radius: var(--image-border-radius);
     box-shadow: var(--box-shadow);
+    object-fit: cover;
     transition: transform 0.3s ease;
 
     &:hover {
@@ -60,7 +58,13 @@ body {
 
     @media (max-width: 768px) {
       width: 70%;
+      height: 250px;
       margin-bottom: 1.5vw;
+    }
+
+    @media (max-width: 480px) {
+      width: 90%;
+      height: 200px;
     }
   }
 
@@ -69,6 +73,7 @@ body {
     display: flex;
     flex-direction: column;
     padding-left: 1.5vw;
+ align-items: start;
 
     @media (max-width: 768px) {
       padding-left: 0;
@@ -76,9 +81,9 @@ body {
     }
 
     >h4 {
-      font-size: 1.1rem;
-      color: #fff;
-      background-color: var(--primary-color);
+      font-size: 1.5rem;
+      color:black;
+   
       padding: 0.8vw;
       margin: 0;
       border-radius: 5px;
@@ -87,10 +92,20 @@ body {
     }
 
     >h3 {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: var(--text-color);
       margin-top: 1vw;
       font-weight: normal;
+
+      &:last-of-type {
+        font-size: 1.5rem;
+        color:black;
+        
+        padding: 0.5vw 1vw;
+        border-radius: 8px;
+        text-align: center;
+        margin-top: 1.5vw;
+      }
     }
 
     >button {
@@ -100,29 +115,31 @@ body {
       background-color: var(--button-color);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 25px;
       cursor: pointer;
       margin-top: 1.5vw;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, transform 0.3s ease;
 
       &:hover {
         background-color: var(--button-hover-color);
+        transform: translateY(-3px);
       }
 
       @media (max-width: 768px) {
-        width: 80%;
+        width: 90%;
         padding: 1.2vw 2vw;
       }
     }
   }
 }
 
+// Responsive Styles for Smaller Screens
 @media (max-width: 768px) {
   .container-fuild {
     padding: 3vw;
   }
 
-  .items {
+  .productDetails-items {
     flex-direction: column;
     gap: 2.5vw;
   }
@@ -134,11 +151,36 @@ body {
 
   .img {
     width: 80%;
+    height: 250px;
   }
 
-  .items>button {
-    width: 100%;
+  .productDetails-items>button {
+    width: 90%;
     padding: 1.2vw 2vw;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .img {
+    width: 90%;
+    height: 200px;
+  }
+
+  .text>h4 {
+    font-size: 1.2rem;
+  }
+
+  .text>h3 {
+    font-size: 1rem;
+
+    &:last-of-type {
+      font-size: 1.3rem;
+    }
+  }
+
+  .text>button {
+    padding: 0.8vw 1.2vw;
+    font-size: 0.9rem;
   }
 }

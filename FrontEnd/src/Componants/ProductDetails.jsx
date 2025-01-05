@@ -1,17 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { context } from "../Context/Store";
-import "./ProductDetails.css";
+import "./ProductDetails.scss";
 
 
 const ProductDetails = () => {
-  const { allProducts, addToCart } = useContext(context);
+  const { productById, addToCart, ProductDetails } = useContext(context);
+
+  let pro = [];
+  pro.push(productById);
+
+
+  const { productId } = useParams();
 
 
 
-  const { productId } = useParams(); 
+  useEffect(() => {
+    ProductDetails(productId);
 
-  const product = allProducts.filter((item) => item._id === productId);
+
+  }, []);
+
 
 
   return (
@@ -22,8 +31,8 @@ const ProductDetails = () => {
 
 
 
-      {product.map((ele) => (
-        <div key={ele._id} className="items">
+      {pro.map((ele) => (
+        <div key={ele._id} className="productDetails-items">
           <img src={ele.imageUrl} alt="ele.title" className="img" />
           <div className="text">
             <h4>{ele.title}</h4>
