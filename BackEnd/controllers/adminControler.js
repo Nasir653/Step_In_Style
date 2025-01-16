@@ -1,10 +1,12 @@
 const cloudinary = require("cloudinary").v2;
 const AdminModel = require("../models/AdminModel");
 const CategoryModel = require("../models/CategoryModel");
+const { Orders } = require("../models/OrdersModel");
 const Products = require("../models/products");
 const { messageHandler } = require("../utils/MessageHandler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const User = require("../models/UserModel");
 
 // const AdminRegistration = async (req, res) => {
 //   try {
@@ -311,6 +313,45 @@ const fetchNewCategory = async (req, res) => {
   }
 };
 
+const fetchAllOrder = async (req, res) => {
+  try {
+    const fetchOrders = await Orders.find();
+
+    if (fetchOrders) {
+      return messageHandler(res, 200, "All Orders", fetchOrders);
+    }
+
+    return messageHandler(res, 404, "No Order found");
+  } catch (error) {
+    console.log(Error);
+    messageHandler(res, 500, "Server Error");
+  }
+};
+
+const getLastMonthUsers = async (req, res) => {
+  try {
+    const now = new Date();
+
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(now.getDate() - 30);
+
+    const recentUsers = await User.find({
+      createdOn: {
+        $gte: thirtyDaysAgo,
+        $lte: now,
+      },
+    });
+    if (recentUsers) {
+      return messageHandler(res, 200, "Last Months New Users", recentUsers);
+    }
+
+    return messageHandler(res, 404, "No User Found");
+  } catch (error) {
+    console.log(error);
+    return messageHandler(res, 500, "Server Error");
+  }
+};
+
 module.exports = {
   CreateProducts,
   getAllProducts,
@@ -322,4 +363,6 @@ module.exports = {
   editNewCollection,
   deleteNewCollection,
   getProductById,
+  fetchAllOrder,
+  getLastMonthUsers,
 };

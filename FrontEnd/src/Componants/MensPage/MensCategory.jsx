@@ -5,7 +5,7 @@ import "./MensCategory.scss";
 
 const MensCategory = () => {
 
-    const { allProducts, getMensProducts, addToCart } = useContext(context);
+    const { allProducts, getMensProducts, addToCart, Order } = useContext(context);
 
     const { category } = useParams();
 
@@ -54,7 +54,7 @@ const MensCategory = () => {
                                     <span> INR : {shirt.price} </span>
                                 </div>
                                 <button onClick={() => addToCart(shirt._id)}>Add To Cart</button>
-                                <button>Order Now </button>
+                                <button onClick={() => Order(shirt._id)}>Order Now </button>
 
 
                             </div>

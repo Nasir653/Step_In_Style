@@ -10,30 +10,26 @@ const cloudinary = require("cloudinary").v2;
 const signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    console.log("Request Body:", req.body);
 
-    if (username === "" || email === "" || password === "") {
+    if (!username || !email || !password) {
       return res.json({ message: "All Fields Required" });
     }
 
     const getEmail = await User.findOne({ email });
-
     if (getEmail) {
       return res.json({ message: "Email already registered" });
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const IsRegister = await User({ username, email, password: hashPassword });
+    const newUser = new User({ username, email, password: hashPassword });
 
-    if (IsRegister) {
-      IsRegister.save();
-      console.log("User Created Successfully");
-      messageHandler(res, 200, "Acc Created Successfully");
-    } else {
-      messageHandler(res, 404, "Somethimg Went Wrong");
-    }
+    await newUser.save();
+    console.log("User Created Successfully");
+    messageHandler(res, 200, "Account Created Successfully");
   } catch (error) {
-    console.log("Server Error");
+    console.error("Error in signup:", error);
     messageHandler(res, 500, "Server Error");
   }
 };
@@ -137,7 +133,7 @@ const forgetPass = async (req, res) => {
           html: `
        
 
-  <h1>   Hi ${findUser.userName} </h1>
+  <h1>   Hi ${findUser.username} </h1>
 <br>  
 <p>
 We received a request to reset your password for your account. Click the link below to set a new
@@ -162,8 +158,8 @@ Thank you,
           if (reject) {
             console.log(reject + " reject");
             return res
-              .status(500)
-              .json({ message: "Email not sended ! Server Error" });
+              .status(404)
+              .json({ message: "Email not sended ! SomeThing Went Wrong" });
           }
 
           console.log(resolve);
@@ -208,6 +204,40 @@ const ResetPass = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
+  }
+};
+
+const EditUser = async (req, res) => {
+  try {
+    console.log(req.body);
+
+    const { phone, address } = req.body;
+    const userId = req.userId; // Assume userId is provided by authentication middleware
+
+    // Validate input
+    if (!phone || !address || !address.length) {
+      return res.status(400).json({ error: "Phone and address are required." });
+    }
+
+    // Find and update the user
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { phone, address },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ success: "User updated successfully", updatedUser });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return res
+      .status(500)
+      .json({ error: "Something went wrong while updating user details" });
   }
 };
 
@@ -344,6 +374,7 @@ const CreateOrder = async (req, res) => {
     const userId = req.userId;
 
     const { ordercost } = req.body;
+    const { productId } = req.params;
 
     const user = await User.findById(userId);
 
@@ -351,8 +382,13 @@ const CreateOrder = async (req, res) => {
       return messageHandler(res, 401, "UnAuthorized ! Please Login Again");
     }
 
+    if (!user.phone || !user.address) {
+      return messageHandler(res, 400, "Please enter phone number and address");
+    }
+
     const Order = await Orders.create({
       ordercost: ordercost,
+      user: userId,
     });
 
     if (!Order) {
@@ -368,31 +404,6 @@ const CreateOrder = async (req, res) => {
   }
 };
 
-// const deleteService = async (req, res) => {
-
-//     const serviceId = req.query;
-//     const userId = req.userId;
-//     const findService = await service.findByIdAndDelte(serviceId);
-
-//     if (findService) {
-//        res.status(200).json("service Deleted")
-//    }
-
-//     const User = await User.findById(userId);
-
-//     const services = await User.service;
-
-//     //let getService =  services.indexof(serviceId)
-//     let getService = services.findindex((service)=>{service._id.toString() === serviceId})
-
-//     if (getService>0) {
-
-//        services.splice(getService, 1)
-
-//     }
-
-// }
-
 module.exports = {
   signup,
   loginHandler,
@@ -406,4 +417,5 @@ module.exports = {
   searchInput,
   Logout,
   ProfilePic,
+  EditUser,
 };

@@ -2,7 +2,7 @@ import { createContext, useCallback, useEffect, useState } from "react";
 import App from "../App";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Await, useNavigate } from "react-router-dom";
 import api from "../utils/ApiInstances";
 
 
@@ -20,7 +20,9 @@ const Store = () => {
     productById: [],
     cart: [],
     AllCategories: [],
-    SearchedItems: []
+    SearchedItems: [],
+    AllOrders: [],
+    Last30DaysUsers: [],
 
   });
 
@@ -31,7 +33,7 @@ const Store = () => {
       const url = "http://localhost:4000/user/register";
       const url2 = "https://localhost:7247/api/Values/register";
 
-      const response = await axios.post(url2, formData)
+      const response = await axios.post(url, formData)
 
       toast.success(response.data.message);
 
@@ -108,13 +110,18 @@ const Store = () => {
   const ResetLink = async (e, email) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:4000/user/forgetpassword";
 
-      const res = await axios.post(url, { email: email });
+      const res = await api.post("/user/forgetpassword", { email: email });
+
+      toast.success(res.data.message)
 
 
     } catch (error) {
       console.log(error);
+      if (error.response.status === 404) {
+
+        toast.error(error.response.data.message);
+      }
     }
   };
 
@@ -139,6 +146,36 @@ const Store = () => {
     }
 
   }, [])
+
+
+
+  const editUser = async (e, formData) => {
+    e.preventDefault(); // Prevent form from refreshing the page
+
+    try {
+      // Convert formData to include address as an array
+      const { phone, ...addressFields } = formData;
+
+
+      const address = [
+        {
+          fullAddress: addressFields.fullAddress,
+          district: addressFields.district,
+          state: addressFields.state,
+          pincode: addressFields.pincode,
+          landmark: addressFields.landmark,
+        },
+      ];
+
+      // Send request to the server
+      const res = await api.post("/edit/user", { phone, address });
+      console.log("User updated successfully:", res);
+      toast.success(res.data.success);
+    } catch (error) {
+      console.error("Error editing user:", error);
+      toast.error("Something went wrong while updating user details.");
+    }
+  };
 
 
   const CreateProducts = async (e, fileUpload) => {
@@ -326,16 +363,58 @@ const Store = () => {
 
   const Order = async (productId) => {
     try {
+      const res = await api.post(`/user/create/order/${productId}`);
 
-      const res = await api.post("/user/create/orde")
+      // Check for success response and display message
+      if (res.status === 200 || res.status === 201) {
+        toast.success(res.data.message || "Order created successfully");
+      } else {
+        toast.warn("Unexpected response from the server");
+      }
 
+      console.log(res);
     } catch (error) {
-      console.log("Server error");
 
+      if (error.response) {
+        const status = error.response.status;
+        const message = error.response.data.message || "Something went wrong";
 
+        if (status === 401) {
+          toast.error("Unauthorized! Please login again");
+        } else if (status === 404) {
+          toast.error("Resource not found");
+        } else if (status === 400) {
+          toast.error(message);
+
+          navigate("/");
+        } else if (status === 500) {
+          toast.error("Server error. Please try again later");
+        } else {
+          toast.error(message);
+        }
+      } else if (error.request) {
+        // 
+        console.log("Error Request:", error.request);
+        toast.error("No response from the server. Please check your connection.");
+      } else {
+
+        console.log("Error Message:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
-  }
+  };
 
+  const fetchAllOrders = async () => {
+
+
+    const res = await api.get("/fetch/allOrders");
+
+    setStore((prev) => ({ ...prev, AllOrders: res.data.payload }));
+
+
+
+
+  }
 
   const SearchInput = async (value) => {
 
@@ -452,7 +531,6 @@ const Store = () => {
   }
 
 
-
   const addNewCategory = async (e, formData) => {
 
     try {
@@ -517,8 +595,18 @@ const Store = () => {
 
   }
 
+  const getLastMonthsUsers = async () => {
+    try {
+      const res = await api.get("/fetch/lastMonthsUser");
+      setStore((prev) => ({ ...prev, Last30DaysUsers: res.data.payload }));
+      console.log(res);
 
 
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
 
   return (
     <context.Provider
@@ -536,6 +624,7 @@ const Store = () => {
         SearchInput,
         logout,
         ProfiePic,
+        editUser,
         CreateWomensProducts,
         getWomensProducts,
         adminSignUp,
@@ -548,6 +637,9 @@ const Store = () => {
         fetchNewCategory,
         EditProducts,
         deleteProducts,
+        Order,
+        fetchAllOrders,
+        getLastMonthsUsers,
 
 
       }}

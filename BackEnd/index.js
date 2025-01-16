@@ -16,6 +16,7 @@ const {
   searchInput,
   Logout,
   ProfilePic,
+  EditUser,
 } = require("./controllers/userController");
 const verifyUSer = require("./utils/isAuth");
 const {
@@ -30,6 +31,8 @@ const {
   editNewCollection,
   deleteNewCollection,
   getProductById,
+  fetchAllOrder,
+  getLastMonthUsers,
 } = require("./controllers/adminControler");
 const { multMid } = require("./middleWares/imgUploader");
 const { productDetails } = require("./controllers/Products");
@@ -75,6 +78,7 @@ app.put("/user/resetpassword/:userId", ResetPass);
 app.post("/user/profilePic", IsAuthenticated, multMid, ProfilePic);
 app.get("/user/verify/:token", verifyUSer);
 app.get("/fetch/user", IsAuthenticated, fetchUserData);
+app.post("/edit/user", IsAuthenticated, EditUser);
 
 // Admin Routes
 //app.post("/admin/signup", AdminRegistration);
@@ -83,6 +87,8 @@ app.post("/admin/createProducts", multMid, CreateProducts);
 app.get("/get/newCollection/:category", newCollectionProducts);
 app.put("/admin/edits/newCollection/:productId", multMid, editNewCollection);
 app.delete("/admin/delete/newCollection/:productId", deleteNewCollection);
+app.get("/fetch/allOrders", fetchAllOrder);
+app.get("/fetch/lastMonthsUser", getLastMonthUsers);
 
 app.post("/create/newCategory", multMid, CreateNewCategory);
 app.post("/admin/Creates/newCategory/:categoryId", multMid, EditNewCategory);
@@ -104,7 +110,7 @@ app.get("/user/fetch/cartItems", IsAuthenticated, fetchCartItems);
 app.get("/user/remove/cartItems/:productId", IsAuthenticated, removeFromCart);
 
 // Order Routes
-app.post("/user/create/order", IsAuthenticated, CreateOrder);
+app.post("/user/create/order/:productId", IsAuthenticated, CreateOrder);
 
 // Start Server   Port
 app.listen(port, () => {

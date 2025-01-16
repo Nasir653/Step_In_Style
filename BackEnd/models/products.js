@@ -21,6 +21,24 @@ const Products = moongoose.model("Products", {
     enum: ["Shirts", "T-Shirts", "Jeans", "Shoes", "Kurtas"],
     default: null,
   },
+
+  size: String,
+  color: String,
+  price: Number,
+  discount: Number,
+  itemQty: Number,
+  rating: { type: Number, default: 0 },
+  reviews: [
+    {
+      user: {
+        type: moongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      review: { type: String },
+      star: { type: Number },
+    },
+  ],
 });
 
 module.exports = Products;

@@ -10,7 +10,7 @@ const Orders = mongoose.model("Orders", {
     enum: ["completed", "pending", "cancelled", "refunded", "inTransit"],
     default: "pending",
   },
-  customer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   createdOn: { type: Date, default: Date.now() },
   updatedOn: { type: Date, default: Date.now() },
 });

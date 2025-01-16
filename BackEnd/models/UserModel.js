@@ -7,7 +7,15 @@ const UserSchema = new mongoose.Schema({
   phone: { type: String },
   profilePic: { type: String },
   IsAdmin: { type: Boolean, default: false },
-  address: { type: String },
+  address: [
+    {
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      pincode: { type: String, required: true },
+      landmark: { type: String },
+    },
+  ],
   cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Orders" }],
   updatedOn: { type: Date, default: Date.now },

@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "./AdminHome.scss";
+import { context } from '../../Context/Store';
 
 const AdminHomePage = () => {
+
+    const { fetchAllOrders, AllOrders, getLastMonthsUsers, Last30DaysUsers } = useContext(context)
+
+
+
+
+
+    useEffect(() => {
+        fetchAllOrders();
+        getLastMonthsUsers()
+
+
+    }, []);
+
+
+    const PendingOrders = AllOrders.filter((ele) => ele.orderStatus === "pending");
+
+
+
+
+
     return (
         <div className="container-fluid">
             <div className="row row1">
@@ -49,11 +71,11 @@ const AdminHomePage = () => {
                 <div className="col overview col-lg-10">
                     <div className="row order-status">
                         <div className="col">
-                            <h4>Total Orders:</h4>
+                            <h4>Total Orders: {AllOrders.length}</h4>
 
                         </div>
                         <div className="col">
-                            <h4>Pending Orders:</h4>
+                            <h4>Pending Orders:{PendingOrders.length}</h4>
 
                         </div>
                         <div className="col">
@@ -61,7 +83,8 @@ const AdminHomePage = () => {
 
                         </div>
                         <div className="col">
-                            <h4>New Users:</h4>
+                            <h4>New Users (last 30 days): {Last30DaysUsers.length}</h4>
+                            <p>All Details</p>
 
                         </div>
                     </div>

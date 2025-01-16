@@ -58,6 +58,8 @@
                     background-color: rgb(102, 154, 136);
                     color: black;
                     text-align: start;
+                    display: flex;
+                    flex-direction: column;
 
                     >h4{
                         color: white;
