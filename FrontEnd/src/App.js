@@ -25,6 +25,7 @@ import LandingPage from "./Componants/AdminPages/EditLandingPage/LandingPage";
 import MensCategory from "./Componants/MensPage/MensCategory";
 import WomensCategory from "./Componants/Womenspage/WomensCategory";
 import UserDetails from "./Componants/UserDetails";
+import OrderPage from "./Componants/OrderPage";
 
 function App() {
   const { fetchUserData, fetchCartItems, loading, fetchNewCategory } =
@@ -54,6 +55,7 @@ function App() {
           <Route path="/user/resetpassword/:userId" element={<ResetPass />} />
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/addDetails" element={<UserDetails />} />
+          <Route path="/user/creatsOrder" element={<OrderPage />} />
 
           {/* Product Routes */}
           <Route path="/Searched/items" element={<SearchedProducts />} />

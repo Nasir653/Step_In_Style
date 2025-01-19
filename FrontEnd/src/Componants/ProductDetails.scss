@@ -1,3 +1,4 @@
+// Global Variables
 :root {
   --primary-color: #FF5733;
   --text-color: #333;
@@ -16,20 +17,25 @@ body {
   background-color: #f8f8f8;
 }
 
-
+.container-fuild {
+  padding: 3vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
 .productDetails-items {
   display: flex;
-  gap: 1.5vw;
+  gap: 2vw;
   width: 80%;
   margin-bottom: 3vw;
   background-color: #fff;
-  border-radius: 15px;
+  border-radius: var(--image-border-radius);
   padding: 1.5vw;
   box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
   flex-direction: row;
-
 
   &:hover {
     transform: translateY(-3px);
@@ -44,7 +50,7 @@ body {
     gap: 1vw;
   }
 
-  >.img {
+  .img {
     width: 50%;
     height: 100vh;
     border-radius: var(--image-border-radius);
@@ -68,22 +74,21 @@ body {
     }
   }
 
-  >.text {
+  .text {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     padding-left: 1.5vw;
- align-items: start;
-
+    align-items: start;
+    gap:2vh;
     @media (max-width: 768px) {
       padding-left: 0;
       text-align: center;
     }
 
-    >h4 {
+    h4 {
       font-size: 1.5rem;
-      color:black;
-   
+      color: black;
       padding: 0.8vw;
       margin: 0;
       border-radius: 5px;
@@ -91,7 +96,7 @@ body {
       text-transform: uppercase;
     }
 
-    >h3 {
+    h3 {
       font-size: 1.2rem;
       color: var(--text-color);
       margin-top: 1vw;
@@ -99,8 +104,7 @@ body {
 
       &:last-of-type {
         font-size: 1.5rem;
-        color:black;
-        
+        color: black;
         padding: 0.5vw 1vw;
         border-radius: 8px;
         text-align: center;
@@ -108,7 +112,102 @@ body {
       }
     }
 
-    >button {
+   
+        .color-options{
+
+          display: flex;
+          align-items: center;
+        }
+    .quantity-options {
+      margin-top: 1.5vw;
+      display: flex;
+      flex-direction: column;
+
+      span {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 0.5vw;
+      }
+    }
+
+    .size-buttons {
+      display: flex;
+      gap: 0.5vw;
+      
+
+      .size-button {
+        padding: 0.5vw 1vw;
+        color: #41371a;
+        border: 1px solid var(--primary-color);
+        border-radius: 5px;
+        background-color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &.selected {
+          background-color: var(--primary-color);
+          color: white;
+        }
+
+        &:hover {
+          background-color: var(--button-hover-color);
+          color: white;
+        }
+      }
+    }
+
+    .color-swatch {
+      display: inline-block;
+      margin: 0 5px;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &.selected {
+        outline: 2px solid var(--primary-color);
+        transform: scale(1.1);
+      }
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5vw;
+
+
+      .decrement-button,
+      .increment-button {
+        width: 30px;
+        height: 30px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: var(--button-hover-color);
+        }
+      }
+
+      .quantity-display {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+
+    button {
       width: 80%;
       padding: 0.8vw 1.5vw;
       font-size: 1rem;
@@ -133,7 +232,7 @@ body {
   }
 }
 
-// Responsive Styles for Smaller Screens
+// Responsive Styles
 @media (max-width: 768px) {
   .container-fuild {
     padding: 3vw;
@@ -167,11 +266,11 @@ body {
     height: 200px;
   }
 
-  .text>h4 {
+  .text h4 {
     font-size: 1.2rem;
   }
 
-  .text>h3 {
+  .text h3 {
     font-size: 1rem;
 
     &:last-of-type {
@@ -179,8 +278,9 @@ body {
     }
   }
 
-  .text>button {
+  .text button {
     padding: 0.8vw 1.2vw;
     font-size: 0.9rem;
   }
 }
+

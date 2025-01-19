@@ -287,36 +287,60 @@ const searchInput = async (req, res) => {
 
 const AddToCart = async (req, res) => {
   try {
-    const { ProductId } = req.params;
-
     const userId = req.userId;
+    const { ProductId } = req.params;
+    const { quantity, color, size } = req.body;
 
+    // Find the user
     const user = await User.findById(userId);
-
     if (!user) {
-      return messageHandler(res, 401, " UnAuthorized");
+      return res.render("error", {
+        backToPage: "/",
+        errorMessage: "Some Error, Kindly Login Again!",
+      });
     }
 
-    const alreadyInCart = user.cart.findIndex(
-      (item) => item._id.toString() === ProductId
-    );
-
-    if (alreadyInCart > -1) {
-      return messageHandler(res, 200, "Already in Cart ");
-    }
-
+    // Find the product
     const product = await Products.findById(ProductId);
-
     if (!product) {
-      return messageHandler(res, 404, "Something Went Wrong ! UnAvaibalbe");
+      return res.render("error", {
+        backToPage: "/",
+        errorMessage: "Product Not Available",
+      });
     }
 
-    user.cart.push(product._id);
-    user.save();
+    // Check if the product with the same color and size exists in the cart
+    const cartItemIndex = user.cart.findIndex((item) => {
+      return (
+        item.productId.toString() === ProductId &&
+        item.color === color &&
+        item.size === size
+      );
+    });
+
+    if (cartItemIndex > -1) {
+      // Update the quantity if the item exists in the cart
+      user.cart[cartItemIndex].qty += parseInt(quantity, 10);
+    } else {
+      // Add the item to the cart if it does not exist
+      user.cart.push({
+        productId: product._id,
+        qty: parseInt(quantity, 10),
+        price: product.price,
+        color: color,
+        size: size,
+      });
+    }
+
+    // Save the user with the updated cart
+    await user.save();
+
+    // Return success message
     return messageHandler(res, 200, "Added To Cart", user);
   } catch (error) {
+    // Handle server error
     messageHandler(res, 500, "Server Error");
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -325,7 +349,7 @@ const fetchCartItems = async (req, res) => {
     const userId = req.userId;
 
     const user = await User.findById(userId).populate({
-      path: "cart",
+      path: "cart.productId",
     });
 
     if (!user) {
@@ -373,7 +397,9 @@ const CreateOrder = async (req, res) => {
   try {
     const userId = req.userId;
 
-    const { ordercost } = req.body;
+    const { ordercost, size, color, quntity } = req.body;
+    console.log(req.body);
+
     const { productId } = req.params;
 
     const user = await User.findById(userId);
@@ -382,13 +408,19 @@ const CreateOrder = async (req, res) => {
       return messageHandler(res, 401, "UnAuthorized ! Please Login Again");
     }
 
-    if (!user.phone || !user.address) {
-      return messageHandler(res, 400, "Please enter phone number and address");
-    }
+    // const checkProduct = await Orders.findById(productId);
+
+    // if (checkProduct) {
+    //   return messageHandler(res , 401 , "This ProductAlready Orders")
+    // }
 
     const Order = await Orders.create({
       ordercost: ordercost,
+      size: size,
+      color: color,
+      quntity: quntity,
       user: userId,
+      productId: productId,
     });
 
     if (!Order) {

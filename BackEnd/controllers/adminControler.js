@@ -86,7 +86,17 @@ const AdminLogin = async (req, res) => {
 
 const CreateProducts = async (req, res) => {
   try {
-    const { title, details, price, category, subCategory, type } = req.body;
+    const {
+      title,
+      details,
+      price,
+      category,
+      subCategory,
+      type,
+      sizes,
+      colors,
+      qty,
+    } = req.body;
 
     const upload = await cloudinary.uploader.upload(req.file.path, {
       folder: "AllProducts",
@@ -100,6 +110,9 @@ const CreateProducts = async (req, res) => {
       subCategory: subCategory,
       imageUrl: upload.secure_url,
       type: type,
+      sizes: sizes,
+      colors: colors,
+      qty: qty,
     });
 
     if (!creates) {
@@ -122,6 +135,7 @@ const CreateProducts = async (req, res) => {
 const getAllProducts = async (req, res) => {
   try {
     const { category, type } = req.params;
+
     const getData = await Products.find({
       $and: [
         { category: { $regex: category, $options: "i" } },

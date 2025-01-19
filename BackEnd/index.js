@@ -105,7 +105,7 @@ app.get("/product/details/:ProductId", productDetails);
 app.post("/product/search/:value", IsAuthenticated, searchInput);
 
 //Cart Routes
-app.get("/user/cart/:ProductId", IsAuthenticated, AddToCart);
+app.post("/user/cart/:ProductId", IsAuthenticated, AddToCart);
 app.get("/user/fetch/cartItems", IsAuthenticated, fetchCartItems);
 app.get("/user/remove/cartItems/:productId", IsAuthenticated, removeFromCart);
 

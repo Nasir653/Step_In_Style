@@ -4,6 +4,7 @@ const Orders = mongoose.model("Orders", {
   productId: { type: mongoose.Schema.Types.ObjectId },
   ordercost: { type: Number },
   size: { type: String },
+  color: { type: String },
   quntity: { type: Number },
   orderStatus: {
     type: String,

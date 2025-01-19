@@ -22,11 +22,11 @@ const Products = moongoose.model("Products", {
     default: null,
   },
 
-  size: String,
-  color: String,
+  sizes: String,
+  colors: String,
   price: Number,
   discount: Number,
-  itemQty: Number,
+  qty: Number,
   rating: { type: Number, default: 0 },
   reviews: [
     {

@@ -9,14 +9,22 @@ const UserSchema = new mongoose.Schema({
   IsAdmin: { type: Boolean, default: false },
   address: [
     {
-      street: { type: String, required: true },
-      city: { type: String, required: true },
-      state: { type: String, required: true },
-      pincode: { type: String, required: true },
+      street: { type: String },
+      city: { type: String },
+      state: { type: String },
+      pincode: { type: String },
       landmark: { type: String },
     },
   ],
-  cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
+  cart: [
+    {
+      productId: { type: mongoose.Schema.Types.ObjectId, ref: "Products" },
+      qty: { type: Number },
+      price: { type: Number },
+      size: { type: String },
+      color: { type: String },
+    },
+  ],
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Orders" }],
   updatedOn: { type: Date, default: Date.now },
   createdOn: { type: Date, default: Date.now },

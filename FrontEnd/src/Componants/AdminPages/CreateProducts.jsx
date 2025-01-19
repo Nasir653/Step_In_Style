@@ -88,43 +88,7 @@ const CreateProducts = () => {
                             <option value="Womens">Womens</option>
                         </select>
 
-
-
-
-
-
-                        <label htmlFor="size">Select Size:</label>
-                        <select
-                            name="size"
-                            value={formData.size}
-                            onChange={handleChange}
-                        >
-                            <option value="" disabled>
-                                Choose size
-                            </option>
-                            <option value="S">Small (S)</option>
-                            <option value="M">Medium (M)</option>
-                            <option value="L">Large (L)</option>
-                            <option value="XL">Extra Large (XL)</option>
-                        </select>
-
-
-                        <label htmlFor="color">Select Color:</label>
-                        <select
-                            name="color"
-                            value={formData.color}
-                            onChange={handleChange}
-                        >
-                            <option value="" disabled>
-                                Choose color
-                            </option>
-                            <option value="Red">Red</option>
-                            <option value="Blue">Blue</option>
-                            <option value="Green">Green</option>
-                            <option value="Black">Black</option>
-                        </select>
-
-
+                        <input type="text" />
 
 
 

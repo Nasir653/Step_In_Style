@@ -12,8 +12,9 @@ const CreateMensProducts = () => {
         category: "",
         subCategory: "",
         type: "",
-        size: "",
-        color: "",
+        sizes: "",
+        colors: "",
+        qty: ""
     });
 
     const [fileData, setFileData] = useState(null);
@@ -32,6 +33,9 @@ const CreateMensProducts = () => {
     fileUpload.append("category", formData.category);
     fileUpload.append("subCategory", formData.subCategory);
     fileUpload.append("type", formData.type);
+    fileUpload.append("sizes", formData.sizes);
+    fileUpload.append("colors", formData.colors);
+    fileUpload.append("qty", formData.qty);
 
     return (
         <div className="create-product-container container py-5">
@@ -147,40 +151,22 @@ const CreateMensProducts = () => {
 
                 {/* Size */}
                 <div className="mb-3">
-                    <label htmlFor="size" className="form-label">Size</label>
-                    <select
-                        id="size"
-                        className="form-select"
-                        name="size"
-                        value={formData.size}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="" disabled>Choose Size</option>
-                        <option value="S">Small (S)</option>
-                        <option value="M">Medium (M)</option>
-                        <option value="L">Large (L)</option>
-                        <option value="XL">Extra Large (XL)</option>
-                    </select>
+                    <input type="text" placeholder="Sizes" name="sizes"
+                        value={formData.sizes}
+                        onChange={handleChange} />
                 </div>
 
                 {/* Color */}
                 <div className="mb-3">
-                    <label htmlFor="color" className="form-label">Color</label>
-                    <select
-                        id="color"
-                        className="form-select"
-                        name="color"
-                        value={formData.color}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="" disabled>Choose Color</option>
-                        <option value="Red">Red</option>
-                        <option value="Blue">Blue</option>
-                        <option value="Green">Green</option>
-                        <option value="Black">Black</option>
-                    </select>
+                    <input type="text" placeholder="colors" name="colors"
+                        value={formData.colors}
+                        onChange={handleChange} />
+
+                </div>
+                <div className="mb-3">
+                    <input type="number" placeholder="Qty" name="qty"
+                        value={formData.qty}
+                        onChange={handleChange} />
                 </div>
 
                 {/* Image Upload */}

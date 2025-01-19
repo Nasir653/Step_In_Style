@@ -224,6 +224,8 @@ const Store = () => {
   const getWomensProducts = useCallback(async (category, type) => {
     try {
 
+
+
       const res = await api.get(`/getAllProducts/${category}/${type}`);
 
 
@@ -240,6 +242,7 @@ const Store = () => {
   const getMensProducts = useCallback(async (category, type) => {
     try {
 
+      console.log("gfdg" + category);
       const res = await api.get(`/getAllProducts/${category}/${type}`);
 
 
@@ -301,12 +304,14 @@ const Store = () => {
   };
 
 
-  const addToCart = async (productId) => {
+  const addToCart = async (productId, formData) => {
 
 
     try {
       setStore((prev) => ({ ...prev, loading: true }));
-      const res = await api.get(`/user/cart/${productId}`);
+      console.log(formData);
+
+      const res = await api.post(`/user/cart/${productId}`, formData);
 
       toast.success(res.data.message);
 
@@ -361,13 +366,19 @@ const Store = () => {
   }
 
 
-  const Order = async (productId) => {
+  const Order = async (productId, formData) => {
     try {
-      const res = await api.post(`/user/create/order/${productId}`);
+      const res = await api.post(`/user/create/order/${productId}`, formData);
 
       // Check for success response and display message
       if (res.status === 200 || res.status === 201) {
-        toast.success(res.data.message || "Order created successfully");
+        setTimeout(() => {
+          toast.success(res.data.message || "Order created successfully")
+        }, 2000);
+
+        navigate("/user/creatsOrder");
+
+
       } else {
         toast.warn("Unexpected response from the server");
       }
@@ -408,6 +419,7 @@ const Store = () => {
 
 
     const res = await api.get("/fetch/allOrders");
+
 
     setStore((prev) => ({ ...prev, AllOrders: res.data.payload }));
 
