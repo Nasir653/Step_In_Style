@@ -17,6 +17,8 @@ const {
   Logout,
   ProfilePic,
   EditUser,
+  fetchOrderById,
+  CancelOrder,
 } = require("./controllers/userController");
 const verifyUSer = require("./utils/isAuth");
 const {
@@ -111,6 +113,8 @@ app.get("/user/remove/cartItems/:productId", IsAuthenticated, removeFromCart);
 
 // Order Routes
 app.post("/user/create/order/:productId", IsAuthenticated, CreateOrder);
+app.get("/user/OrderById/:OrderId", IsAuthenticated, fetchOrderById);
+app.get("/user/CancelOrder/:OrderId", IsAuthenticated, CancelOrder);
 
 // Start Server   Port
 app.listen(port, () => {

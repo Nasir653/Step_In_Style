@@ -397,7 +397,7 @@ const CreateOrder = async (req, res) => {
   try {
     const userId = req.userId;
 
-    const { ordercost, size, color, quntity } = req.body;
+    const { orderCost, size, color, qty } = req.body;
     console.log(req.body);
 
     const { productId } = req.params;
@@ -408,17 +408,11 @@ const CreateOrder = async (req, res) => {
       return messageHandler(res, 401, "UnAuthorized ! Please Login Again");
     }
 
-    // const checkProduct = await Orders.findById(productId);
-
-    // if (checkProduct) {
-    //   return messageHandler(res , 401 , "This ProductAlready Orders")
-    // }
-
     const Order = await Orders.create({
-      ordercost: ordercost,
+      orderCost: orderCost,
       size: size,
       color: color,
-      quntity: quntity,
+      qty: qty,
       user: userId,
       productId: productId,
     });
@@ -432,6 +426,45 @@ const CreateOrder = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    messageHandler(res, 500, "Server Error");
+  }
+};
+
+const fetchOrderById = async (req, res) => {
+  try {
+    const { OrderId } = req.params;
+    console.log(req.params);
+
+    const fetch = await Orders.findById(OrderId).populate({
+      path: "productId",
+    });
+
+    if (!fetch) {
+      return messageHandler(res, 404, "Order Not Found");
+    }
+    return messageHandler(res, 200, "Your Order", fetch);
+  } catch (error) {
+    console.log(error);
+    return messageHandler(res, 500, "Server Error");
+  }
+};
+
+const CancelOrder = async (req, res) => {
+  try {
+    const { OrderId } = req.params;
+
+    const fetch = await Orders.findById(OrderId);
+
+    if (!fetch) {
+      return messageHandler(res, 404, "Order Not Found");
+    }
+
+    fetch.orderStatus = "cancelled";
+
+    await fetch.save();
+    messageHandler(res, 200, "Order Cancelled");
+  } catch (error) {
+    console.log(Error);
     messageHandler(res, 500, "Server Error");
   }
 };
@@ -450,4 +483,6 @@ module.exports = {
   Logout,
   ProfilePic,
   EditUser,
+  CancelOrder,
+  fetchOrderById,
 };

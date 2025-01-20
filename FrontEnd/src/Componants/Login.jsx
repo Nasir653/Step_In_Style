@@ -1,83 +1,63 @@
-
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
-import './global.css';
+import './Login.scss';
 import { ToastContainer } from "react-toastify";
 import { context } from '../Context/Store';
 
-
-
-
-
-
 const Login = () => {
-
-  const { loginHandler } = useContext(context)
-
+  const { loginHandler } = useContext(context);
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-
 
   const formData = {
     email, password
   }
 
-
-
-
-
-
-
-
-
   return (
-
     <>
-
       <ToastContainer />
+      <div className='login-container'>
+        <div className="login-form">
 
-
-      <div className='conatainer'>
-
-
-
-
-        <div className="signup-div">
-
-          <div className="heading  col col-12">
-            <h1>Login</h1>
-
+          <div className="login-heading">
+            <h1 className="login-title">Login</h1>
           </div>
 
-          <p>Login With Your Details</p>
+          <p className="login-description">Login With Your Details</p>
 
-          <form>
+          <form className="login-form-inputs">
+            <input
+              className="input-email"
+              type="email"
+              placeholder='Email'
+              value={email}
+              onChange={(e) => { setemail(e.target.value) }}
+            />
+            <input
+              className="input-password"
+              type="password"
+              placeholder='Password'
+              value={password}
+              onChange={(e) => { setpassword(e.target.value) }}
+            />
+            <p className="forgot-password">
+              <a className="forgot-password-link" href="/user/forgetpassword">Forget Password?</a>
+            </p>
 
-
-            <input type="email" placeholder=' Email' value={email} onChange={(e) => { setemail(e.target.value) }} />
-            <input type="password" placeholder=' Password' value={password} onChange={(e) => { setpassword(e.target.value) }} />
-            <p>  <a href="/user/forgetpassword">Forget Password</a></p>
-
-            <button onClick={(e) => { loginHandler(e, formData) }}>Login</button>
-
-
-
+            <button className="login-button" onClick={(e) => { loginHandler(e, formData) }}>
+              Login
+            </button>
           </form>
 
-          <p> New User?   <Link className="registerBtn" to="/user/register">Register </Link>   </p>
-
-
+          <p className="new-user">
+            New User? <Link className="register-link" to="/user/register">Register</Link>
+          </p>
 
         </div>
-
-
-
-
       </div>
-
     </>
-  )
+  );
 }
 
-export default Login
+export default Login;

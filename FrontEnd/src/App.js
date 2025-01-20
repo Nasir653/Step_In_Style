@@ -55,7 +55,7 @@ function App() {
           <Route path="/user/resetpassword/:userId" element={<ResetPass />} />
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/addDetails" element={<UserDetails />} />
-          <Route path="/user/creatsOrder" element={<OrderPage />} />
+          <Route path="/user/PlacedOrder/:OrderId" element={<OrderPage />} />
 
           {/* Product Routes */}
           <Route path="/Searched/items" element={<SearchedProducts />} />

@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const Orders = mongoose.model("Orders", {
-  productId: { type: mongoose.Schema.Types.ObjectId },
-  ordercost: { type: Number },
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: "Products" },
+  orderCost: { type: Number },
   size: { type: String },
   color: { type: String },
-  quntity: { type: Number },
+  qty: { type: Number },
   orderStatus: {
     type: String,
     enum: ["completed", "pending", "cancelled", "refunded", "inTransit"],

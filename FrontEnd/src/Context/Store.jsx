@@ -22,6 +22,7 @@ const Store = () => {
     AllCategories: [],
     SearchedItems: [],
     AllOrders: [],
+    OrderById: [],
     Last30DaysUsers: [],
 
   });
@@ -370,13 +371,15 @@ const Store = () => {
     try {
       const res = await api.post(`/user/create/order/${productId}`, formData);
 
-      // Check for success response and display message
+
       if (res.status === 200 || res.status === 201) {
         setTimeout(() => {
           toast.success(res.data.message || "Order created successfully")
-        }, 2000);
+          console.log(res.data.payload);
 
-        navigate("/user/creatsOrder");
+        }, 1000);
+
+        navigate(`/user/PlacedOrder/${res.data.payload._id}`);
 
 
       } else {
@@ -404,7 +407,7 @@ const Store = () => {
           toast.error(message);
         }
       } else if (error.request) {
-        // 
+
         console.log("Error Request:", error.request);
         toast.error("No response from the server. Please check your connection.");
       } else {
@@ -426,6 +429,40 @@ const Store = () => {
 
 
 
+  }
+
+  const fetchOrderBtyId = useCallback(
+
+    async (orderId) => {
+      try {
+
+        const res = await api.get(`user/OrderById/${orderId}`);
+
+        setStore((prev) => ({ ...prev, OrderById: res.data.payload }));
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+    },
+
+
+    []);
+
+
+  const cancelOrder = async (OrderId) => {
+    try {
+
+      const res = await api.get(`/user/CancelOrder/${OrderId}`)
+      toast.success(res.data.message || "Order Cancelled successfully")
+      navigate("/user/cart");
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
   }
 
   const SearchInput = async (value) => {
@@ -651,6 +688,8 @@ const Store = () => {
         deleteProducts,
         Order,
         fetchAllOrders,
+        fetchOrderBtyId,
+        cancelOrder,
         getLastMonthsUsers,
 
 

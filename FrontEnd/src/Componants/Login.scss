@@ -1,0 +1,120 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #eaf6f6;
+    /* Soft cyan background */
+}
+
+.login-form {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.login-form:hover {
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.login-heading {
+    margin-bottom: 20px;
+}
+
+.login-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #2b9c7e;
+    /* Vibrant green for title */
+    margin-bottom: 10px;
+}
+
+.login-description {
+    font-size: 1.1rem;
+    color: #444;
+    /* Darker gray for description */
+    margin-bottom: 30px;
+}
+
+.login-form-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-email,
+.input-password {
+    padding: 14px;
+    margin: 12px 0;
+    border: 1px solid #d1d8e0;
+    /* Lighter gray border */
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-email:focus,
+.input-password:focus {
+    border-color: #2b9c7e;
+    /* Focus border in vibrant green */
+    box-shadow: 0 0 8px rgba(43, 156, 126, 0.3);
+}
+
+.forgot-password {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.forgot-password-link {
+    color: #2b9c7e;
+    /* Vibrant green for link */
+    text-decoration: none;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+    color: #258c6e;
+}
+
+.login-button {
+    padding: 14px;
+    background-color: #2b9c7e;
+    /* Vibrant green button */
+    color: #fff;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-button:hover {
+    background-color: #258c6e;
+    /* Darker green on hover */
+    transform: translateY(-2px);
+}
+
+.new-user {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #777;
+}
+
+.register-link {
+    color: #2b9c7e;
+    /* Vibrant green for register link */
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+    color: #258c6e;
+}

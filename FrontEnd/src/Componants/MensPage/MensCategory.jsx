@@ -33,11 +33,7 @@ const MensCategory = () => {
 
                     {allProducts &&
                         allProducts.map((shirt) => (
-                            <div
-                                className="items "
-                                key={shirt._id}
-
-                            >
+                            <div className="items" key={shirt._id} >
 
                                 <div className="item-details" onClick={(e) => {
                                     navigate(`/product/details/${shirt._id}`);
@@ -52,11 +48,9 @@ const MensCategory = () => {
                                     <span> {shirt.title} </span>
 
                                     <span> INR : {shirt.price} </span>
-
-                                    <span></span>
                                 </div>
-                                {/* <button onClick={() => addToCart(shirt._id)}>Add To Cart</button>
-                                <button onClick={() => Order(shirt._id)}>Order Now </button> */}
+                                {/* <button onClick={() => addToCart(shirt._id)}>Add To Cart</button> */}
+                                {/* <button onClick={() => Order(shirt._id)}>Order Now </button> */}
 
 
                             </div>
@@ -64,11 +58,6 @@ const MensCategory = () => {
 
                 </div>
             </div>
-
-
-
-
-
         </>
     )
 }
