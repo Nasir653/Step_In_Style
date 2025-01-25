@@ -16,9 +16,10 @@ const {
   searchInput,
   Logout,
   ProfilePic,
-  EditUser,
   fetchOrderById,
   CancelOrder,
+  SuggestedItems,
+  EditAddress,
 } = require("./controllers/userController");
 const verifyUSer = require("./utils/isAuth");
 const {
@@ -80,7 +81,8 @@ app.put("/user/resetpassword/:userId", ResetPass);
 app.post("/user/profilePic", IsAuthenticated, multMid, ProfilePic);
 app.get("/user/verify/:token", verifyUSer);
 app.get("/fetch/user", IsAuthenticated, fetchUserData);
-app.post("/edit/user", IsAuthenticated, EditUser);
+app.post("/edit/user", IsAuthenticated, EditAddress);
+app.get("/user/SuggestedItems/:type", IsAuthenticated, SuggestedItems);
 
 // Admin Routes
 //app.post("/admin/signup", AdminRegistration);
@@ -97,6 +99,7 @@ app.post("/admin/Creates/newCategory/:categoryId", multMid, EditNewCategory);
 app.get("/fetch/allNewCatwgory", fetchNewCategory);
 
 // Products Routes
+app.get("/get/AllProducts", getAllProducts);
 app.get("/getAllProducts/:category/:type", getAllProducts);
 app.get("/getProductById/:productId", getProductById);
 app.get("/get/newCollection/:category", getAllProducts);

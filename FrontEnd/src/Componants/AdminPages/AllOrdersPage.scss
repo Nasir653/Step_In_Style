@@ -1,0 +1,136 @@
+.orders-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+
+    .orders-title {
+        text-align: center;
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .date-range-selector {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+
+        label {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        input {
+            padding: 8px 12px;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            outline: none;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: #2575fc;
+            }
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: #1e60d5;
+            }
+        }
+    }
+
+    .orders-summary {
+        text-align: center;
+        margin-bottom: 20px;
+
+        p {
+            font-size: 1.1rem;
+            color: #333;
+
+            strong {
+                color: #2575fc;
+            }
+        }
+    }
+
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        th {
+            background-color: #2575fc;
+            color: white;
+            font-weight: bold;
+        }
+
+        td img {
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .details-button,
+        .dispatch-button,
+        .cancel-button {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none; 
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .details-button{
+            background-color: #1c7170;
+
+            &:hover {
+                background-color: #218838;
+            }
+        }
+        .dispatch-button {
+            background-color: #28a745;
+
+            &:hover {
+                background-color: #218838;
+            }
+        }
+
+        .cancel-button {
+            background-color: #dc3545;
+
+            &:hover {
+                background-color: #c82333;
+            }
+        }
+    }
+
+    .no-orders {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #777;
+        margin-top: 30px;
+    }
+}

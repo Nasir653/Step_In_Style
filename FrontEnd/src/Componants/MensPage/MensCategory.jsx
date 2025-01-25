@@ -5,7 +5,7 @@ import "./MensCategory.scss";
 
 const MensCategory = () => {
 
-    const { allProducts, getMensProducts, addToCart, Order } = useContext(context);
+    const { allProducts, getMensProducts } = useContext(context);
 
     const { category } = useParams();
 
@@ -54,6 +54,12 @@ const MensCategory = () => {
 
 
                             </div>
+
+
+
+
+
+
                         ))}
 
                 </div>

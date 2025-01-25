@@ -15,10 +15,8 @@ import Mens from "./Componants/MensPage/Mens";
 import Footer from "./SharedComponants/Footer";
 import Womens from "./Componants/Womenspage/Womens";
 import Profile from "./Componants/Profile";
-import CreateProducts from "./Componants/AdminPages/CreateProducts";
-import CreateMensProducts from "./Componants/AdminPages/CreateMensProducts";
+import CreateMensProducts from "./Componants/AdminPages/CreateProducts";
 import AdminHomePage from "./Componants/AdminPages/AdminHomePage";
-import CreateWomens from "./Componants/AdminPages/CreateWomens";
 import AdminLogin from "./Componants/AdminPages/AdminLogin";
 import AdminSignUp from "./Componants/AdminPages/AdminSignUp";
 import LandingPage from "./Componants/AdminPages/EditLandingPage/LandingPage";
@@ -26,6 +24,8 @@ import MensCategory from "./Componants/MensPage/MensCategory";
 import WomensCategory from "./Componants/Womenspage/WomensCategory";
 import UserDetails from "./Componants/UserDetails";
 import OrderPage from "./Componants/OrderPage";
+import CreateProducts from "./Componants/AdminPages/CreateProducts";
+import AllProductsPage from "./Componants/AdminPages/AllProductsPage";
 
 function App() {
   const { fetchUserData, fetchCartItems, loading, fetchNewCategory } =
@@ -72,9 +72,8 @@ function App() {
           <Route path="/admin/signup" element={<AdminSignUp />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminHomePage />} />
-          <Route path="/admin/portal" element={<CreateProducts />} />
-          <Route path="/Create/mensProducts" element={<CreateMensProducts />} />
-          <Route path="/Create/womensProducts" element={<CreateWomens />} />
+          <Route path="/Create/Products" element={<CreateProducts />} />
+          <Route path="/get/AllProducts" element={<AllProductsPage />} />
 
           {/* Cart Routes */}
           <Route path="/user/cart" element={<Cart />} />

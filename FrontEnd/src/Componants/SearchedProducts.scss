@@ -1,0 +1,91 @@
+.searched-products {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.no-items-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    flex-direction: column;
+}
+
+.no-items {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    background: #f8d7da;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #f5c6cb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin-top: 50px;
+    animation: fadeIn 1s ease-out;
+}
+
+.no-items:before {
+    content: "\1F622";
+    /* Unicode for a sad face */
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.searched-item {
+    width: 250px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.searched-item:hover {
+    transform: scale(1.05);
+}
+
+.searched-item-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.searched-item-details {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.searched-item-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.searched-item-description {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.searched-item-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #28a745;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

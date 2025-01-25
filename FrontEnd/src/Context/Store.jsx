@@ -1,8 +1,8 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import App from "../App";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Await, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../utils/ApiInstances";
 
 
@@ -21,9 +21,11 @@ const Store = () => {
     cart: [],
     AllCategories: [],
     SearchedItems: [],
+    SuggestedItems: [],
     AllOrders: [],
     OrderById: [],
     Last30DaysUsers: [],
+
 
   });
 
@@ -149,31 +151,21 @@ const Store = () => {
   }, [])
 
 
-
-  const editUser = async (e, formData) => {
-    e.preventDefault(); // Prevent form from refreshing the page
+  const editAddress = async (e, formData) => {
+    e.preventDefault();
 
     try {
-      // Convert formData to include address as an array
-      const { phone, ...addressFields } = formData;
 
 
-      const address = [
-        {
-          fullAddress: addressFields.fullAddress,
-          district: addressFields.district,
-          state: addressFields.state,
-          pincode: addressFields.pincode,
-          landmark: addressFields.landmark,
-        },
-      ];
-
-      // Send request to the server
-      const res = await api.post("/edit/user", { phone, address });
+      const res = await api.post("/edit/user", formData);
       console.log("User updated successfully:", res);
       toast.success(res.data.success);
     } catch (error) {
       console.error("Error editing user:", error);
+
+      if (error.response.status === 401) {
+        return toast.error("All Feilds are Required");
+      }
       toast.error("Something went wrong while updating user details.");
     }
   };
@@ -197,30 +189,17 @@ const Store = () => {
     }
   };
 
+  const fetchAllProducts = useCallback(async () => {
 
-  const CreateWomensProducts = async (e, fileUpload) => {
     try {
-      e.preventDefault();
+      const res = await api.get(`/get/AllProducts`);
+      setStore((prev) => ({ ...prev, allProducts: res.data.payload }));
 
-
-      const res = await api.post("/admin/create/womensProducts", fileUpload);
-
-
-
-      if (res) {
-        toast.success(res.data.message);
-      }
-
-      else {
-        toast.error(res.data.message);
-
-      }
     } catch (error) {
       console.log(error);
-      //toast.error(res.data.message);
-    }
-  };
 
+    }
+  }, []);
 
   const getWomensProducts = useCallback(async (category, type) => {
     try {
@@ -269,7 +248,7 @@ const Store = () => {
     }
 
 
-  })
+  }, [])
 
 
   const getNewCollection = useCallback(async (category) => {
@@ -289,7 +268,7 @@ const Store = () => {
 
     }
 
-  })
+  }, [])
 
 
   const ProductDetails = async (ProductId) => {
@@ -375,7 +354,7 @@ const Store = () => {
       if (res.status === 200 || res.status === 201) {
         setTimeout(() => {
           toast.success(res.data.message || "Order created successfully")
-          console.log(res.data.payload);
+
 
         }, 1000);
 
@@ -399,8 +378,7 @@ const Store = () => {
           toast.error("Resource not found");
         } else if (status === 400) {
           toast.error(message);
-
-          navigate("/");
+          navigate("/user/addDetails");
         } else if (status === 500) {
           toast.error("Server error. Please try again later");
         } else {
@@ -438,6 +416,7 @@ const Store = () => {
 
         const res = await api.get(`user/OrderById/${orderId}`);
 
+
         setStore((prev) => ({ ...prev, OrderById: res.data.payload }));
 
       } catch (error) {
@@ -461,39 +440,65 @@ const Store = () => {
     } catch (error) {
 
       console.log(error);
-
     }
   }
 
   const SearchInput = async (value) => {
+    try {
+      const res = await api.post(`/product/search/${value}`);
+
+      if (res) {
+
+        if (res.data.payload && res.data.payload.length > 0) {
+
+          setStore((pre) => ({ ...pre, SearchedItems: res.data.payload }));
+          navigate("/Searched/items");
+        } else {
+
+          setStore((pre) => ({ ...pre, SearchedItems: [] }));
+          navigate("/Searched/items");
+        }
+      }
+    } catch (error) {
+      console.log("Server Error: ", error);
+
+
+      if (error.response) {
+
+        if (error.response.status === 404) {
+
+          setStore((pre) => ({ ...pre, SearchedItems: [] }));
+          navigate("/Searched/items");
+        } else {
+
+          setStore((pre) => ({ ...pre, SearchedItems: [] }));
+          navigate("/Searched/items");
+        }
+      } else {
+        // In case of network or other issues
+        console.error("Error details: ", error);
+        setStore((pre) => ({ ...pre, SearchedItems: [] }));
+        navigate("/Searched/items");
+      }
+    }
+  };
+
+  const SuggestedPro = async (value) => {
 
     try {
 
-
-      console.log("value " + value);
-
-      const res = await api.post(`/product/search/${value}`);
+      const res = await api.get(`/user/SuggestedItems/${value}`);
+      setStore((prev) => ({ ...prev, SuggestedItems: res.data.payload }));
 
 
-      if (res) {
-        navigate("/Searched/items");
-
-        setStore((pre) => ({ ...pre, SearchedItems: res.data.payload }))
-
-      }
 
     } catch (error) {
 
-      console.log("Server Error" + Error);
-
     }
-
-
   }
 
 
   //  Admin Api's
-
 
   const adminSignUp = async (e, formData) => {
     try {
@@ -562,15 +567,11 @@ const Store = () => {
 
   const deleteProducts = async (productId) => {
 
-
     try {
 
-
-
       const res = await api.delete(`/admin/delete/newCollection/${productId}`);
-
-
       toast.success(res.data.message);
+
 
     } catch (error) {
       console.log("Server Error");
@@ -665,16 +666,17 @@ const Store = () => {
         loginHandler,
         ResetLink,
         CreateProducts,
+        fetchAllProducts,
         ProductDetails,
         fetchUserData,
         addToCart,
         fetchCartItems,
         removeFromCart,
         SearchInput,
+        SuggestedPro,
         logout,
         ProfiePic,
-        editUser,
-        CreateWomensProducts,
+        editAddress,
         getWomensProducts,
         adminSignUp,
         adminLogin,

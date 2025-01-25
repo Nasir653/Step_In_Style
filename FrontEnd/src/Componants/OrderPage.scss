@@ -6,6 +6,14 @@
     background: linear-gradient(135deg, #ffffff, #f0f4f7);
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
+    position: relative;
+
+    &.blur-background {
+        .order-summary {
+            filter: blur(5px);
+            pointer-events: none;
+        }
+    }
 
     .order-summary {
         background: #fff;
@@ -144,6 +152,181 @@
         to {
             opacity: 1;
             transform: translateY(0);
+        }
+    }
+
+    .address-popup,
+    .address-view-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .address-popup .popup-content,
+    .address-view-modal .modal-content {
+        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        width: 450px;
+        max-width: 90%;
+        z-index: 1100;
+        animation: popupFadeIn 0.4s ease;
+
+        h3 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            position: relative;
+
+            &:after {
+                content: '';
+                display: block;
+                width: 60px;
+                height: 4px;
+                background: #007bff;
+                margin: 10px auto 0;
+                border-radius: 2px;
+            }
+        }
+
+        .address-details {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            p {
+                margin: 10px 0;
+                font-size: 18px;
+                color: #34495e;
+
+                strong {
+                    font-weight: bold;
+                    color: #2c3e50;
+                }
+            }
+
+            .btn-secondary {
+                display: inline-block;
+                background-color: #f44336;
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 10px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 10px;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #d32f2f;
+                }
+            }
+        }
+    }
+
+    @keyframes popupFadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    // Editing Mode styles
+    .edit-address {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        /* Reduced gap between elements */
+        height: auto;
+        /* Allowing height to adjust based on content */
+
+        input {
+            padding: 6px 10px;
+            /* Reduced padding */
+            font-size: 14px;
+            /* Smaller font size */
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 6px;
+            /* Reduced margin */
+            outline: none;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: #007bff;
+            }
+        }
+
+        button {
+            margin-top: 8px;
+            /* Reduced margin */
+            padding: 8px 12px;
+            /* Smaller padding */
+            font-size: 14px;
+            /* Smaller font size */
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            /* Align buttons in a single row */
+            gap: 10px;
+            /* Smaller gap between buttons */
+
+            button {
+                flex: 1;
+                /* Ensure buttons take equal width */
+            }
+        }
+    }
+
+    // Close Popup Styles
+    .close-popup {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.3s ease;
+
+        &:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+        &::before {
+            content: '×';
+            font-size: 20px;
+            font-weight: bold;
+            display: block;
+            text-align: center;
         }
     }
 }

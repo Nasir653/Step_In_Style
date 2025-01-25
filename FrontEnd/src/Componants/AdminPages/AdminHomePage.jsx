@@ -2,14 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "./AdminHome.scss";
 import { context } from '../../Context/Store';
+import AllOrdersPage from './AllOrdersPage';
 
 const AdminHomePage = () => {
 
     const { fetchAllOrders, AllOrders, getLastMonthsUsers, Last30DaysUsers } = useContext(context)
-
-
-
-
 
     useEffect(() => {
         fetchAllOrders();
@@ -20,9 +17,6 @@ const AdminHomePage = () => {
 
 
     const PendingOrders = AllOrders.filter((ele) => ele.orderStatus === "pending");
-
-
-
 
 
     return (
@@ -44,11 +38,14 @@ const AdminHomePage = () => {
                                 aria-expanded="false"
                                 style={{ cursor: 'pointer' }}
                             >
-                                Create Product
+                                Product
                             </label>
                             <ul className="dropdown-menu">
                                 <li>
-                                    <Link to="/Create/mensProducts" className="dropdown-item">Create Product</Link>
+                                    <Link to="/Create/Products" className="dropdown-item">Create Products</Link>
+                                </li>
+                                <li>
+                                    <Link to="/get/AllProducts" className="dropdown-item">All Products</Link>
                                 </li>
                                 {/* <li>
                                     <Link to="/Create/womensProducts" className="dropdown-item">Womens Sector</Link>
@@ -88,7 +85,15 @@ const AdminHomePage = () => {
 
                         </div>
                     </div>
+
+                    <div className="col">
+
+                        <AllOrdersPage />
+                    </div>
                 </div>
+
+
+
             </div>
         </div>
     );

@@ -1,0 +1,136 @@
+.products-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+
+    .products-title {
+        text-align: center;
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .filter-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+
+        label {
+            font-size: 1.2rem;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 8px 12px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: #2575fc;
+            }
+        }
+    }
+
+    .products-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 auto;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+        th,
+        td {
+            padding: 10px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        th {
+            background-color: #2575fc;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        td {
+            vertical-align: middle;
+
+            .product-image {
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: 6px;
+                border: 1px solid #ddd;
+            }
+
+            input {
+                padding: 6px 10px;
+                font-size: 1rem;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                width: 100%;
+                box-sizing: border-box;
+
+                &:focus {
+                    border-color: #2575fc;
+                    outline: none;
+                }
+            }
+
+            .edit-btn,
+            .delete-btn,
+            .update-btn {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .edit-btn {
+                background-color: #2575fc;
+                color: white;
+
+                &:hover {
+                    background-color: #1e60d5;
+                }
+            }
+
+            .update-btn {
+                background-color: #28a745;
+                color: white;
+
+                &:hover {
+                    background-color: #218838;
+                }
+            }
+
+            .delete-btn {
+                background-color: #dc3545;
+                color: white;
+
+                &:hover {
+                    background-color: #c82333;
+                }
+            }
+        }
+
+        .no-products {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #777;
+            padding: 20px;
+            font-style: italic;
+        }
+    }
+}

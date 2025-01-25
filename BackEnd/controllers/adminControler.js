@@ -136,18 +136,26 @@ const getAllProducts = async (req, res) => {
   try {
     const { category, type } = req.params;
 
-    const getData = await Products.find({
-      $and: [
-        { category: { $regex: category, $options: "i" } },
-        { type: { $regex: type, $options: "i" } },
-      ],
-    });
+    let query = {};
 
-    if (getData) {
+    if (category && type) {
+      query = {
+        $and: [
+          { category: { $regex: category, $options: "i" } },
+          { type: { $regex: type, $options: "i" } },
+        ],
+      };
+    }
+
+    const getData = await Products.find(query, { subCategory: 0 });
+    if (getData.length > 0) {
       messageHandler(res, 200, "Your data", getData);
+    } else {
+      messageHandler(res, 404, "No products found");
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    messageHandler(res, 500, "An error occurred", error.message);
   }
 };
 
@@ -329,8 +337,9 @@ const fetchNewCategory = async (req, res) => {
 
 const fetchAllOrder = async (req, res) => {
   try {
-    const fetchOrders = await Orders.find();
-
+    const fetchOrders = await Orders.find().populate({
+      path: "productId",
+    });
     if (fetchOrders) {
       return messageHandler(res, 200, "All Orders", fetchOrders);
     }

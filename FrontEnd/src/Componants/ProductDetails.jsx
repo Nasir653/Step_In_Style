@@ -4,7 +4,7 @@ import { context } from "../Context/Store";
 import "./ProductDetails.scss";
 
 const ProductDetails = () => {
-  const { productById, addToCart, ProductDetails } = useContext(context);
+  const { productById, addToCart, ProductDetails, SuggestedPro, Suggesteditems } = useContext(context);
   const { productId } = useParams();
 
   const [selectedSize, setSelectedSize] = useState("");
@@ -14,6 +14,15 @@ const ProductDetails = () => {
   useEffect(() => {
     ProductDetails(productId);
   }, [productId]);
+
+  useEffect(() => {
+    if (productById && productById.type) {
+      SuggestedPro(productById.type);
+    }
+  }, [productById]);
+
+
+
 
   const handleSizeChange = (size) => {
     setSelectedSize(size);
@@ -56,7 +65,7 @@ const ProductDetails = () => {
             <h3>{productById.details}</h3>
             <h3>Price: {productById.price} INR</h3>
 
-            {/* Size Selector */}
+
             <div className="size-options">
               <span>Size:</span>
               <div className="size-buttons">
@@ -73,7 +82,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Color Selector */}
+
             <div className="color-options">
               <span>Color:</span>
               <div className="color-swatch-container">
@@ -93,7 +102,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Quantity Selector */}
+
             <div className="quantity-options">
               <span>Quantity:</span>
               <div className="quantity-controls">
@@ -113,7 +122,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Add to Cart Button */}
+
             <button
               onClick={handleAddToCart}
               disabled={!selectedSize || !selectedColor}
@@ -127,5 +136,6 @@ const ProductDetails = () => {
     </div>
   );
 };
+
 
 export default ProductDetails;

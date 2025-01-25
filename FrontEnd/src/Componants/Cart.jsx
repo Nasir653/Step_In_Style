@@ -36,7 +36,7 @@ const Cart = () => {
       color: product.color,
       size: product.size,
       qty: quantities[product._id],
-      orderCost: product.price * quantities[product._id],
+      price: product.price * quantities[product._id],
     };
 
     // Call the Order function and pass the formdata

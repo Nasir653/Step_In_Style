@@ -1,52 +1,39 @@
-import React, { useContext } from 'react'
-import { context } from '../Context/Store'
+import React, { useContext } from 'react';
+import { context } from '../Context/Store';
+import './SearchedProducts.scss';
+import { useNavigate } from 'react-router-dom';
+
 
 const SearchedProducts = () => {
-
-    const { SearchedItems } = useContext(context);
-
-    
-    
-
+    const { SearchedItems, ProductDetails } = useContext(context);
+    const navigate = useNavigate();
 
     return (
-        <div className='cart'>
-
-
-            {SearchedItems.length > 0 ? (SearchedItems.map((ele) => (
-
-                <div className="items">
-
-                    <img src={ele.imageUrl} alt="ele.title" className="img" />
-
-                    <div className="text">
-                        <h4>{ele.title}</h4>
-                        <h3>{ele.details}</h3>
-                        <h3>{ele.price}</h3>
-
-
-
-                        <button>Place Order</button>
-
-                    </div>
-
-
-
-
+        <div className="searched-products">
+            {(!SearchedItems || SearchedItems.length === 0) ? (
+                <div className="no-items-container">
+                    <p className="no-items">No items found</p>
                 </div>
-
-
-
-            ))) : (<p>UnAvaiable</p>)
-
-
-            }
-
-
-
+            ) : (
+                SearchedItems.map((ele) => (
+                    <div className="searched-item" key={ele._id} onClick={() => {
+                        navigate(`/product/details/${ele._id}`);
+                    }}>
+                        <img
+                            src={ele.imageUrl}
+                            alt={ele.title}
+                            className="searched-item-img"
+                        />
+                        <div className="searched-item-details">
+                            <h4 className="searched-item-title">{ele.title}</h4>
+                            <h5 className="searched-item-description">{ele.details}</h5>
+                            <h3 className="searched-item-price">INR {ele.price}</h3>
+                        </div>
+                    </div>
+                ))
+            )}
         </div>
+    );
+};
 
-    )
-}
-
-export default SearchedProducts
+export default SearchedProducts;

@@ -207,37 +207,72 @@ const ResetPass = async (req, res) => {
   }
 };
 
-const EditUser = async (req, res) => {
+const EditAddress = async (req, res) => {
   try {
+    const {
+      fullName,
+      street,
+      city,
+      district,
+      state,
+      pincode,
+      landmark,
+      contact,
+    } = req.body;
+
     console.log(req.body);
 
-    const { phone, address } = req.body;
-    const userId = req.userId; // Assume userId is provided by authentication middleware
+    const userId = req.userId;
 
-    // Validate input
-    if (!phone || !address || !address.length) {
-      return res.status(400).json({ error: "Phone and address are required." });
+    if (
+      !fullName ||
+      !contact ||
+      !street ||
+      !city ||
+      !district ||
+      !state ||
+      !pincode ||
+      !landmark
+    ) {
+      return messageHandler(res, 401, "All Field are Required");
     }
 
-    // Find and update the user
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { phone, address },
-      { new: true }
-    );
-
-    if (!updatedUser) {
-      return res.status(404).json({ error: "User not found" });
+    const user = await User.findById(userId);
+    if (!user) {
+      return messageHandler(res, 404, "User Not Found");
     }
 
-    return res
-      .status(200)
-      .json({ success: "User updated successfully", updatedUser });
+    if (!user.address || user.address.length === 0) {
+      user.address = [
+        {
+          fullName,
+          street,
+          city,
+          district,
+          state,
+          pincode,
+          landmark,
+          contact,
+        },
+      ];
+    } else {
+      user.address[0] = {
+        fullName,
+        street,
+        city,
+        district,
+        state,
+        pincode,
+        landmark,
+        contact,
+      };
+    }
+    await user.save();
+
+    return messageHandler(res, 200, "Adress is Addded Successfully", user);
   } catch (error) {
     console.error("Error updating user:", error);
-    return res
-      .status(500)
-      .json({ error: "Something went wrong while updating user details" });
+    return messageHandler(res, 500, "Server Error");
   }
 };
 
@@ -268,20 +303,25 @@ const searchInput = async (req, res) => {
   try {
     const { value } = req.params;
 
-    console.log(value);
-
-    const product = await Products.find();
-
-    const getProduct = product.filter(
-      (ele) => ele.type === value || ele.title.startsWith(value)
-    );
-
-    if (getProduct) {
-      return messageHandler(res, 200, "Your Searched Items", getProduct);
+    if (!value) {
+      return messageHandler(res, 400, "Search value is required");
     }
+
+    const matchingProducts = await Products.find({
+      $or: [
+        { title: { $regex: value, $options: "i" } },
+        { type: { $regex: value, $options: "i" } },
+      ],
+    });
+
+    if (matchingProducts.length === 0) {
+      return messageHandler(res, 404, "No products found matching your search");
+    }
+
+    return messageHandler(res, 200, "Your Searched Items", matchingProducts);
   } catch (error) {
-    messageHandler(res, 500, "Server Error");
-    console.log(Error);
+    console.error("Server Error:", error);
+    return messageHandler(res, 500, "Server Error");
   }
 };
 
@@ -397,46 +437,69 @@ const CreateOrder = async (req, res) => {
   try {
     const userId = req.userId;
 
-    const { orderCost, size, color, qty } = req.body;
-    console.log(req.body);
-
+    const { price, size, color, qty } = req.body;
     const { productId } = req.params;
 
     const user = await User.findById(userId);
 
     if (!user) {
-      return messageHandler(res, 401, "UnAuthorized ! Please Login Again");
+      return messageHandler(res, 401, "Unauthorized! Please login again.");
     }
 
-    const Order = await Orders.create({
-      orderCost: orderCost,
-      size: size,
-      color: color,
-      qty: qty,
+    if (!user.address || user.address.length === 0) {
+      return messageHandler(res, 400, "Please add an address to your profile.");
+    }
+
+    const totalCost = qty * price;
+
+    const userAddress = user.address[0];
+
+    const order = await Orders.create({
       user: userId,
-      productId: productId,
+      products: [
+        {
+          productId: productId,
+          qty: qty,
+          price: price,
+          size: size,
+          color: color,
+        },
+      ],
+      address: [
+        {
+          fullname: user.username,
+          street: userAddress.street,
+          city: userAddress.city,
+          district: userAddress.district,
+          state: userAddress.state,
+          contact: user.phone,
+          pincode: userAddress.pincode,
+          landmark: userAddress.landmark,
+        },
+      ],
+      totalAmount: totalCost,
     });
 
-    if (!Order) {
-      return messageHandler(res, 404, "Something Went Wrong");
-    } else {
-      messageHandler(res, 200, "Order Created Successfully", Order);
-      user.orders.push(Order._id.toString());
-      user.save();
+    if (!order) {
+      return messageHandler(res, 500, "Failed to create the order.");
     }
+
+    user.orders.push(order._id.toString());
+    await user.save();
+
+    return messageHandler(res, 200, "Order created successfully", order);
   } catch (error) {
-    console.log(error);
-    messageHandler(res, 500, "Server Error");
+    console.error("Error in CreateOrder:", error);
+    return messageHandler(res, 500, "Server error. Please try again later.");
   }
 };
 
 const fetchOrderById = async (req, res) => {
   try {
     const { OrderId } = req.params;
-    console.log(req.params);
 
     const fetch = await Orders.findById(OrderId).populate({
-      path: "productId",
+      path: "products.productId",
     });
 
     if (!fetch) {
@@ -469,6 +532,27 @@ const CancelOrder = async (req, res) => {
   }
 };
 
+const SuggestedItems = async (req, res) => {
+  try {
+    const { type } = req.params;
+
+    const fetch = await Products.find({ type: type });
+
+    if (!fetch) {
+      return messageHandler(
+        res,
+        404,
+        "No Suggestion Items found of this product"
+      );
+    }
+
+    return messageHandler(res, 200, "Suggested Items for This Product", fetch);
+  } catch (error) {
+    console.log(error);
+    return messageHandler(res, 500, "Server Error");
+  }
+};
+
 module.exports = {
   signup,
   loginHandler,
@@ -482,7 +566,8 @@ module.exports = {
   searchInput,
   Logout,
   ProfilePic,
-  EditUser,
+  EditAddress,
   CancelOrder,
   fetchOrderById,
+  SuggestedItems,
 };

@@ -3,14 +3,16 @@ import { context } from "../Context/Store";
 import "./UserDetails.scss";
 
 const UserDetails = () => {
-    const { editUser } = useContext(context);
+    const { editAddress } = useContext(context);
     const [addressInput, setAddressInput] = useState({
+        fullName: "",
         street: "",
+        city: "",
         district: "",
         state: "",
         pincode: "",
         landmark: "",
-        phone: "",
+        contact: "",
     });
 
     const handleChange = (e) => {
@@ -20,17 +22,19 @@ const UserDetails = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Submit the address data directly without displaying it
-        editUser(e, { addresses: [addressInput] });
 
-        // Reset the form input after submission
+        editAddress(e, addressInput);
+
+
         setAddressInput({
+            fullName: "",
             street: "",
+            city: "",
             district: "",
             state: "",
             pincode: "",
             landmark: "",
-            phone: "",
+            contact: "",
         });
     };
 
@@ -40,10 +44,24 @@ const UserDetails = () => {
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
+                    name="fullName"
+                    value={addressInput.fullName}
+                    onChange={handleChange}
+                    placeholder="Enter FullName"
+                />
+                <input
+                    type="text"
                     name="street"
                     value={addressInput.street}
                     onChange={handleChange}
                     placeholder="Enter street"
+                />
+                <input
+                    type="text"
+                    name="city"
+                    value={addressInput.city}
+                    onChange={handleChange}
+                    placeholder="Enter city"
                 />
                 <input
                     type="text"
@@ -76,7 +94,7 @@ const UserDetails = () => {
                 <input
                     type="text"
                     name="phone"
-                    value={addressInput.phone}
+                    value={addressInput.contact}
                     onChange={handleChange}
                     placeholder="Enter phone number"
                 />

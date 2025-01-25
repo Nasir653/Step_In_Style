@@ -9,11 +9,14 @@ const UserSchema = new mongoose.Schema({
   IsAdmin: { type: Boolean, default: false },
   address: [
     {
+      fullName: { type: String },
       street: { type: String },
       city: { type: String },
+      district: { type: String },
       state: { type: String },
       pincode: { type: String },
       landmark: { type: String },
+      contact: { type: String },
     },
   ],
   cart: [

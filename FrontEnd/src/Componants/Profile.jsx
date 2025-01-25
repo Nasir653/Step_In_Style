@@ -4,7 +4,7 @@ import "./Profile.scss";
 
 const Profile = () => {
 
-    const { UserData, ProfiePic, cart, fetchUserData, loading } = useContext(context);
+    const { UserData, ProfiePic, cart, } = useContext(context);
 
 
     const [formData, setFormData] = useState(null)
