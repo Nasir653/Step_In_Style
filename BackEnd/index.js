@@ -36,6 +36,7 @@ const {
   getProductById,
   fetchAllOrder,
   getLastMonthUsers,
+  editProducts,
 } = require("./controllers/adminControler");
 const { multMid } = require("./middleWares/imgUploader");
 const { productDetails } = require("./controllers/Products");
@@ -88,6 +89,7 @@ app.get("/user/SuggestedItems/:type", IsAuthenticated, SuggestedItems);
 //app.post("/admin/signup", AdminRegistration);
 app.post("/admin/login", AdminLogin);
 app.post("/admin/createProducts", multMid, CreateProducts);
+app.put("/admin/editProducts/:ProductId", editProducts);
 app.get("/get/newCollection/:category", newCollectionProducts);
 app.put("/admin/edits/newCollection/:productId", multMid, editNewCollection);
 app.delete("/admin/delete/newCollection/:productId", deleteNewCollection);
@@ -104,9 +106,7 @@ app.get("/getAllProducts/:category/:type", getAllProducts);
 app.get("/getProductById/:productId", getProductById);
 app.get("/get/newCollection/:category", getAllProducts);
 app.get("/get/trendingCollection/:category", getAllProducts);
-
 app.get("/product/details/:ProductId", productDetails);
-
 app.post("/product/search/:value", IsAuthenticated, searchInput);
 
 //Cart Routes

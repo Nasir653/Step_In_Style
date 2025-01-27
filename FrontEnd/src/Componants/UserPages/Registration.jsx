@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import './Registration.scss';
 import { Link } from 'react-router-dom';
-import { context } from '../Context/Store';
+import { context } from '../../Context/Store';
 
 export const Registration = () => {
 

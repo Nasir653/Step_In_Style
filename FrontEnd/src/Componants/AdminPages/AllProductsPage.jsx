@@ -31,16 +31,18 @@ const AllProductsPage = () => {
 
     const handleEdit = (product) => {
         setEditingProductId(product._id);
-        setFormData({ ...product }); // Pre-fill the form with the existing product data
+        setFormData({ ...product });
     };
 
-    const handleUpdate = (productId) => {
-        EditProducts(productId, formData);
-        setEditingProductId(null); // Exit editing mode after updating
+    const handleUpdate = async (productId) => {
+        await EditProducts(productId, formData);
+        setEditingProductId(null);
+        fetchAllProducts();
     };
 
-    const handleDelete = (productId) => {
-        deleteProducts(productId);
+    const handleDelete = async (productId) => {
+        await deleteProducts(productId);
+        fetchAllProducts();
     };
 
     const handleInputChange = (e) => {
@@ -52,7 +54,7 @@ const AllProductsPage = () => {
         <div className="products-container">
             <h1 className="products-title">All Products</h1>
 
-            {/* Category Filter */}
+
             <div className="filter-container">
                 <label htmlFor="category-filter">Filter by Category: </label>
                 <select

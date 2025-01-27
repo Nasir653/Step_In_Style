@@ -5,7 +5,7 @@ import { context } from "../../../Context/Store";
 import { Link } from "react-router-dom";
 
 const EditNewCollection = () => {
-    const { NewCollection, getNewCollection, EditProducts, deleteProducts } = useContext(context);
+    const { NewCollection, getNewCollection, EditNewCollection, deleteProducts } = useContext(context);
     const navigate = useNavigate();
 
     const [editingProductId, setEditingProductId] = useState(null);
@@ -42,7 +42,7 @@ const EditNewCollection = () => {
         formData.append("title", productData.title);
         formData.append("price", productData.price);
 
-        EditProducts(formData, productId);
+        EditNewCollection(formData, productId);
         setImage(null); // Reset image state after submission
     };
 
@@ -107,7 +107,7 @@ const EditNewCollection = () => {
                                             <button onClick={() => handleEdit(product)}>
                                                 Edit
                                             </button>
-                                                <button onClick={() => deleteProducts(product._id)}>Delete</button>
+                                            <button onClick={() => deleteProducts(product._id)}>Delete</button>
                                         </div>
                                     </>
                                 )}

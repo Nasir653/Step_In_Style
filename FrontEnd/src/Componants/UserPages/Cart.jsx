@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { context } from '../Context/Store';
+import { context } from '../../Context/Store';
 import './Cart.scss';
 
 const Cart = () => {

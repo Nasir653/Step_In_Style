@@ -94,15 +94,23 @@ const fetchUserData = async (req, res) => {
   try {
     const userId = req.userId;
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate({
+      path: "orders",
+      populate: {
+        path: "products.productId",
+        model: "Products",
+      },
+    });
 
     if (!user) {
-      return messageHandler(res, 404, "Please Login ");
+      return messageHandler(res, 404, "Please Login");
     }
 
-    messageHandler(res, 200, " User Data", user);
+    messageHandler(res, 200, "User Data", user);
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching user data:", error);
+
+    messageHandler(res, 500, "Internal Server Error");
   }
 };
 
@@ -516,15 +524,13 @@ const CancelOrder = async (req, res) => {
   try {
     const { OrderId } = req.params;
 
-    const fetch = await Orders.findById(OrderId);
+    const fetch = await Orders.findByIdAndUpdate(OrderId, {
+      orderStatus: "Cancelled",
+    });
 
     if (!fetch) {
       return messageHandler(res, 404, "Order Not Found");
     }
-
-    fetch.orderStatus = "cancelled";
-
-    await fetch.save();
     messageHandler(res, 200, "Order Cancelled");
   } catch (error) {
     console.log(Error);

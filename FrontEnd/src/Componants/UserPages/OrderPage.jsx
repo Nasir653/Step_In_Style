@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { context } from "../Context/Store";
+import { context } from "../../Context/Store";
 import { useParams } from "react-router-dom";
 import "./OrderPage.scss";
 
 const OrderPage = () => {
-    const { fetchOrderBtyId, OrderById, cancelOrder, editAddress, UserData } = useContext(context);
+    const { fetchOrderBtyId, OrderById, UserCancelOrder, editAddress, UserData } = useContext(context);
     const { OrderId } = useParams();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -64,7 +64,8 @@ const OrderPage = () => {
                             <div className="item-details">
                                 <h4 className="item-title">{product.productId.title}</h4>
                                 <p className="item-info">
-                                    <span>Category:</span> {product.productId.type}
+                                    {product.productId.type}
+
                                 </p>
                                 <p className="item-info">
                                     <span>Size:</span> {product.size}
@@ -95,7 +96,7 @@ const OrderPage = () => {
 
                         <button
                             className="btn-secondary"
-                            onClick={() => cancelOrder(OrderById._id)}
+                            onClick={() => UserCancelOrder(OrderById._id)}
                         >
                             Cancel Order
                         </button>

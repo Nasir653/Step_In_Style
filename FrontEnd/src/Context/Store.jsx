@@ -25,7 +25,7 @@ const Store = () => {
     AllOrders: [],
     OrderById: [],
     Last30DaysUsers: [],
-
+    OrderedProducts: [],
 
   });
 
@@ -153,10 +153,7 @@ const Store = () => {
 
   const editAddress = async (e, formData) => {
     e.preventDefault();
-
     try {
-
-
       const res = await api.post("/edit/user", formData);
       console.log("User updated successfully:", res);
       toast.success(res.data.success);
@@ -170,24 +167,6 @@ const Store = () => {
     }
   };
 
-
-  const CreateProducts = async (e, fileUpload) => {
-    try {
-      e.preventDefault();
-
-      const url = "http://localhost:4000/admin/createProducts";
-      const res = await axios.post(url, fileUpload);
-
-
-
-      if (res) {
-        toast.success(res.data.message);
-      }
-    } catch (error) {
-      console.log(error);
-      //toast.error(res.data.message);
-    }
-  };
 
   const fetchAllProducts = useCallback(async () => {
 
@@ -397,16 +376,15 @@ const Store = () => {
   };
 
   const fetchAllOrders = async () => {
+    try {
 
+      const res = await api.get("/fetch/allOrders");
+      setStore((prev) => ({ ...prev, AllOrders: res.data.payload }));
 
-    const res = await api.get("/fetch/allOrders");
+    } catch (error) {
+      console.log(error);
 
-
-    setStore((prev) => ({ ...prev, AllOrders: res.data.payload }));
-
-
-
-
+    }
   }
 
   const fetchOrderBtyId = useCallback(
@@ -430,7 +408,7 @@ const Store = () => {
     []);
 
 
-  const cancelOrder = async (OrderId) => {
+  const UserCancelOrder = async (OrderId) => {
     try {
 
       const res = await api.get(`/user/CancelOrder/${OrderId}`)
@@ -543,8 +521,45 @@ const Store = () => {
     }
   }
 
+  const CreateProducts = async (e, fileUpload) => {
+    try {
+      e.preventDefault();
 
-  const EditProducts = async (formData, productId) => {
+      const url = "http://localhost:4000/admin/createProducts";
+      const res = await axios.post(url, fileUpload);
+
+
+
+      if (res) {
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+
+    }
+  };
+
+
+  const EditProducts = async (productId, formData) => {
+
+    try {
+
+      const res = await api.put(`/admin/editProducts/${productId}`, formData);
+
+
+      toast.success(res.data.message);
+
+    } catch (error) {
+      console.log("Server Error");
+
+    }
+    finally {
+
+    }
+  }
+
+
+  const EditNewCollection = async (formData, productId) => {
 
 
     try {
@@ -658,6 +673,19 @@ const Store = () => {
     }
   }
 
+  const AdminCancelOrder = async (OrderId) => {
+    try {
+
+      const res = await api.get(`/user/CancelOrder/${OrderId}`)
+      toast.success(res.data.message || " This Order is Cancelled successfully")
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  }
+
+
   return (
     <context.Provider
       value={{
@@ -666,6 +694,7 @@ const Store = () => {
         loginHandler,
         ResetLink,
         CreateProducts,
+        EditProducts,
         fetchAllProducts,
         ProductDetails,
         fetchUserData,
@@ -686,13 +715,14 @@ const Store = () => {
         addNewCategory,
         editNewCategory,
         fetchNewCategory,
-        EditProducts,
+        EditNewCollection,
         deleteProducts,
         Order,
         fetchAllOrders,
         fetchOrderBtyId,
-        cancelOrder,
+        UserCancelOrder,
         getLastMonthsUsers,
+        AdminCancelOrder,
 
 
       }}

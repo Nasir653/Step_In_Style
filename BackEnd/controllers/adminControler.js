@@ -175,6 +175,35 @@ const getProductById = async (req, res) => {
     console.log(error);
   }
 };
+
+const editProducts = async (req, res) => {
+  try {
+    const { ProductId } = req.params;
+    const { title, details, price, category, colors, sizes, qty } = req.body;
+
+    const update = await Products.findByIdAndUpdate(ProductId, {
+      title: title,
+      details: details,
+      price: price,
+      category: category,
+      colors: colors,
+      sizes: sizes,
+      qty: qty,
+    });
+
+    if (!update) {
+      return messageHandler(
+        res,
+        404,
+        "Something went wrong ! Try After Some Time"
+      );
+    }
+    return messageHandler(res, 200, "Edited Sucessfully", update);
+  } catch (error) {
+    return messageHandler(res, 500, "Server Error");
+  }
+};
+
 const newCollectionProducts = async (req, res) => {
   try {
     const { category } = req.params;
@@ -238,7 +267,7 @@ const deleteNewCollection = async (req, res) => {
       return messageHandler(res, 404, "Something went wrong");
     }
 
-    return messageHandler(res, 204, "Deleted Sucessfully");
+    return messageHandler(res, 200, "Deleted Sucessfully");
   } catch (error) {
     return messageHandler(res, 500, "Server Error");
   }
@@ -338,7 +367,7 @@ const fetchNewCategory = async (req, res) => {
 const fetchAllOrder = async (req, res) => {
   try {
     const fetchOrders = await Orders.find().populate({
-      path: "productId",
+      path: "products.productId",
     });
     if (fetchOrders) {
       return messageHandler(res, 200, "All Orders", fetchOrders);
@@ -388,4 +417,5 @@ module.exports = {
   getProductById,
   fetchAllOrder,
   getLastMonthUsers,
+  editProducts,
 };

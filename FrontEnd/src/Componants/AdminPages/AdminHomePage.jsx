@@ -9,7 +9,7 @@ const AdminHomePage = () => {
     const { fetchAllOrders, AllOrders, getLastMonthsUsers, Last30DaysUsers } = useContext(context)
 
     useEffect(() => {
-        fetchAllOrders();
+        fetchAllOrders()
         getLastMonthsUsers()
 
 

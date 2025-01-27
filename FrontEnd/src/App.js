@@ -1,20 +1,20 @@
-import ForgetPassword from "./Componants/ForgetPassword";
+import ForgetPassword from "./Componants/UserPages/ForgetPassword";
 import { Route, Routes } from "react-router-dom";
-import Login from "./Componants/Login";
-import { Registration } from "./Componants/Registration";
+import Login from "./Componants/UserPages/Login";
+import { Registration } from "./Componants/UserPages/Registration";
 import NavBar from "./SharedComponants/NavBar";
-import ResetPass from "./Componants/ResetPass";
-import NoPageFound from "./Componants/NoPageFound";
-import ProductDetails from "./Componants/ProductDetails";
+import ResetPass from "./Componants/UserPages/ResetPass";
+import NoPageFound from "./Componants/UserPages/NoPageFound";
+import ProductDetails from "./Componants/UserPages/ProductDetails";
 import { context } from "./Context/Store";
 import { useContext, useEffect } from "react";
-import Cart from "./Componants/Cart";
-import SearchedProducts from "./Componants/SearchedProducts";
+import Cart from "./Componants/UserPages/Cart";
+import SearchedProducts from "./Componants/UserPages/SearchedProducts";
 import HomePage from "./Componants/HomePage/HomePage";
 import Mens from "./Componants/MensPage/Mens";
 import Footer from "./SharedComponants/Footer";
 import Womens from "./Componants/Womenspage/Womens";
-import Profile from "./Componants/Profile";
+import Profile from "./Componants/UserPages/Profile";
 import CreateMensProducts from "./Componants/AdminPages/CreateProducts";
 import AdminHomePage from "./Componants/AdminPages/AdminHomePage";
 import AdminLogin from "./Componants/AdminPages/AdminLogin";
@@ -22,10 +22,12 @@ import AdminSignUp from "./Componants/AdminPages/AdminSignUp";
 import LandingPage from "./Componants/AdminPages/EditLandingPage/LandingPage";
 import MensCategory from "./Componants/MensPage/MensCategory";
 import WomensCategory from "./Componants/Womenspage/WomensCategory";
-import UserDetails from "./Componants/UserDetails";
-import OrderPage from "./Componants/OrderPage";
+import UserDetails from "./Componants/UserPages/UserDetails";
+import OrderPage from "./Componants/UserPages/OrderPage";
 import CreateProducts from "./Componants/AdminPages/CreateProducts";
 import AllProductsPage from "./Componants/AdminPages/AllProductsPage";
+import OrderStatus from "./Componants/UserPages/OrderStatus";
+import OrderDetails from "./Componants/OrderDetails";
 
 function App() {
   const { fetchUserData, fetchCartItems, loading, fetchNewCategory } =
@@ -47,6 +49,10 @@ function App() {
           <Route path="*" element={<NoPageFound />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/admin/landingPage" element={<LandingPage />} />
+          <Route
+            path="/Order/OrderDetails/:OrderId"
+            element={<OrderDetails />}
+          />
 
           {/* User Routes */}
           <Route path="/user/register" element={<Registration />} />
@@ -56,6 +62,7 @@ function App() {
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/addDetails" element={<UserDetails />} />
           <Route path="/user/PlacedOrder/:OrderId" element={<OrderPage />} />
+          <Route path="/user/OrderStatus" element={<OrderStatus />} />
 
           {/* Product Routes */}
           <Route path="/Searched/items" element={<SearchedProducts />} />

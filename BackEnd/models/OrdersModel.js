@@ -32,6 +32,18 @@ const Orders = mongoose.model("Orders", {
     type: Date,
     default: () => new Date(new Date().setDate(new Date().getDate() + 7)),
   },
+  orderStatus: {
+    type: String,
+    enum: [
+      "Pending",
+      "Confirmed",
+      "Shipped",
+      "Delivered",
+      "Cancelled",
+      "Returned",
+    ],
+    default: "Pending",
+  },
   emailVerified: { type: Boolean, default: false },
   isPaymentDone: { type: Boolean, default: false },
   OrderDate: { type: Date, default: Date.now() },

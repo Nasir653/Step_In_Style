@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { context } from '../Context/Store';
+import { context } from '../../Context/Store';
 import './ForgetPassword.scss';
 
 const ForgetPassword = () => {

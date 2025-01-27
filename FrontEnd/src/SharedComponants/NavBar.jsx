@@ -9,6 +9,8 @@ function NavBar() {
     const { UserData, fetchCartItems, SearchInput, logout } = useContext(context);
     const [searchInput, setSearchInput] = useState("");
 
+
+
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             SearchInput(searchInput);
@@ -19,7 +21,7 @@ function NavBar() {
         <>
             <div className="NavBar">
                 <div className="header">
-                    {/* Replace with your new logo */}
+
                     <img className="logo" src="step-in-style-logo.png" alt="Step in Style Logo" />
 
                     <div className="search-div">
@@ -62,6 +64,11 @@ function NavBar() {
                                 <RiAccountPinCircleFill />
                             </button>
                             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                                <li>
+                                    <Link className="dropdown-item" to="/user/OrderStatus">
+                                        Your Orders
+                                    </Link>
+                                </li>
                                 <li>
                                     <Link className="dropdown-item" to="/user/profile">
                                         Profile

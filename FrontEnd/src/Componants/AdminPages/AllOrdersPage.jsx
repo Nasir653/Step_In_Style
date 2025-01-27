@@ -1,36 +1,36 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { context } from '../../Context/Store';
 import './AllOrdersPage.scss';
+import { useNavigate } from 'react-router-dom';
 
 const AllOrdersPage = () => {
-    const { AllOrders } = useContext(context);
+    const { AllOrders, AdminCancelOrder } = useContext(context);
 
-    // Set today's date as the default for start and end date
+    const navigate = useNavigate();
+
     const today = new Date().toISOString().split('T')[0];
     const [startDate, setStartDate] = useState(today);
     const [endDate, setEndDate] = useState(today);
     const [filteredOrders, setFilteredOrders] = useState([]);
 
     useEffect(() => {
-        // Normalize start and end dates to include the full day range
         const start = new Date(startDate);
-        start.setHours(0, 0, 0, 0); // Set start date to midnight
-
+        start.setHours(0, 0, 0, 0);
         const end = new Date(endDate);
-        end.setHours(23, 59, 59, 999); // Set end date to the end of the day
+        end.setHours(23, 59, 59, 999);
 
-        // Filter orders based on the normalized start and end dates
         const filtered = AllOrders.filter(order => {
-            const createdOnDate = new Date(order.createdOn); // Parse the createdOn date
-            return createdOnDate >= start && createdOnDate <= end; // Compare dates
+            const createdOnDate = new Date(order.OrderDate);
+            return createdOnDate >= start && createdOnDate <= end;
         });
 
-        console.log('Start Date:', start);
-        console.log('End Date:', end);
-        console.log('Filtered Orders:', filtered);
-
-        setFilteredOrders(filtered); // Update filtered orders
+        setFilteredOrders(filtered);
     }, [startDate, endDate, AllOrders]);
+
+
+    const handleViewDetails = (orderId) => {
+        navigate(`/Order/OrderDetails/${orderId}`);
+    };
 
     return (
         <div className="orders-container">
@@ -71,32 +71,38 @@ const AllOrdersPage = () => {
                             <th>Quantity</th>
                             <th>Size</th>
                             <th>Color</th>
-                            <th>Created On</th>
+                            <th>Ordered On</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredOrders.map(order => (
-                            <tr key={order._id}>
-                                <td>
-                                    <img
-                                        src={order.productId.imageUrl}
-                                        alt="Product"
-                                        className="product-image"
-                                    />
-                                </td>
-                                <td>{order.productId.title}</td>
-                                <td>{order.orderStatus}</td>
-                                <td>{order.qty}</td>
-                                <td>{order.size}</td>
-                                <td>{order.color}</td>
-                                <td>{new Date(order.createdOn).toLocaleString()}</td>
-                                <td>
-                                    <button className="details-button">Details</button>
-                                    <button className="dispatch-button">Dispatch Order</button>
-                                    <button className="cancel-button">Cancel Order</button>
-                                </td>
-                            </tr>
+                            <React.Fragment key={order._id}>
+                                {order.products.map((product, index) => (
+                                    <tr key={`${order._id}-${index}`}>
+
+                                        <td>
+                                            <img
+                                                src={product.productId.imageUrl}
+                                                alt="Product"
+                                                className="product-image"
+                                            />
+                                        </td>
+                                        <td>{product.productId.title}</td>
+                                        <td>{order.orderStatus || "Pending"}</td>
+                                        <td>{product.qty}</td>
+                                        <td>{product.size}</td>
+                                        <td>{product.color}</td>
+                                        <td>{new Date(order.OrderDate).toLocaleString()}</td>
+                                        <td>
+
+                                            <button className="details-button" onClick={(e) => handleViewDetails(order._id)} >Details</button>
+                                            <button className="dispatch-button">Dispatch Order</button>
+                                            <button className="cancel-button" onClick={() => AdminCancelOrder(order._id)}>Cancel Order</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </React.Fragment>
                         ))}
                     </tbody>
                 </table>

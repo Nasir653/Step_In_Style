@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { context } from '../Context/Store';
+import { context } from '../../Context/Store';
 import "./Profile.scss";
 
 const Profile = () => {

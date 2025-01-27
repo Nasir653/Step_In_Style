@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
 import './Login.scss';
 import { ToastContainer } from "react-toastify";
-import { context } from '../Context/Store';
+import { context } from '../../Context/Store';
 
 const Login = () => {
   const { loginHandler } = useContext(context);

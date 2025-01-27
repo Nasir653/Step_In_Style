@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { context } from "../Context/Store";
+import { context } from "../../Context/Store";
 import "./ProductDetails.scss";
 
 const ProductDetails = () => {
