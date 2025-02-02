@@ -38,6 +38,7 @@ const Orders = mongoose.model("Orders", {
       "Pending",
       "Confirmed",
       "Shipped",
+      " Out for Delivery",
       "Delivered",
       "Cancelled",
       "Returned",

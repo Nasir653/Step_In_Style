@@ -4,11 +4,11 @@ import "./BestWomens.scss";
 
 const BestWomensCollection = () => {
     return (
-      
+
         <>
             <div className='bestCollection-womens '>
 
-                <div className="row row-cols-lg-5 ">
+                <div className="womens-bestCollection-row">
 
                     <div className="col">
 
@@ -41,9 +41,9 @@ const BestWomensCollection = () => {
 
 
             </div>
-            
+
         </>
-  )
+    )
 }
 
 export default BestWomensCollection

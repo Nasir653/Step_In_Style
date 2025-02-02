@@ -1,18 +1,30 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { context } from '../../Context/Store';
 import './Cart.scss';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Cart = () => {
-  const { cart, removeFromCart, Order } = useContext(context);
+
+  const navigate = useNavigate();
+
+  const { cart, removeFromCart } = useContext(context);
+
+
+
   const [quantities, setQuantities] = useState(
     cart.reduce((acc, item) => {
       acc[item._id] = item.qty;
       return acc;
     }, {})
   );
+
+
+
+
+
   const [grandTotal, setGrandTotal] = useState(0);
 
-  // Update grand total when cart or quantities change
+
   useEffect(() => {
     const total = cart.reduce(
       (acc, item) => acc + item.price * (quantities[item._id] || item.qty),
@@ -28,20 +40,13 @@ const Cart = () => {
     });
   };
 
-  const handleOrder = (e, product) => {
+  const handleOrder = (e, productId) => {
     e.preventDefault();
-
-    // Prepare formdata with updated quantity and other required fields
-    const formdata = {
-      color: product.color,
-      size: product.size,
-      qty: quantities[product._id],
-      price: product.price * quantities[product._id],
-    };
-
-    // Call the Order function and pass the formdata
-    Order(product.productId._id, formdata);
+    navigate(`/user/PlacedOrder/${productId}`);
   };
+
+
+
 
   return (
     <div className="cart-page">
@@ -81,12 +86,21 @@ const Cart = () => {
                     Total: ₹<span>{ele.price * (quantities[ele._id] || ele.qty)}</span>
                   </p>
                   <div className="actions">
-                    <button
+                    {ele.productId.status === "Active" ? <button
                       className="btn-primary"
-                      onClick={(e) => handleOrder(e, ele)}
+                      onClick={(e) => handleOrder(e, ele._id)}
                     >
                       Place Order
-                    </button>
+                    </button> : (
+                      <button
+                        className="btn-primary"
+
+                      >
+                        Out Of Stock
+                      </button>
+                    )
+
+                    }
                     <button
                       className="btn-secondary"
                       onClick={() => removeFromCart(ele._id)}

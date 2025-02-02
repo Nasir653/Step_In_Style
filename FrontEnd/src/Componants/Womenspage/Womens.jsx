@@ -120,7 +120,7 @@ const Womens = () => {
 
             <div className='womens-category'>
 
-                <div className="womens-category-row row row-cols-lg-5 gy-6">
+                <div className="womens-category-row ">
 
 
 
@@ -155,19 +155,19 @@ const Womens = () => {
                     </div>
 
 
-                
+
                     <div className="col" onClick={() => handelRoute("HandsBags")}>
 
-                            <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/a352f908-57c8-4c66-b052-18137cf15e6c1594222967074-Handbags.jpg" alt="" />
+                        <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/a352f908-57c8-4c66-b052-18137cf15e6c1594222967074-Handbags.jpg" alt="" />
 
-                        </div>
-                   
+                    </div>
+
 
 
                 </div>
 
 
-                <div className="row">
+                <div className="womens-collection-row ">
 
                     <BestWomensCollection />
 

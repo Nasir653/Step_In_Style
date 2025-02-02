@@ -151,20 +151,20 @@ const CreateProducts = () => {
 
                 {/* Size */}
                 <div className="mb-3">
-                    <input type="text" placeholder="Sizes" name="sizes"
+                    <input className="form-control" type="text" placeholder="Sizes" name="sizes"
                         value={formData.sizes}
                         onChange={handleChange} />
                 </div>
 
                 {/* Color */}
                 <div className="mb-3">
-                    <input type="text" placeholder="colors" name="colors"
+                    <input className="form-control" type="text" placeholder="colors" name="colors"
                         value={formData.colors}
                         onChange={handleChange} />
 
                 </div>
                 <div className="mb-3">
-                    <input type="number" placeholder="Qty" name="qty"
+                    <input className="form-control" type="number" placeholder="Qty" name="qty"
                         value={formData.qty}
                         onChange={handleChange} />
                 </div>

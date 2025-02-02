@@ -1,6 +1,6 @@
-const moongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-const Products = moongoose.model("Products", {
+const Products = mongoose.model("Products", {
   title: { type: String },
   details: { type: String },
   price: { type: String },
@@ -10,7 +10,6 @@ const Products = moongoose.model("Products", {
     enum: ["Mens", "Womens", "Kids"],
     default: null,
   },
-
   subCategory: {
     type: String,
     enum: ["New Collection", "Trending", "None"],
@@ -21,7 +20,6 @@ const Products = moongoose.model("Products", {
     enum: ["Shirts", "T-Shirts", "Jeans", "Shoes", "Kurtas"],
     default: null,
   },
-
   sizes: String,
   colors: String,
   price: Number,
@@ -31,7 +29,7 @@ const Products = moongoose.model("Products", {
   reviews: [
     {
       user: {
-        type: moongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,
       },
@@ -39,6 +37,12 @@ const Products = moongoose.model("Products", {
       star: { type: Number },
     },
   ],
+
+  status: {
+    type: String,
+    enum: ["Deleted", "Active", "UnAvailable"],
+    default: "Active",
+  },
 });
 
 module.exports = Products;

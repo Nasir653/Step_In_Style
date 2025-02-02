@@ -28,6 +28,9 @@ import CreateProducts from "./Componants/AdminPages/CreateProducts";
 import AllProductsPage from "./Componants/AdminPages/AllProductsPage";
 import OrderStatus from "./Componants/UserPages/OrderStatus";
 import OrderDetails from "./Componants/OrderDetails";
+import Editor from "./Componants/Editor";
+import AllOrdersPage from "./Componants/AdminPages/AllOrdersPage";
+import Customers from "./Componants/AdminPages/Customers";
 
 function App() {
   const { fetchUserData, fetchCartItems, loading, fetchNewCategory } =
@@ -49,6 +52,7 @@ function App() {
           <Route path="*" element={<NoPageFound />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/admin/landingPage" element={<LandingPage />} />
+          <Route path="/Editor" element={<Editor />} />
           <Route
             path="/Order/OrderDetails/:OrderId"
             element={<OrderDetails />}
@@ -61,7 +65,7 @@ function App() {
           <Route path="/user/resetpassword/:userId" element={<ResetPass />} />
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/addDetails" element={<UserDetails />} />
-          <Route path="/user/PlacedOrder/:OrderId" element={<OrderPage />} />
+          <Route path="/user/PlacedOrder/:productId" element={<OrderPage />} />
           <Route path="/user/OrderStatus" element={<OrderStatus />} />
 
           {/* Product Routes */}
@@ -81,6 +85,8 @@ function App() {
           <Route path="/admin" element={<AdminHomePage />} />
           <Route path="/Create/Products" element={<CreateProducts />} />
           <Route path="/get/AllProducts" element={<AllProductsPage />} />
+          <Route path="/admin/allOrder" element={<AllOrdersPage />} />
+          <Route path="/admin/allCustomers" element={<Customers />} />
 
           {/* Cart Routes */}
           <Route path="/user/cart" element={<Cart />} />

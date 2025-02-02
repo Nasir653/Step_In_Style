@@ -1,14 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./OrderDetails.scss";
 import { useParams } from "react-router-dom";
 import { context } from "../Context/Store";
 
 const OrderDetails = () => {
-    const { UserData } = useContext(context);
+    const { UserData, DispatchOrder } = useContext(context);
     const { OrderId } = useParams();
 
+    const [order, setOrder] = useState(null);
 
-    const order = UserData?.orders?.find((o) => o._id === OrderId);
+    useEffect(() => {
+        const currentOrder = UserData?.orders?.find((o) => o._id === OrderId);
+        setOrder(currentOrder);
+    }, [OrderId, UserData]);
 
     if (!order) {
         return (
@@ -23,8 +27,16 @@ const OrderDetails = () => {
         alert(`Order for product ${productId} has been canceled.`);
     };
 
-    const handleDispatchOrder = (productId) => {
-        alert(`Order for product ${productId} has been dispatched.`);
+    const handleDispatchOrder = () => {
+        if (order.orderStatus !== "Confirmed") {
+            DispatchOrder(OrderId);
+
+
+            setOrder((prevOrder) => ({
+                ...prevOrder,
+                orderStatus: "Confirmed",
+            }));
+        }
     };
 
     return (
@@ -68,22 +80,21 @@ const OrderDetails = () => {
                         </div>
 
                         <div className="product-card-btns">
-
-
                             {UserData?.IsAdmin && (
                                 <button
-                                    className="dispatch-order-btn"
-                                    onClick={() => handleDispatchOrder(product.productId._id)} >
-                                    Dispatch Order
+                                    className={`dispatch-order-btn ${order.orderStatus === "Confirmed" ? "dispatched" : ""}`}
+                                    onClick={handleDispatchOrder}
+                                    disabled={order.orderStatus === "Confirmed"}
+                                >
+                                    {order.orderStatus === "Confirmed" ? "Confirmed" : "Dispatch Order"}
                                 </button>
                             )}
                             <button
                                 className="cancel-order-btn"
-                                onClick={() => handleCancelOrder(product.productId._id)} >
+                                onClick={() => handleCancelOrder(product.productId._id)}
+                            >
                                 Cancel Order
                             </button>
-
-
                         </div>
                     </div>
                 ))}

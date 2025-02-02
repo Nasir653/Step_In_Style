@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { context } from "../../Context/Store";
 import "./ProductDetails.scss";
+import SuggestedPro from "./SuggestedPro";
 
 const ProductDetails = () => {
-  const { productById, addToCart, ProductDetails, SuggestedPro, Suggesteditems } = useContext(context);
+
+  const navigate = useNavigate();
+  const { productById, addToCart, ProductDetails, SuggestedProducts } = useContext(context);
   const { productId } = useParams();
 
   const [selectedSize, setSelectedSize] = useState("");
@@ -12,16 +15,19 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    ProductDetails(productId);
+    if (productId) {
+      ProductDetails(productId);
+    }
   }, [productId]);
+
 
   useEffect(() => {
     if (productById && productById.type) {
-      SuggestedPro(productById.type);
+      SuggestedProducts(productById.type);
+      console.log(productById);
+
     }
   }, [productById]);
-
-
 
 
   const handleSizeChange = (size) => {
@@ -53,88 +59,117 @@ const ProductDetails = () => {
     };
 
     addToCart(productById._id, cartItem);
+
+    // navigate("/user/cart");
   };
 
   return (
-    <div className="container-fuild">
-      {productById && (
-        <div key={productById._id} className="productDetails-items">
-          <img src={productById.imageUrl} alt={productById.title} className="img" />
-          <div className="text">
-            <h4>{productById.title}</h4>
-            <h3>{productById.details}</h3>
-            <h3>Price: {productById.price} INR</h3>
 
-
-            <div className="size-options">
-              <span>Size:</span>
-              <div className="size-buttons">
-                {productById.sizes &&
-                  productById.sizes.split(",").map((size, index) => (
-                    <button
-                      key={index}
-                      className={`size-button ${selectedSize === size ? "selected" : ""}`}
-                      onClick={() => handleSizeChange(size)}
-                    >
-                      {size}
-                    </button>
-                  ))}
+    <>
+      <div className="container-fuild">
+        {productById && (
+          <div key={productById._id} className="productDetails-items">
+            <img src={productById.imageUrl} alt={productById.title} className="img" />
+            <div className="text">
+              <h4>{productById.title}</h4>
+              <h3>{productById.details}</h3>
+              <h3>Price: {productById.price} INR</h3>
+              <div className="size-options">
+                <span>Size:</span>
+                <div className="size-buttons">
+                  {productById.sizes &&
+                    productById.sizes.split(",").map((size, index) => (
+                      <button
+                        key={index}
+                        className={`size-button ${selectedSize === size ? "selected" : ""}`}
+                        onClick={() => handleSizeChange(size)}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                </div>
               </div>
-            </div>
 
 
-            <div className="color-options">
-              <span>Color:</span>
-              <div className="color-swatch-container">
-                {productById.colors &&
-                  productById.colors.split(",").map((color, index) => (
-                    <div
-                      key={index}
-                      className={`color-swatch ${selectedColor === color ? "selected" : ""
-                        }`}
-                      onClick={() => handleColorChange(color)}
-                      style={{
-                        backgroundColor: color.toLowerCase(),
-                        cursor: "pointer",
-                      }}
-                    ></div>
-                  ))}
+              <div className="color-options">
+                <span>Color:</span>
+                <div className="color-swatch-container">
+                  {productById.colors &&
+                    productById.colors.split(",").map((color, index) => (
+                      <div
+                        key={index}
+                        className={`color-swatch ${selectedColor === color ? "selected" : ""
+                          }`}
+                        onClick={() => handleColorChange(color)}
+                        style={{
+                          backgroundColor: color.toLowerCase(),
+                          cursor: "pointer",
+                        }}
+                      ></div>
+                    ))}
+                </div>
               </div>
-            </div>
 
 
-            <div className="quantity-options">
-              <span>Quantity:</span>
-              <div className="quantity-controls">
+              <div className="quantity-options">
+                <span>Quantity:</span>
+                <div className="quantity-controls">
+                  <button
+                    className="decrement-button"
+                    onClick={() => handleQuantityChange("decrement")}
+                  >
+                    -
+                  </button>
+                  <span className="quantity-display">{quantity}</span>
+                  <button
+                    className="increment-button"
+                    onClick={() => handleQuantityChange("increment")}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {productById.status === "Active" ?
+
                 <button
-                  className="decrement-button"
-                  onClick={() => handleQuantityChange("decrement")}
+                  onClick={handleAddToCart}
+                  disabled={!selectedSize || !selectedColor}
+                  className="add-to-cart-button"
                 >
-                  -
-                </button>
-                <span className="quantity-display">{quantity}</span>
+                  Add To Cart
+                </button> :
                 <button
-                  className="increment-button"
-                  onClick={() => handleQuantityChange("increment")}
+
+                  disabled={!selectedSize || !selectedColor}
+                  className="add-to-cart-button"
                 >
-                  +
+                  Out of Order
                 </button>
-              </div>
+
+              }
             </div>
-
-
-            <button
-              onClick={handleAddToCart}
-              disabled={!selectedSize || !selectedColor}
-              className="add-to-cart-button"
-            >
-              Add To Cart
-            </button>
           </div>
-        </div>
-      )}
-    </div>
+
+
+        )}
+
+      </div>
+
+      <div className="suggestedItems">
+
+        <SuggestedPro />
+      </div>
+
+
+
+
+    </>
+
   );
+
+
+
 };
 
 

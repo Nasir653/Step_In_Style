@@ -7,6 +7,10 @@ const OrderStatus = () => {
     const { UserData } = useContext(context);
     const navigate = useNavigate();
 
+
+
+
+
     if (!UserData || !UserData.orders || UserData.orders.length === 0) {
         return (
             <div className="order-status-container">
@@ -35,9 +39,17 @@ const OrderStatus = () => {
                         <h3>Order ID: {order._id}</h3>
                         <p>Placed On: {new Date(order.OrderDate).toLocaleString()}</p>
                     </div>
+
+                    {order.orderStatus === "Confirmed" ? "Order Placed" :
+                        order.orderStatus === "Cancelled" ? "Order Cancelled" :
+                            order.orderStatus === "Shipped" ? "Order Shipped" :
+                                order.orderStatus === "Out for Delivery" ? "Out for Delivery" :
+                                    order.orderStatus === "Delivered" ? "Order Delivered" :
+                                        order.orderStatus === "Returned" ? "Order Returned" :
+                                            "Processing"}
                     <div className="order-products">
                         {order.products?.map((product, index) => (
-                            <div key={index} className="product-details">
+                            <div key={index} className="product-details" onClick={(e) => { navigate(`/product/details/${product.productId._id}`) }}>
                                 <img
                                     src={product.productId.imageUrl}
                                     alt={product.productId.title}

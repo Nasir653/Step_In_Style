@@ -2,9 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import { context } from '../../Context/Store';
 
 import './Trending.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Trending = () => {
     const { TrendingProducts, getTrendingProducts } = useContext(context);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getTrendingProducts("Trending");
@@ -21,7 +24,7 @@ const Trending = () => {
                                 key={product._id}
                                 className="trending-item"
                                 onClick={(e) => {
-                                    // navigate(`/product/details/${product._id}`);
+                                    navigate(`/product/details/${product._id}`);
                                 }}
                             >
                                 <img

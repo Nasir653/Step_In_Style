@@ -3,7 +3,7 @@ import { context } from "../../Context/Store";
 import "./AllProductsPage.scss";
 
 const AllProductsPage = () => {
-    const { allProducts, fetchAllProducts, deleteProducts, EditProducts } = useContext(context);
+    const { allProducts, fetchAllProducts, deleteAndActiveProducts, EditProducts } = useContext(context);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [editingProductId, setEditingProductId] = useState(null);
@@ -40,11 +40,17 @@ const AllProductsPage = () => {
         fetchAllProducts();
     };
 
-    const handleDelete = async (productId) => {
-        await deleteProducts(productId);
+
+    const handleActive = async (productId) => {
+
+
+        await deleteAndActiveProducts(productId, "Active");
         fetchAllProducts();
     };
-
+    const handleDelete = async (productId) => {
+        await deleteAndActiveProducts(productId, "Delete");
+        fetchAllProducts();
+    };
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -82,6 +88,7 @@ const AllProductsPage = () => {
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Rating</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -193,6 +200,7 @@ const AllProductsPage = () => {
                                     )}
                                 </td>
                                 <td>{product.rating} ⭐</td>
+                                <td>{product.status}</td>
                                 <td>
                                     {editingProductId === product._id ? (
                                         <button
@@ -209,12 +217,22 @@ const AllProductsPage = () => {
                                             Edit
                                         </button>
                                     )}
-                                    <button
-                                        className="delete-btn"
-                                        onClick={() => handleDelete(product._id)}
-                                    >
-                                        Delete
-                                    </button>
+                                    {product.status === "Active" ?
+                                        <button
+                                            className="delete-btn"
+                                            onClick={() => handleDelete(product._id)}
+                                        >
+                                            Delete
+                                        </button>
+                                        :
+                                        (
+                                            <button
+                                                className="delete-btn"
+                                                onClick={() => handleActive(product._id)}
+                                            >
+                                                Active
+                                            </button>)
+                                    }
                                 </td>
                             </tr>
                         ))

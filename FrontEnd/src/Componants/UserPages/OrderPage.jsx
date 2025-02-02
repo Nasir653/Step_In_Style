@@ -4,15 +4,14 @@ import { useParams } from "react-router-dom";
 import "./OrderPage.scss";
 
 const OrderPage = () => {
-    const { fetchOrderBtyId, OrderById, UserCancelOrder, editAddress, UserData } = useContext(context);
-    const { OrderId } = useParams();
+    const { fetchOrderBtyId, UserCancelOrder, editAddress, UserData, Order, cart } = useContext(context);
+    const { OrderId, productId } = useParams();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedAddress, setEditedAddress] = useState(null);
 
-    useEffect(() => {
-        fetchOrderBtyId(OrderId);
-    }, [OrderId, fetchOrderBtyId]);
+
+    const items = cart.filter((ele) => ele._id === productId);
 
     const handleEditClick = (address) => {
         setIsEditing(true);
@@ -38,11 +37,34 @@ const OrderPage = () => {
         setIsModalOpen(true);
     };
 
+    const handleOrdernow = (address) => {
+        if (items.length === 0) {
+            alert("No products available for ordering.");
+            return;
+        }
+
+        items.forEach((product) => {
+            const formData = {
+                color: product.color,
+                size: product.size,
+                qty: product.qty,
+                price: product.price,
+                addressId: address._id,
+            };
+
+
+
+
+            Order(product.productId._id, formData)
+
+        });
+    };
+
     const handleClosePopup = () => {
         setIsModalOpen(false);
     };
 
-    if (!OrderById || !OrderById.products || !OrderById.address) {
+    if (items.length === 0 || !UserData || !UserData.address) {
         return <div className="loading">Loading...</div>;
     }
 
@@ -51,43 +73,56 @@ const OrderPage = () => {
             <div className="order-summary">
                 <h2>Order Details</h2>
 
-                {/* Products Section */}
                 <div className="order-items">
                     <h3>Ordered Products</h3>
-                    {OrderById.products.map((product, index) => (
-                        <div key={index} className="order-item">
+                    {items.map((product) => (
+                        <div key={product._id} className="order-item">
+
                             <img
                                 className="item-img"
-                                src={product.productId.imageUrl}
-                                alt={product.productId.title}
+                                src={product.productId.imageUrl || "default-image.jpg"}
+                                alt={product.title || "Product Image"}
                             />
                             <div className="item-details">
-                                <h4 className="item-title">{product.productId.title}</h4>
-                                <p className="item-info">
-                                    {product.productId.type}
 
-                                </p>
+                                <h4 className="item-title">{product.productId.title || "Untitled Product"}</h4>
+
+
+                                {/* Type */}
                                 <p className="item-info">
-                                    <span>Size:</span> {product.size}
+                                    <span>Type:</span> {product.productId.type || "No type"}
                                 </p>
+
+                                {/* Size */}
                                 <p className="item-info">
-                                    <span>Color:</span> {product.color}
+                                    <span>Size:</span> {product.size || "No size"}
                                 </p>
+
+                                {/* Color */}
                                 <p className="item-info">
-                                    <span>Quantity:</span> {product.quantity}
+                                    <span>Color:</span> {product.color || "No color"}
                                 </p>
+
+                                {/* Quantity */}
                                 <p className="item-info">
-                                    <span>Price:</span> ₹{product.price}
+                                    <span>Quantity:</span> {product.qty || 0}
+                                </p>
+
+                                {/* Price */}
+                                <p className="item-info">
+                                    <span>Price:</span> ₹{product.price || 0}
                                 </p>
                             </div>
                         </div>
                     ))}
                 </div>
 
+
                 {/* Total Amount and Actions */}
                 <div className="order-footer">
                     <h3 className="total-amount">
-                        <span>Total Amount:</span> ₹{OrderById.totalAmount}
+                        <span>Total Amount:</span> ₹
+                        {items.reduce((total, product) => total + product.price * product.qty, 0)}
                     </h3>
                     <div className="actions">
                         <button className="btn-primary" onClick={handleConfirmOrder}>
@@ -96,7 +131,7 @@ const OrderPage = () => {
 
                         <button
                             className="btn-secondary"
-                            onClick={() => UserCancelOrder(OrderById._id)}
+                            onClick={() => UserCancelOrder(OrderId)}
                         >
                             Cancel Order
                         </button>
@@ -112,9 +147,7 @@ const OrderPage = () => {
                         </button>
                         <h3>Shipping Address</h3>
                         {UserData.address.map((addr) => (
-
-
-                            <div className="address-details">
+                            <div key={addr._id} className="address-details">
                                 {isEditing && editedAddress && editedAddress._id === addr._id ? (
                                     <div className="edit-address">
                                         <input
@@ -122,7 +155,7 @@ const OrderPage = () => {
                                             name="fullName"
                                             value={editedAddress.fullName}
                                             onChange={handleAddressChange}
-                                            placeholder="Fullname"
+                                            placeholder="Full Name"
                                         />
                                         <input
                                             type="text"
@@ -182,8 +215,7 @@ const OrderPage = () => {
                                     </div>
                                 ) : (
                                     <div>
-                                        {console.log(addr)}
-                                        <p><strong>FullName:</strong> {addr.fullName}</p>
+                                        <p><strong>Full Name:</strong> {addr.fullName}</p>
                                         <p><strong>Street:</strong> {addr.street}</p>
                                         <p><strong>City:</strong> {addr.city}</p>
                                         <p><strong>District:</strong> {addr.district}</p>
@@ -193,6 +225,9 @@ const OrderPage = () => {
                                         <p><strong>Contact:</strong> {addr.contact}</p>
                                         <button className="btn-secondary" onClick={() => handleEditClick(addr)}>
                                             Edit
+                                        </button>
+                                        <button className="btn-secondary" onClick={() => handleOrdernow(addr)}>
+                                            Order Now
                                         </button>
                                     </div>
                                 )}

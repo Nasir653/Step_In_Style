@@ -20,7 +20,7 @@ body {
 .container-fluid {
     padding: 2vw;
 
-    >.Shirts-title {
+    >.category-title {
         text-align: center;
         font-size: 2.5rem;
         color: var(--primary-color);
@@ -34,21 +34,23 @@ body {
     }
 }
 
-.shirts-div {
-    display: flex;
-    flex-wrap: wrap;
+.mens-product-list{
+   width: 100%;
     gap: 2vw;
+    display: flex;
     justify-content: center;
+    flex-wrap: nowrap;
+    
+      
 }
 
-.items {
+.mens-product-item {
     width: 22%;
+    justify-content: center;
     background-color: #fff;
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
     padding: 1vw;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     text-align: center;
     transition: transform var(--transition-duration), box-shadow var(--transition-duration);
@@ -58,21 +60,13 @@ body {
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
 
-    @media (max-width: 768px) {
-        width: 45%;
-    }
-
-    @media (max-width: 480px) {
-        width: 90%;
-    }
-
-    >.item-details {
+    >.mens-product-details {
         cursor: pointer;
-        width: 90%;
-
+        display: flex;
+        flex-direction: column;
+     
         >img {
             width: 100%;
-            height: 300px;
             object-fit: cover;
             border-radius: var(--border-radius);
             margin-bottom: 1rem;
@@ -80,7 +74,7 @@ body {
             transition: transform var(--transition-duration);
 
             &:hover {
-                transform: scale(1.05);
+                transform: scale(1.02);
             }
         }
 
@@ -98,25 +92,4 @@ body {
         }
     }
 
-    >button {
-        width: 50%;
-        padding: 0.6rem 1rem;
-        font-size: 1rem;
-        background-color: var(--button-bg);
-        color: var(--button-text);
-        border: none;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        margin-top: 0.5rem;
-        transition: background-color var(--transition-duration);
-
-        &:hover {
-            background-color: var(--button-hover-bg);
-        }
-
-        @media (max-width: 768px) {
-            width: 70%;
-            font-size: 0.9rem;
-        }
-    }
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react';
 import { context } from '../../Context/Store';
 import { useNavigate, useParams } from 'react-router-dom';
 import "./MensCategory.scss";
@@ -6,66 +6,42 @@ import "./MensCategory.scss";
 const MensCategory = () => {
 
     const { allProducts, getMensProducts } = useContext(context);
-
     const { category } = useParams();
-
     const navigate = useNavigate();
 
-
     useEffect(() => {
-
         getMensProducts("Mens", category);
+    }, [category, getMensProducts]);
 
-    }, [])
-
-
+    console.log(allProducts);
 
     return (
-        <>
+        <div className='container-fluid'>
 
-            <div className='container-fluid'>
+            <h2 className='category-title'>{category}</h2>
 
-                <h2 className='Shirts-title'>{category}</h2>
+            <div className="mens-product-list">
 
-                <div className="shirts-div">
+                {allProducts &&
+                    allProducts.map((product) => (
+                        <div className="row mens-product-item " key={product._id} >
 
-
-
-                    {allProducts &&
-                        allProducts.map((shirt) => (
-                            <div className="items" key={shirt._id} >
-
-                                <div className="item-details" onClick={(e) => {
-                                    navigate(`/product/details/${shirt._id}`);
-
-                                }}>
-                                    <img
-                                        src={shirt.imageUrl}
-                                        alt={shirt.title}
-                                        className="coll-img"
-                                    />
-
-                                    <span> {shirt.title} </span>
-
-                                    <span> INR : {shirt.price} </span>
-                                </div>
-                                {/* <button onClick={() => addToCart(shirt._id)}>Add To Cart</button> */}
-                                {/* <button onClick={() => Order(shirt._id)}>Order Now </button> */}
-
-
+                            <div className="col mens-product-details" onClick={() => navigate(`/product/details/${product._id}`)}>
+                                <img
+                                    src={product.imageUrl}
+                                    alt={product.title}
+                                    className="product-image"
+                                />
+                                <span className="product-name"> {product.title} </span>
+                                <span className="product-price"> INR : {product.price} </span>
                             </div>
 
+                        </div>
+                    ))}
 
-
-
-
-
-                        ))}
-
-                </div>
             </div>
-        </>
-    )
+        </div>
+    );
 }
 
-export default MensCategory
+export default MensCategory;

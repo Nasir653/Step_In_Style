@@ -20,6 +20,7 @@ const {
   CancelOrder,
   SuggestedItems,
   EditAddress,
+  blogs,
 } = require("./controllers/userController");
 const verifyUSer = require("./utils/isAuth");
 const {
@@ -32,14 +33,15 @@ const {
   fetchNewCategory,
   CreateNewCategory,
   editNewCollection,
-  deleteNewCollection,
   getProductById,
   fetchAllOrder,
   getLastMonthUsers,
   editProducts,
+  DeleteProducts,
+  DispatchOrder,
+  fetchALLUsers,
 } = require("./controllers/adminControler");
 const { multMid } = require("./middleWares/imgUploader");
-const { productDetails } = require("./controllers/Products");
 const cookieParser = require("cookie-parser");
 const { IsAuthenticated } = require("./middleWares/IsAuthenticated");
 
@@ -84,6 +86,7 @@ app.get("/user/verify/:token", verifyUSer);
 app.get("/fetch/user", IsAuthenticated, fetchUserData);
 app.post("/edit/user", IsAuthenticated, EditAddress);
 app.get("/user/SuggestedItems/:type", IsAuthenticated, SuggestedItems);
+app.post("/user/Blogs", IsAuthenticated, blogs);
 
 // Admin Routes
 //app.post("/admin/signup", AdminRegistration);
@@ -92,9 +95,11 @@ app.post("/admin/createProducts", multMid, CreateProducts);
 app.put("/admin/editProducts/:ProductId", editProducts);
 app.get("/get/newCollection/:category", newCollectionProducts);
 app.put("/admin/edits/newCollection/:productId", multMid, editNewCollection);
-app.delete("/admin/delete/newCollection/:productId", deleteNewCollection);
+app.delete("/admin/delete/products/:productId", DeleteProducts);
 app.get("/fetch/allOrders", fetchAllOrder);
+app.get("/fetch/allUsers", fetchALLUsers);
 app.get("/fetch/lastMonthsUser", getLastMonthUsers);
+app.get("/dispatch/order", DispatchOrder);
 
 app.post("/create/newCategory", multMid, CreateNewCategory);
 app.post("/admin/Creates/newCategory/:categoryId", multMid, EditNewCategory);
@@ -106,7 +111,6 @@ app.get("/getAllProducts/:category/:type", getAllProducts);
 app.get("/getProductById/:productId", getProductById);
 app.get("/get/newCollection/:category", getAllProducts);
 app.get("/get/trendingCollection/:category", getAllProducts);
-app.get("/product/details/:ProductId", productDetails);
 app.post("/product/search/:value", IsAuthenticated, searchInput);
 
 //Cart Routes
@@ -115,7 +119,7 @@ app.get("/user/fetch/cartItems", IsAuthenticated, fetchCartItems);
 app.get("/user/remove/cartItems/:productId", IsAuthenticated, removeFromCart);
 
 // Order Routes
-app.post("/user/create/order/:productId", IsAuthenticated, CreateOrder);
+app.post("/user/create/order", IsAuthenticated, CreateOrder);
 app.get("/user/OrderById/:OrderId", IsAuthenticated, fetchOrderById);
 app.get("/user/CancelOrder/:OrderId", IsAuthenticated, CancelOrder);
 

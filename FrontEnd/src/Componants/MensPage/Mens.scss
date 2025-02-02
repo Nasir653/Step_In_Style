@@ -6,8 +6,8 @@
 }
 .mens-category-row{
     
-    height: 60vh;
-    
+
+    display: flex;
     padding: 2vh;
     gap: 1vw;
     align-items: center;
@@ -16,7 +16,7 @@
   
 .col{ 
     width: 19%;
-    height: 80%;
+  
     transition: 0.2s;
 
     &:hover{

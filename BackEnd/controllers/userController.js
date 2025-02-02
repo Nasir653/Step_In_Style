@@ -5,6 +5,7 @@ const { messageHandler } = require("../utils/MessageHandler");
 const { Orders } = require("../models/OrdersModel");
 const User = require("../models/UserModel");
 const Products = require("../models/products");
+const Blogs = require("../models/BlogsModel");
 const cloudinary = require("cloudinary").v2;
 
 const signup = async (req, res) => {
@@ -124,8 +125,6 @@ const forgetPass = async (req, res) => {
 
     const findUser = await User.findOne({ email });
 
-    console.log(findUser);
-
     if (!findUser) {
       res.status(404).json({ message: "Your Email is not Registered " });
     } else {
@@ -135,45 +134,58 @@ const forgetPass = async (req, res) => {
         {
           from: "malikaadi653@gmail.com",
           to: email,
-          // bcc : "services@stylehouse.world",
-          subject: "Password reset Link ",
-          text: passwordResetLink,
+          subject: "Reset Your Password - Step in Style",
+          text: `Hi ${findUser.username}, we received a request to reset your password. Click the link below: ${passwordResetLink}`,
           html: `
-       
+      <div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: #f9f9f9;">
+        
+        <!-- Header -->
+        <div style="background: #000; padding: 20px; text-align: center; color: #fff;">
+          <h1 style="margin: 0;">Step in Style</h1>
+        </div>
 
-  <h1>   Hi ${findUser.username} </h1>
-<br>  
-<p>
-We received a request to reset your password for your account. Click the link below to set a new
-password:
-<br>
-      ${passwordResetLink}
-<br>
-If you didn't request this change, please ignore this email. This link will expire in [time limit, e.g., 1 hour].
-<br>
-If you have any questions, feel free to contact our support team at Malikaadi653@gmail.com. </p>
+        <!-- Body -->
+        <div style="padding: 20px; background: #fff;">
+          <h2>Hi ${findUser.username},</h2>
+          <p style="font-size: 16px; color: #333;">
+            We received a request to reset your password for your account. Click the button below to set a new password.
+          </p>
 
-<br>
-<br>
-<h3>
-Thank you,
+          <div style="text-align: center; margin: 20px 0;">
+            <a href="${passwordResetLink}" 
+               style="display: inline-block; background: #000; color: #fff; padding: 12px 20px; 
+               text-decoration: none; border-radius: 5px; font-size: 16px;">
+              Reset Your Password 🔒
+            </a>
+          </div>
 
-</h3>
-       
-          `,
+          <p style="font-size: 14px; color: #666;">
+            If you didn't request this change, please ignore this email. This link will expire in <b>1 hour</b>.
+          </p>
+
+          <p style="text-align: center; font-size: 14px; color: #666;">
+            If you have any questions, feel free to contact our support team at <b>malikaadi653@gmail.com</b>.
+          </p>
+        </div>
+
+        <!-- Footer -->
+        <div style="background: #000; color: #fff; text-align: center; padding: 15px;">
+          <p style="margin: 0;">Thank you,</p>
+          <p style="margin: 0;"><b>Step in Style Team</b></p>
+        </div>
+      </div>
+    `,
         },
-        (reject, resolve) => {
-          if (reject) {
-            console.log(reject + " reject");
+        (error, info) => {
+          if (error) {
+            console.log(error + " reject");
             return res
               .status(404)
-              .json({ message: "Email not sended ! SomeThing Went Wrong" });
+              .json({ message: "Email not sent! Something went wrong." });
           }
 
-          console.log(resolve);
-
           return res.status(200).json({
-            message: "Password Rest link sent to your mail Succesfully",
+            message: "Password reset link sent to your email successfully.",
           });
         }
       );
@@ -191,11 +203,7 @@ const ResetPass = async (req, res) => {
       return res.status(400).json({ message: "Password not Match" });
     }
 
-    console.log(newPass);
-
     const { userId } = req.params;
-
-    console.log(userId);
 
     const hashPass = await bcrypt.hash(confirmPass, 10);
 
@@ -339,7 +347,6 @@ const AddToCart = async (req, res) => {
     const { ProductId } = req.params;
     const { quantity, color, size } = req.body;
 
-    // Find the user
     const user = await User.findById(userId);
     if (!user) {
       return res.render("error", {
@@ -348,7 +355,6 @@ const AddToCart = async (req, res) => {
       });
     }
 
-    // Find the product
     const product = await Products.findById(ProductId);
     if (!product) {
       return res.render("error", {
@@ -357,7 +363,6 @@ const AddToCart = async (req, res) => {
       });
     }
 
-    // Check if the product with the same color and size exists in the cart
     const cartItemIndex = user.cart.findIndex((item) => {
       return (
         item.productId.toString() === ProductId &&
@@ -367,11 +372,9 @@ const AddToCart = async (req, res) => {
     });
 
     if (cartItemIndex > -1) {
-      // Update the quantity if the item exists in the cart
       user.cart[cartItemIndex].qty += parseInt(quantity, 10);
     } else {
-      // Add the item to the cart if it does not exist
-      user.cart.push({
+      user.cart.unshift({
         productId: product._id,
         qty: parseInt(quantity, 10),
         price: product.price,
@@ -380,13 +383,10 @@ const AddToCart = async (req, res) => {
       });
     }
 
-    // Save the user with the updated cart
     await user.save();
 
-    // Return success message
     return messageHandler(res, 200, "Added To Cart", user);
   } catch (error) {
-    // Handle server error
     messageHandler(res, 500, "Server Error");
     console.error(error);
   }
@@ -446,7 +446,7 @@ const CreateOrder = async (req, res) => {
     const userId = req.userId;
 
     const { price, size, color, qty } = req.body;
-    const { productId } = req.params;
+    const { productId } = req.query;
 
     const user = await User.findById(userId);
 
@@ -495,6 +495,92 @@ const CreateOrder = async (req, res) => {
     user.orders.push(order._id.toString());
     await user.save();
 
+    const findOrder = await Orders.findById(order._id).populate({
+      path: "products.productId",
+    });
+
+    const orderConfirmationLink = `http://localhost:3000/user/orders/${order._id}`;
+
+    transporters.sendMail(
+      {
+        from: "malikaadi653@gmail.com",
+        to: user.email,
+        subject: "Order Confirmation - Step in Style",
+        text: `Hi ${user.username}, Your order #${order._id} has been successfully placed!`,
+        html: `
+      <h1>Hi ${user.username},</h1>
+      <br>
+      <p>
+        Thank you for shopping with <b>Step in Style</b>! Your order has been successfully placed.
+        Below are the details of your order:
+      </p>
+      <br>
+      <h3>Order Details:</h3>
+      <ul>
+        <li><b>Order ID:</b> ${order._id}</li>
+        <li><b>Total Amount:</b> ₹${order.totalAmount}</li>
+        <li><b>Order Status:</b> ${order.orderStatus}</li>
+        <li><b>Shipping Address:</b></li>
+        <p>
+          ${order.address[0]?.street}, ${order.address[0]?.city}, ${
+          order.address[0]?.district
+        },
+          ${order.address[0]?.state}, ${order.address[0]?.pincode}.
+        </p>
+      </ul>
+      <br>
+      <h3>Products in your order:</h3>
+      <ul>
+        ${findOrder.products
+          .map(
+            (product) => `
+          <li style="margin-bottom: 20px;">
+            <img src="${product.productId?.imageUrl}" alt="${
+              product.productId?.title
+            }" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;" />
+            <br>
+            <b>Product:</b> ${product.productId?.title || "N/A"}
+            <br>
+            <b>Price:</b> ₹${product.price}
+            <br>
+            <b>Quantity:</b> ${product.qty}
+            <br>
+            <b>Color:</b> ${product.color}
+            <br>
+            <b>Size:</b> ${product.size}
+          </li>
+          <br>`
+          )
+          .join("")}
+      </ul>
+      <p>
+        You can track your order status by visiting the link below:
+        <br>
+        <a href="${orderConfirmationLink}">${orderConfirmationLink}</a>
+      </p>
+      <br>
+      <p>
+        If you have any questions or need further assistance, feel free to contact our support team at <b>malikaadi653@gmail.com</b>.
+      </p>
+      <br>
+      <h3>Thank you for choosing Step in Style!</h3>
+      <p>We hope to serve you again soon.</p>
+    `,
+      },
+      (reject, resolve) => {
+        if (reject) {
+          console.log(reject + " reject");
+          return res
+            .status(404)
+            .json({ message: "Email not sent! Something went wrong." });
+        }
+
+        return res.status(200).json({
+          message: "Order confirmation email sent successfully.",
+        });
+      }
+    );
+
     return messageHandler(res, 200, "Order created successfully", order);
   } catch (error) {
     console.error("Error in CreateOrder:", error);
@@ -542,20 +628,45 @@ const SuggestedItems = async (req, res) => {
   try {
     const { type } = req.params;
 
-    const fetch = await Products.find({ type: type });
+    const fetch = await Products.find({ type: type }).lean();
 
-    if (!fetch) {
+    if (!fetch || fetch.length === 0) {
       return messageHandler(
         res,
         404,
-        "No Suggestion Items found of this product"
+        "No Suggested Items found for this product"
       );
     }
 
     return messageHandler(res, 200, "Suggested Items for This Product", fetch);
   } catch (error) {
-    console.log(error);
+    console.error("❌ Error fetching suggested items:", error);
     return messageHandler(res, 500, "Server Error");
+  }
+};
+
+const blogs = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const user = await User.findById(userId);
+
+    const { content } = req.body;
+    if (!user) {
+      return messageHandler(res, 200, "User Not found");
+    }
+
+    const createBlog = await Blogs.create({
+      content: content,
+    });
+    if (!createBlog) {
+      return messageHandler(res, 404, "Something Went wrong");
+    }
+
+    return messageHandler(res, 200, "Blog Saved", createBlog);
+  } catch (error) {
+    messageHandler(res, 500, "Server Error");
+    console.log(error);
   }
 };
 
@@ -576,4 +687,5 @@ module.exports = {
   CancelOrder,
   fetchOrderById,
   SuggestedItems,
+  blogs,
 };

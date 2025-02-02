@@ -125,7 +125,7 @@ const Mens = () => {
 
         <div className="mens-category">
 
-          <div className="mens-category-row row row-cols-lg-5 gy-6">
+          <div className="mens-category-row ">
 
 
             <div className="col shirts" onClick={() => handelRoute("Shirts")} >

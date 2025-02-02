@@ -7,6 +7,7 @@ const { messageHandler } = require("../utils/MessageHandler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/UserModel");
+const transporters = require("../utils/nodeMailer");
 
 // const AdminRegistration = async (req, res) => {
 //   try {
@@ -257,19 +258,25 @@ const editNewCollection = async (req, res) => {
   }
 };
 
-const deleteNewCollection = async (req, res) => {
+const DeleteProducts = async (req, res) => {
   try {
     const { productId } = req.params;
+    const { status } = req.query;
 
-    const deleteProduct = await Products.findByIdAndDelete(productId);
+    const updatedProduct = await Products.findByIdAndUpdate(
+      productId,
+      { status: status },
+      { new: true }
+    );
 
-    if (!deleteProduct) {
-      return messageHandler(res, 404, "Something went wrong");
+    if (!updatedProduct) {
+      return messageHandler(res, 404, "Product not found or already deleted");
     }
 
-    return messageHandler(res, 200, "Deleted Sucessfully");
+    return messageHandler(res, 200, `Product marked as ${status} successfully`);
   } catch (error) {
-    return messageHandler(res, 500, "Server Error");
+    console.error("Error during product deletion:", error);
+    return messageHandler(res, 500, "Server error");
   }
 };
 
@@ -369,14 +376,44 @@ const fetchAllOrder = async (req, res) => {
     const fetchOrders = await Orders.find().populate({
       path: "products.productId",
     });
-    if (fetchOrders) {
+
+    if (fetchOrders.length > 0) {
       return messageHandler(res, 200, "All Orders", fetchOrders);
     }
 
     return messageHandler(res, 404, "No Order found");
   } catch (error) {
-    console.log(Error);
+    console.error("Error:", error);
     messageHandler(res, 500, "Server Error");
+  }
+};
+
+const fetchALLUsers = async (req, res) => {
+  try {
+    const AllUsers = await User.find()
+      .populate({
+        path: "orders",
+        populate: {
+          path: "products.productId",
+          model: "Products",
+        },
+      }) // ✅ Closing the first populate correctly
+      .populate({
+        path: "cart",
+        populate: {
+          path: "productId",
+          model: "Products",
+        },
+      });
+
+    if (!AllUsers || AllUsers.length === 0) {
+      return messageHandler(res, 404, "No Users Found");
+    }
+
+    return messageHandler(res, 200, "All Users", AllUsers);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return messageHandler(res, 500, "Server Error");
   }
 };
 
@@ -404,6 +441,117 @@ const getLastMonthUsers = async (req, res) => {
   }
 };
 
+const DispatchOrder = async (req, res) => {
+  try {
+    const { orderId } = req.query;
+    const order = await Orders.findById(orderId)
+      .populate("user")
+      .populate("products.productId");
+
+    if (!order) {
+      messageHandler(res, 404, "OrderId");
+    }
+    order.orderStatus = "Confirmed";
+
+    const orderConfirmationLink = `http://localhost:3000/user/orders/${order._id}`;
+
+    transporters.sendMail(
+      {
+        from: "malikaadi653@gmail.com",
+        to: order.user.email,
+        subject: "Order Confirmation - Step in Style",
+        text: `Hi ${order.user.username}, Your order #${order._id} has been Confirmed and will be shipped soon!`,
+        html: `
+      <div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: #f9f9f9;">
+        <div style="background: #000; padding: 20px; text-align: center; color: #fff;">
+          <h1 style="margin: 0;">Step in Style</h1>
+        </div>
+
+        <div style="padding: 20px; background: #fff;">
+          <h2>Hi ${order.user.username},</h2>
+          <p style="font-size: 16px; color: #333;">
+            Thank you for shopping with <b>Step in Style</b>! Your order has been <b>Confirmed</b> and will be shipped soon.
+          </p>
+
+          <h3 style="color: #000;">📦 Order Details:</h3>
+          <div style="background: #f3f3f3; padding: 10px; border-radius: 5px;">
+            <p><b>Order ID:</b> ${order._id}</p>
+            <p><b>Total Amount:</b> ₹${order.totalAmount}</p>
+            <p><b>Order Status:</b> ${order.orderStatus}</p>
+            <p><b>Shipping Address:</b><br>
+              ${order.address[0]?.street}, ${order.address[0]?.city}, ${
+          order.address[0]?.district
+        }, 
+              ${order.address[0]?.state}, ${order.address[0]?.pincode}.
+            </p>
+          </div>
+
+          <h3 style="color: #000;">🛒 Products in Your Order:</h3>
+          ${order.products
+            .map(
+              (product) => `
+              <div style="display: flex; align-items: center; background: #fff; padding: 10px; border-bottom: 1px solid #ddd;">
+                <img src="${product.productId?.imageUrl}" alt="${
+                product.productId?.title
+              }" 
+                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-right: 15px;">
+                <div>
+                  <p style="margin: 0;"><b>${
+                    product.productId?.title || "N/A"
+                  }</b></p>
+                  <p style="margin: 5px 0;">Price: ₹${product.price}</p>
+                  <p style="margin: 5px 0;">Quantity: ${product.qty}</p>
+                  <p style="margin: 5px 0;">Color: ${product.color} | Size: ${
+                product.size
+              }</p>
+                </div>
+              </div>
+            `
+            )
+            .join("")}
+
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="${orderConfirmationLink}" 
+               style="display: inline-block; background: #000; color: #fff; padding: 12px 20px; 
+               text-decoration: none; border-radius: 5px; font-size: 16px;">
+              Track Your Order 🚚
+            </a>
+          </div>
+          
+          <p style="text-align: center; font-size: 14px; color: #666; margin-top: 20px;">
+            If you have any questions, contact us at <b>malikaadi653@gmail.com</b>.
+          </p>
+        </div>
+
+        <div style="background: #000; color: #fff; text-align: center; padding: 15px;">
+          <p style="margin: 0;">Thank you for choosing <b>Step in Style</b>! We hope to serve you again soon.</p>
+        </div>
+      </div>
+    `,
+      },
+      (error, info) => {
+        if (error) {
+          console.log(error + " reject");
+          return res
+            .status(404)
+            .json({ message: "Email not sent! Something went wrong." });
+        }
+
+        return res.status(200).json({
+          message: "Order confirmation email sent successfully.",
+        });
+      }
+    );
+
+    order.save();
+    messageHandler(res, 200, "Order Confirmed", order);
+  } catch (error) {
+    console.log(error);
+
+    messageHandler(res, 500, "Server Error");
+  }
+};
+
 module.exports = {
   CreateProducts,
   getAllProducts,
@@ -413,9 +561,11 @@ module.exports = {
   EditNewCategory,
   fetchNewCategory,
   editNewCollection,
-  deleteNewCollection,
+  DeleteProducts,
   getProductById,
   fetchAllOrder,
   getLastMonthUsers,
   editProducts,
+  DispatchOrder,
+  fetchALLUsers,
 };
