@@ -496,7 +496,6 @@ const DispatchOrder = async (req, res) => {
 module.exports = {
   CreateProducts,
   getAllProducts,
-  AdminLogin,
   newCollectionProducts,
   CreateNewCategory,
   EditNewCategory,
