@@ -93,15 +93,24 @@ app.post("/user/Blogs", IsAuthenticated, blogs);
 // Admin Routes
 //app.post("/admin/signup", AdminRegistration);
 app.post("/admin/login", AdminLogin);
-app.post("/admin/createProducts", multMid, CreateProducts);
-app.put("/admin/editProducts/:ProductId", editProducts);
-app.get("/get/newCollection/:category", newCollectionProducts);
-app.put("/admin/edits/newCollection/:productId", multMid, editNewCollection);
-app.delete("/admin/delete/products/:productId", DeleteProducts);
-app.get("/fetch/allOrders", fetchAllOrder);
-app.get("/fetch/allUsers", fetchALLUsers);
-app.get("/fetch/lastMonthsUser", getLastMonthUsers);
-app.get("/dispatch/order", DispatchOrder);
+app.post("/admin/createProducts", IsAuthenticated, multMid, CreateProducts);
+app.put("/admin/editProducts/:ProductId", IsAuthenticated, editProducts);
+app.get("/get/newCollection/:category", IsAuthenticated, newCollectionProducts);
+app.put(
+  "/admin/edits/newCollection/:productId",
+  IsAuthenticated,
+  multMid,
+  editNewCollection
+);
+app.delete(
+  "/admin/delete/products/:productId",
+  IsAuthenticated,
+  DeleteProducts
+);
+app.get("/fetch/allOrders", IsAuthenticated, fetchAllOrder);
+app.get("/fetch/allUsers", IsAuthenticated, fetchALLUsers);
+app.get("/fetch/lastMonthsUser", IsAuthenticated, getLastMonthUsers);
+app.get("/dispatch/order", IsAuthenticated, DispatchOrder);
 
 app.post("/create/newCategory", multMid, CreateNewCategory);
 app.post("/admin/Creates/newCategory/:categoryId", multMid, EditNewCategory);
