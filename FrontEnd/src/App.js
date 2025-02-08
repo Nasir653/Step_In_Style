@@ -68,7 +68,7 @@ function App() {
           <Route path="/user/PlacedOrder/:productId" element={<OrderPage />} />
           <Route path="/user/OrderStatus" element={<OrderStatus />} />
 
-          {/* Product Routes */}
+          {/* Product  Routes */}
           <Route path="/Searched/items" element={<SearchedProducts />} />
           <Route path="/Category/mens" element={<Mens />} />
           <Route path="/Category/womens" element={<Womens />} />
