@@ -33,7 +33,7 @@ import AllOrdersPage from "./Componants/AdminPages/AllOrdersPage";
 import Customers from "./Componants/AdminPages/Customers";
 
 function App() {
-  const { fetchUserData, fetchCartItems, loading, fetchNewCategory } =
+  const { fetchUserData, fetchCartItems, loading, fetchNewCategory, logout } =
     useContext(context);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function App() {
           {/* Universal Routes */}
           <Route path="*" element={<NoPageFound />} />
           <Route path="/" element={<HomePage />} />
-          <Route path="/admin/landingPage" element={<LandingPage />} />
+
           <Route path="/Editor" element={<Editor />} />
           <Route
             path="/Order/OrderDetails/:OrderId"
@@ -82,8 +82,11 @@ function App() {
           {/* Admin route */}
           <Route path="/admin/signup" element={<AdminSignUp />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+
           <Route path="/admin" element={<AdminHomePage />} />
+
           <Route path="/Create/Products" element={<CreateProducts />} />
+          <Route path="/admin/landingPage" element={<LandingPage />} />
           <Route path="/get/AllProducts" element={<AllProductsPage />} />
           <Route path="/admin/allOrder" element={<AllOrdersPage />} />
           <Route path="/admin/allCustomers" element={<Customers />} />

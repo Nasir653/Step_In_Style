@@ -2,18 +2,22 @@
 import { useContext, useState } from 'react';
 import { context } from '../../../Context/Store';
 import "./EditCategory.scss";
+import IsAuthorized from '../../../utils/IsAuthorized';
 
 
 const EditCategoryPage = () => {
 
 
-    const { editNewCategory, AllCategories, addNewCategory, DeleteCategories } = useContext(context);
-
+    const { UserData, editNewCategory, AllCategories, addNewCategory, DeleteCategories } = useContext(context);
     const [editingCategoryId, setEditingCategoryId] = useState(null);
     const [isAddingNew, setIsAddingNew] = useState(false);
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState("");
     const [image, setImage] = useState(null);
+
+
+
+    IsAuthorized();
 
     const handleEdit = (category) => {
         setEditingCategoryId(category._id);

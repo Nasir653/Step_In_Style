@@ -1,8 +1,13 @@
 import React, { useContext, useState } from "react";
 import { context } from "../../Context/Store";
 import "./CreateProducts.scss";
+import IsAuthorized from "../../utils/IsAuthorized";
 
 const CreateProducts = () => {
+
+
+    IsAuthorized();
+
     const { CreateProducts } = useContext(context);
 
     const [formData, setFormData] = useState({

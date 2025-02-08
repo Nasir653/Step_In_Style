@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./EditNewCollection.scss";
 import { context } from "../../../Context/Store";
 import { Link } from "react-router-dom";
+import IsAuthorized from "../../../utils/IsAuthorized";
 
 const EditNewCollection = () => {
     const { NewCollection, getNewCollection, EditNewCollection, deleteProducts } = useContext(context);
@@ -16,6 +17,9 @@ const EditNewCollection = () => {
     });
 
     const [image, setImage] = useState(null);
+
+
+    IsAuthorized();
 
     useEffect(() => {
         getNewCollection("New Collection");

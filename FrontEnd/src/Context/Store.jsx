@@ -78,13 +78,15 @@ const Store = () => {
     }
   };
 
-  const logout = useCallback(async () => {
+  const logout = async () => {
     try {
 
       setStore((prev) => ({ ...prev, loading: true }));
+
       const res = await api.get("/user/logout");
 
       toast.success(res.data.message);
+
 
       navigate("/");
 
@@ -98,7 +100,7 @@ const Store = () => {
       setStore((prev) => ({ ...prev, loading: false }));
     }
 
-  }, []);
+  };
 
   const fetchUserData = useCallback(async () => {
     try {

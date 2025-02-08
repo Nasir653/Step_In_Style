@@ -4,12 +4,15 @@ import { Doughnut } from "react-chartjs-2";
 import "chart.js/auto";
 import "./AdminHome.scss";
 import { context } from "../../Context/Store";
+import IsAuthorized from "../../utils/IsAuthorized";
 
 const AdminHomePage = () => {
     const navigate = useNavigate();
-    const { fetchAllOrders, AllOrders, getLastMonthsUsers, Last30DaysUsers, DispatchOrder } = useContext(context);
+    const { UserData, fetchAllOrders, AllOrders, getLastMonthsUsers, Last30DaysUsers, DispatchOrder } = useContext(context);
 
     const [orders, setOrders] = useState([]);
+
+    IsAuthorized();
 
     useEffect(() => {
         fetchAllOrders();

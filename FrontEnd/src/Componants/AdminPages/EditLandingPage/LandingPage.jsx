@@ -2,7 +2,12 @@ import React from 'react'
 import EditCategoryPage from './EditCategoryPage'
 import EditNewCollection from './EditNewCollection'
 import EditTrending from './EditTrending'
+
+import IsAuthorized from '../../../utils/IsAuthorized'
 const LandingPage = () => {
+
+  IsAuthorized();
+
   return (
     <div className='container-fluid '>
 

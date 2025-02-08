@@ -3,8 +3,13 @@ import { useNavigate } from "react-router-dom";
 import "./EditTrending.scss";
 import { context } from "../../../Context/Store";
 import { Link } from "react-router-dom";
+import IsAuthorized from "../../../utils/IsAuthorized";
 
 const EditTrending = () => {
+
+    IsAuthorized();
+
+
     const { TrendingProducts, getNewCollection, EditProducts, deleteProducts } = useContext(context);
     const navigate = useNavigate();
 
@@ -107,7 +112,7 @@ const EditTrending = () => {
                                             <button onClick={() => handleEdit(product)}>
                                                 Edit
                                             </button>
-                                                <button onClick={() => deleteProducts(product._id)}>Delete</button>
+                                            <button onClick={() => deleteProducts(product._id)}>Delete</button>
                                         </div>
                                     </>
                                 )}

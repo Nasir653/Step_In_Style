@@ -1,8 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { context } from "../../Context/Store";
 import "./AllProductsPage.scss";
+import IsAuthorized from "../../utils/IsAuthorized";
 
 const AllProductsPage = () => {
+
+
+    IsAuthorized();
+
     const { allProducts, fetchAllProducts, deleteAndActiveProducts, EditProducts } = useContext(context);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");

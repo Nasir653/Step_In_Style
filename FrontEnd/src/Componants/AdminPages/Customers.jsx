@@ -1,8 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { context } from '../../Context/Store';
 import './Customers.scss';
+import IsAuthorized from '../../utils/IsAuthorized';
 
 const Customers = () => {
+
+
+    IsAuthorized();
+
     const { fetchAllUsers, AllUsers } = useContext(context);
     const [selectedUserOrders, setSelectedUserOrders] = useState(null);
     const [selectedUserCart, setSelectedUserCart] = useState(null);

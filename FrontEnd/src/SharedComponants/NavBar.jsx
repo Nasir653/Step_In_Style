@@ -5,7 +5,7 @@ import { context } from '../Context/Store';
 import { BiSolidCartAlt } from "react-icons/bi";
 import { RiAccountPinCircleFill } from "react-icons/ri";
 import { FiMenu } from "react-icons/fi";
-import { IoMdClose } from "react-icons/io"; // Close icon
+import { IoMdClose } from "react-icons/io";
 
 function NavBar() {
     const { UserData, fetchCartItems, SearchInput, logout } = useContext(context);
@@ -14,7 +14,7 @@ function NavBar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const navigate = useNavigate();
 
-    // Close dropdown if clicked outside
+
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (!e.target.closest('.dropdown') && !e.target.closest('.menu-icon') && dropdownOpen) {
@@ -37,13 +37,14 @@ function NavBar() {
 
     const handleLogout = () => {
         logout();
-        navigate("/user/login");
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
     };
-
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
         if (menuOpen) {
-            setDropdownOpen(false); // Close dropdown when menu is toggled
+            setDropdownOpen(false);
         }
     };
 
@@ -66,11 +67,9 @@ function NavBar() {
                     />
                 </div>
 
-
                 <button className="menu-icon" onClick={toggleMenu}>
                     {menuOpen ? <IoMdClose /> : <FiMenu />}
                 </button>
-
 
                 <nav className={`header-nav ${menuOpen ? "open" : ""}`}>
                     <ul>
@@ -79,38 +78,44 @@ function NavBar() {
                         <li><Link className="link" to="/Category/womens">Women's</Link></li>
                         <li><Link className="link" to="/Category/kids">Kid's</Link></li>
 
-                        <li onClick={() => fetchCartItems()}>
-                            <Link className="link fs-5 border" to="/user/cart">  <BiSolidCartAlt /> </Link>
+                        <li onClick={fetchCartItems}>
+                            <Link className="link fs-5 border" to="/user/cart">
+                                <BiSolidCartAlt />
+                            </Link>
                         </li>
 
                         <li>
                             {UserData.username ? (
-                                UserData.username
+                                <span>{UserData.username}</span>
                             ) : (
                                 <Link className="link" to="/user/login">Login</Link>
                             )}
                         </li>
 
                         {/* Profile Dropdown */}
-                        <div className="dropdown">
-                            <button
-                                className="btn btn-light dropdown-toggle"
-                                type="button"
-                                onClick={handleDropdownToggle}
-                            >
-                                <RiAccountPinCircleFill />
-                            </button>
+                        {UserData.username && (
+                            <div className="dropdown">
+                                <button
+                                    className="btn btn-light dropdown-toggle"
+                                    type="button"
+                                    onClick={handleDropdownToggle}
+                                >
+                                    <RiAccountPinCircleFill />
+                                </button>
 
-                            {dropdownOpen && (
-                                <ul className="dropdown-menu show">
-                                    <li><Link className="dropdown-item" to="/user/OrderStatus">Your Orders</Link></li>
-                                    <li><Link className="dropdown-item" to="/user/profile">Profile</Link></li>
-                                    <li><Link className="dropdown-item" to="/settings">Settings</Link></li>
-                                    <li onClick={handleLogout}><Link className="dropdown-item" to="/logout">Logout</Link></li>
-                                    <li><Link className="dropdown-item" to="/admin">Admin</Link></li>
-                                </ul>
-                            )}
-                        </div>
+                                {dropdownOpen && (
+                                    <ul className="dropdown-menu show">
+                                        <li><Link className="dropdown-item" to="/user/OrderStatus">Your Orders</Link></li>
+                                        <li><Link className="dropdown-item" to="/user/profile">Profile</Link></li>
+                                        <li><Link className="dropdown-item" to="/settings">Settings</Link></li>
+                                        <li onClick={handleLogout}><button className="dropdown-item">Logout</button></li>
+                                        {UserData.IsAdmin && (
+                                            <li><Link className="dropdown-item" to="/admin">Admin</Link></li>
+                                        )}
+                                    </ul>
+                                )}
+                            </div>
+                        )}
                     </ul>
                 </nav>
             </div>

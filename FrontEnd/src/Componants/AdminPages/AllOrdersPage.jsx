@@ -2,8 +2,13 @@ import React, { useContext, useState, useEffect } from 'react';
 import { context } from '../../Context/Store';
 import './AllOrdersPage.scss';
 import { useNavigate } from 'react-router-dom';
+import IsAuthorized from '../../utils/IsAuthorized';
 
 const AllOrdersPage = () => {
+
+
+    IsAuthorized();
+
     const { fetchAllOrders, AllOrders, AdminCancelOrder, DispatchOrder } = useContext(context);
     const navigate = useNavigate();
 
