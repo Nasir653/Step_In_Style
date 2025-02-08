@@ -14,6 +14,7 @@ const CreateProducts = () => {
         type: "",
         sizes: "",
         colors: "",
+        occasion: "",
         qty: ""
     });
 
@@ -35,6 +36,7 @@ const CreateProducts = () => {
     fileUpload.append("type", formData.type);
     fileUpload.append("sizes", formData.sizes);
     fileUpload.append("colors", formData.colors);
+    fileUpload.append("occasion", formData.occasion);
     fileUpload.append("qty", formData.qty);
 
     return (
@@ -45,7 +47,7 @@ const CreateProducts = () => {
                 className="create-product-form"
                 onSubmit={(e) => CreateProducts(e, fileUpload)}
             >
-                {/* Title */}
+
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Title</label>
                     <input
@@ -60,7 +62,7 @@ const CreateProducts = () => {
                     />
                 </div>
 
-                {/* Details */}
+
                 <div className="mb-3">
                     <label htmlFor="details" className="form-label">Details</label>
                     <textarea
@@ -75,7 +77,7 @@ const CreateProducts = () => {
                     ></textarea>
                 </div>
 
-                {/* Price */}
+
                 <div className="mb-3">
                     <label htmlFor="price" className="form-label">Price</label>
                     <input
@@ -90,7 +92,7 @@ const CreateProducts = () => {
                     />
                 </div>
 
-                {/* Category */}
+
                 <div className="mb-3">
                     <label htmlFor="category" className="form-label">Category</label>
                     <select
@@ -129,7 +131,6 @@ const CreateProducts = () => {
                     </select>
                 </div>
 
-                {/* Type */}
                 <div className="mb-3">
                     <label htmlFor="type" className="form-label">Type</label>
                     <select
@@ -146,30 +147,62 @@ const CreateProducts = () => {
                         <option value="Jeans">Jeans</option>
                         <option value="Shoes">Shoes</option>
                         <option value="Kurtas">Kurtas</option>
+                        <option value="Dresses">Dresses</option>
+                        <option value="Handbags">Handbags</option>
+                        <option value="Flats&Shoes">Flats&Shoes
+
+                        </option>
+                    </select>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="occasion" className="form-label">occasion</label>
+                    <select
+                        id="occasion"
+                        className="form-select"
+                        name="occasion"
+                        value={formData.occasion}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="" disabled>Choose Type</option>
+                        <option value="Casual">Casual</option>
+                        <option value="Formal">Formal</option>
+                        <option value="FootWear">FootWear</option>
+                        <option value="Party">Party</option>
+                        <option value="Wedding">Wedding</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Loungewear">Loungewear</option>
+                        <option value="Ethnic">Ethnic</option>
+                        <option value="Winter">Winter</option>
+                        <option value="Summer">Summer</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Nightwear">Nightwear</option>
+                        <option value="Workwear">Workwear</option>
                     </select>
                 </div>
 
-                {/* Size */}
+
                 <div className="mb-3">
                     <input className="form-control" type="text" placeholder="Sizes" name="sizes"
                         value={formData.sizes}
                         onChange={handleChange} />
                 </div>
 
-                {/* Color */}
                 <div className="mb-3">
                     <input className="form-control" type="text" placeholder="colors" name="colors"
                         value={formData.colors}
                         onChange={handleChange} />
 
                 </div>
+
+
                 <div className="mb-3">
                     <input className="form-control" type="number" placeholder="Qty" name="qty"
                         value={formData.qty}
                         onChange={handleChange} />
                 </div>
 
-                {/* Image Upload */}
+
                 <div className="mb-3">
                     <label htmlFor="image" className="form-label">Upload Image</label>
                     <input
@@ -182,7 +215,7 @@ const CreateProducts = () => {
                     />
                 </div>
 
-                {/* Submit Button */}
+
                 <button type="submit" className="btn btn-danger w-100">Create</button>
             </form>
         </div>

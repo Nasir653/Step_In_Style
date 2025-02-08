@@ -73,7 +73,7 @@ const ProductDetails = () => {
             <div className="text">
               <h4>{productById.title}</h4>
               <h3>{productById.details}</h3>
-              <h3>Price: {productById.price} INR</h3>
+              <h3>{productById.price} INR</h3>
               <div className="size-options">
                 <span>Size:</span>
                 <div className="size-buttons">

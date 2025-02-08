@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { context } from "../Context/Store";
 
 const OrderDetails = () => {
-    const { UserData, DispatchOrder } = useContext(context);
+    const { UserData, DispatchOrder, UserCancelOrder } = useContext(context);
     const { OrderId } = useParams();
 
     const [order, setOrder] = useState(null);
@@ -24,7 +24,7 @@ const OrderDetails = () => {
     }
 
     const handleCancelOrder = (productId) => {
-        alert(`Order for product ${productId} has been canceled.`);
+        UserCancelOrder(productId)
     };
 
     const handleDispatchOrder = () => {
@@ -91,7 +91,7 @@ const OrderDetails = () => {
                             )}
                             <button
                                 className="cancel-order-btn"
-                                onClick={() => handleCancelOrder(product.productId._id)}
+                                onClick={() => handleCancelOrder(order._id)}
                             >
                                 Cancel Order
                             </button>

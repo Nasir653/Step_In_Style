@@ -258,6 +258,23 @@ const editNewCollection = async (req, res) => {
   }
 };
 
+const DeleteCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.query;
+
+    const deleteCategory = await CategoryModel.findByIdAndDelete(categoryId);
+
+    if (!deleteCategory) {
+      return messageHandler(res, 404, "Product not found or already deleted");
+    }
+
+    return messageHandler(res, 200, `Category Deleted`);
+  } catch (error) {
+    console.error("Error during product deletion:", error);
+    return messageHandler(res, 500, "Server error");
+  }
+};
+
 const DeleteProducts = async (req, res) => {
   try {
     const { productId } = req.params;
@@ -568,4 +585,5 @@ module.exports = {
   editProducts,
   DispatchOrder,
   fetchALLUsers,
+  DeleteCategory,
 };

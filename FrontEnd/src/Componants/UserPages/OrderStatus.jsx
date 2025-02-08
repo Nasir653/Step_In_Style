@@ -1,17 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { context } from "../../Context/Store";
 import { useNavigate } from "react-router-dom";
 import "./OrderStatus.scss";
 
 const OrderStatus = () => {
-    const { UserData } = useContext(context);
+    const { UserData, UserCancelOrder } = useContext(context);
     const navigate = useNavigate();
+    const [orders, setOrders] = useState([]);
 
+    useEffect(() => {
+        if (UserData?.orders) {
+            setOrders(UserData.orders);
+        }
+    }, [UserData]);
 
-
-
-
-    if (!UserData || !UserData.orders || UserData.orders.length === 0) {
+    if (!orders || orders.length === 0) {
         return (
             <div className="order-status-container">
                 <h1>No Orders Found</h1>
@@ -20,9 +23,19 @@ const OrderStatus = () => {
         );
     }
 
-    const handleCancelOrder = (orderId) => {
-        console.log(`Cancel order with ID: ${orderId}`);
+    const handleCancelOrder = async (orderId) => {
+        try {
+            await UserCancelOrder(orderId); // Call cancel order function
 
+            // 🛠️ Update order status instead of removing
+            setOrders((prevOrders) =>
+                prevOrders.map((order) =>
+                    order._id === orderId ? { ...order, orderStatus: "Cancelled" } : order
+                )
+            );
+        } catch (error) {
+            console.error("Error canceling order:", error);
+        }
     };
 
     const handleViewDetails = (orderId) => {
@@ -33,23 +46,18 @@ const OrderStatus = () => {
     return (
         <div className="order-status-container">
             <h1>My Orders</h1>
-            {UserData.orders.map((order) => (
+            {orders.map((order) => (
                 <div key={order._id} className="order-card">
                     <div className="order-header">
                         <h3>Order ID: {order._id}</h3>
                         <p>Placed On: {new Date(order.OrderDate).toLocaleString()}</p>
                     </div>
 
-                    {order.orderStatus === "Confirmed" ? "Order Placed" :
-                        order.orderStatus === "Cancelled" ? "Order Cancelled" :
-                            order.orderStatus === "Shipped" ? "Order Shipped" :
-                                order.orderStatus === "Out for Delivery" ? "Out for Delivery" :
-                                    order.orderStatus === "Delivered" ? "Order Delivered" :
-                                        order.orderStatus === "Returned" ? "Order Returned" :
-                                            "Processing"}
+                    <p>Status: <strong>{order.orderStatus || "Pending"}</strong></p>
+
                     <div className="order-products">
                         {order.products?.map((product, index) => (
-                            <div key={index} className="product-details" onClick={(e) => { navigate(`/product/details/${product.productId._id}`) }}>
+                            <div key={index} className="product-details" onClick={() => navigate(`/product/details/${product.productId._id}`)}>
                                 <img
                                     src={product.productId.imageUrl}
                                     alt={product.productId.title}
@@ -64,14 +72,15 @@ const OrderStatus = () => {
                             </div>
                         ))}
                     </div>
+
                     <div className="order-footer">
                         <p>Total Amount: <strong>₹{order.totalAmount}</strong></p>
-                        <p>Status: <strong>{order.status || "Pending"}</strong></p>
                         <button
                             className="cancel-order-button"
                             onClick={() => handleCancelOrder(order._id)}
+                            disabled={order.orderStatus === "Cancelled"}
                         >
-                            Cancel Order
+                            {order.orderStatus === "Cancelled" ? "Order Cancelled" : "Cancel Order"}
                         </button>
                         <button
                             className="view-details-btn"

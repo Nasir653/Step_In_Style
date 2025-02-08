@@ -7,7 +7,7 @@ const AllOrdersPage = () => {
     const { fetchAllOrders, AllOrders, AdminCancelOrder, DispatchOrder } = useContext(context);
     const navigate = useNavigate();
 
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     const [startDate, setStartDate] = useState(today);
     const [endDate, setEndDate] = useState(today);
     const [filteredOrders, setFilteredOrders] = useState([]);
@@ -15,24 +15,36 @@ const AllOrdersPage = () => {
 
     useEffect(() => {
         fetchAllOrders();
-    }, [])
+    }, []);
 
 
     useEffect(() => {
+        if (AllOrders && AllOrders.length > 0) {
+            console.log("Fetched Orders:", AllOrders);
+
+            const start = new Date(startDate);
+            start.setHours(0, 0, 0, 0);
+            const end = new Date(endDate);
+            end.setHours(23, 59, 59, 999);
+
+            const filtered = AllOrders.filter(order => {
+                const orderDate = new Date(order.OrderDate);
+
+                const orderDateStr = orderDate.toISOString().split('T')[0];
+
+                console.log("OrderDate:", orderDateStr, "Start:", startDate, "End:", endDate);
+
+                return orderDateStr >= startDate && orderDateStr <= endDate;
+            });
+
+            console.log("Filtered Orders:", filtered);
+            setFilteredOrders(filtered);
+        }
+    }, [AllOrders, startDate, endDate]);
 
 
-        const start = new Date(startDate);
-        start.setHours(0, 0, 0, 0);
-        const end = new Date(endDate);
-        end.setHours(23, 59, 59, 999);
 
-        const filtered = AllOrders.filter(order => {
-            const createdOnDate = new Date(order.OrderDate);
-            return createdOnDate >= start && createdOnDate <= end;
-        });
 
-        setFilteredOrders(filtered);
-    }, [startDate, endDate, AllOrders]);
 
     const handleViewDetails = (orderId) => {
         navigate(`/Order/OrderDetails/${orderId}`);

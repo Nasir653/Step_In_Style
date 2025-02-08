@@ -1,62 +1,182 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { context } from '../../Context/Store';
+import React, { useContext, useState, useEffect } from "react";
+import { context } from "../../Context/Store";
 import "./Profile.scss";
+import { FaShoppingCart } from "react-icons/fa";
+import { AiOutlineHeart, AiOutlineEdit } from "react-icons/ai";
+import { MdLocationOn, MdLocalOffer, MdContactSupport } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
 
-    const { UserData, ProfiePic, cart, } = useContext(context);
+    const navigate = useNavigate();
+
+    const { UserData, ProfiePic, EditUser } = useContext(context);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        phone: "",
+        gender: "",
+        dob: ""
+    });
 
 
-    const [formData, setFormData] = useState(null)
+    useEffect(() => {
+        if (UserData) {
+            setFormData({
+                username: UserData.username || "",
+                email: UserData.email || "",
+                phone: UserData.phone || "",
+                gender: UserData.gender || "",
+                dob: UserData.dob || ""
+            });
+        }
+    }, [UserData]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevInput) => ({ ...prevInput, [name]: value }));
+    };
 
     const form = new FormData();
+    form.append("image", selectedImage);
+    form.append("username", formData.username);
+    form.append("email", formData.email);
+    form.append("phone", formData.phone);
+    form.append("gender", formData.gender);
+    form.append("dob", formData.dob);
 
-    form.append("image", formData);
+    const handleUpload = () => {
+        if (selectedImage) {
+            ProfiePic(form);
+            console.log(form);
+        }
+    };
 
-    // useEffect(() => {
-    //     fetchUserData()
-    // }, [loading])
+    const handleEditClick = () => {
+        setIsEditing(!isEditing);
+    };
 
+    const handleSaveChanges = () => {
+        EditUser(form);
+        setIsEditing(false);
+    };
 
     return (
-
-        <>
-            <div className="card">
-
-                <div className="imgDiv">
-                    <img src={UserData.profilePic} alt="{UserData.username}" />
-                    <label htmlFor="image">Select Profile Pic</label>
+        <div className="profile-container">
+            <div className="sidebar">
+                <div className="profile-pic">
+                    <img src={selectedImage || UserData.profilePic} alt={UserData.username} />
+                    <label htmlFor="image-upload" className="upload-label">
+                        <AiOutlineEdit /> Select Image
+                    </label>
                     <input
-                        className="img-input"
                         type="file"
-                        id="image"
+                        id="image-upload"
                         name="image"
-                        onChange={(e) => setFormData(e.target.files[0])}
+                        accept="image/*"
+                        className="img-input"
+                        onChange={(e) => setSelectedImage(e.target.files[0])}
                     />
-
-                    <button onClick={() => ProfiePic(form)}>Upload</button>
-
+                    {selectedImage && <button onClick={handleUpload}>Upload</button>}
                 </div>
+                <h3>{UserData.username}</h3>
+                <p>{UserData.email}</p>
+                <p>{UserData.mobile}</p>
 
-                <div className="user-details">
-
-
-                    <h5>Username : <span>{UserData.username}</span></h5>
-                    <h5>Email : <span>{UserData.email}</span></h5>
-                    <h5>Cart : <span>{cart.length}</span></h5>
-
-
-
-
-                </div>
-
-
-
+                <ul className="menu">
+                    <li onClick={() => navigate("/user/OrderStatus")}><FaShoppingCart /> My Orders</li>
+                    <li><MdLocationOn /> My Address</li>
+                    <li><AiOutlineHeart /> Wishlist</li>
+                    <li><MdLocalOffer /> Coupons</li>
+                    <li><MdContactSupport /> Contact Us</li>
+                </ul>
             </div>
 
+            <div className="profile-details">
+                <div className="edit-header">
+                    <h2>My Profile</h2>
+                    <AiOutlineEdit onClick={handleEditClick} className="edit-icon" />
+                </div>
 
-        </>
-    )
-}
+                <form>
+                    <label>Full Name *</label>
+                    <input
+                        type="text"
+                        value={formData.username}
+                        disabled={!isEditing}
+                        onChange={handleChange}
+                        name="username"
+                    />
 
-export default Profile
+                    <label>Email ID *</label>
+                    <input
+                        type="email"
+                        value={formData.email}
+                        disabled={!isEditing}
+                        onChange={handleChange}
+                        name="email"
+                    />
+
+                    <label>Mobile *</label>
+                    <div className="mobile-input">
+                        <span>+91</span>
+                        <input
+                            type="text"
+                            name="phone"
+                            value={formData.phone}
+                            disabled={!isEditing}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <label>Gender *</label>
+                    <div className="gender-options">
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Male"
+                            checked={formData.gender === "Male"}
+                            disabled={!isEditing}
+                            onChange={handleChange}
+                        /> Male
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Female"
+                            checked={formData.gender === "Female"}
+                            disabled={!isEditing}
+                            onChange={handleChange}
+                        /> Female
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Other"
+                            checked={formData.gender === "Other"}
+                            disabled={!isEditing}
+                            onChange={handleChange}
+                        /> Other
+                    </div>
+
+                    <label>Date of Birth *</label>
+                    <input
+                        type="date"
+                        name="dob"
+                        value={formData.dob}
+                        disabled={!isEditing}
+                        onChange={handleChange}
+                    />
+
+                    {isEditing && (
+                        <button type="button" onClick={handleSaveChanges}>
+                            Save Changes
+                        </button>
+                    )}
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default Profile;

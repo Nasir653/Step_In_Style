@@ -7,7 +7,7 @@ import "./EditCategory.scss";
 const EditCategoryPage = () => {
 
 
-    const { editNewCategory, AllCategories, addNewCategory } = useContext(context);
+    const { editNewCategory, AllCategories, addNewCategory, DeleteCategories } = useContext(context);
 
     const [editingCategoryId, setEditingCategoryId] = useState(null);
     const [isAddingNew, setIsAddingNew] = useState(false);
@@ -33,18 +33,25 @@ const EditCategoryPage = () => {
             if (categoryId) {
                 await editNewCategory(e, formData, categoryId);
             } else {
-                await addNewCategory(e, formData); // Add a new category
-                setIsAddingNew(false); // Close "Add New" form after submission
+                await addNewCategory(e, formData);
+                setIsAddingNew(false);
+                setEditingCategoryId(null);
+                setTitle("");
+                setImage(null);
             }
-            setEditingCategoryId(null); // Reset editing state after submission
-            setTitle(""); // Reset title field
-            setImage(null); // Reset image field
         } catch (error) {
             console.error("Error during submission:", error);
         } finally {
             setLoading(false);
         }
     };
+
+    const handleDelete = (e, categoryId) => {
+        e.preventDefault();
+
+        DeleteCategories(categoryId);
+
+    }
 
     return (
         <>
@@ -92,7 +99,7 @@ const EditCategoryPage = () => {
                                         </button>
                                     </form>
                                 ) : (
-                                    // Display category
+
                                     <>
                                         <img src={ele.img} alt={ele.title} />
                                         <h5>{ele.title}</h5>
@@ -102,15 +109,15 @@ const EditCategoryPage = () => {
                                         >
                                             Edit
                                         </button>
-                                        <button className="btn">Delete</button>
+                                        <button className="btn" onClick={(e) => handleDelete(e, ele._id)}>Delete</button>
                                     </>
                                 )}
                             </div>
                         ))}
 
-                        {/* Add New Category Button */}
+
                         {isAddingNew ? (
-                            // Add new category form
+
                             <form encType="multipart/form-data" onSubmit={handleSubmit}>
                                 <input
                                     type="text"
@@ -133,20 +140,20 @@ const EditCategoryPage = () => {
                                 <button
                                     type="button"
                                     className="btn"
-                                    onClick={() => setIsAddingNew(false)} // Close form on cancel
+                                    onClick={() => setIsAddingNew(false)}
                                 >
                                     Cancel
                                 </button>
                             </form>
                         ) : (
-                            // Show button to open add new form
+
                             <button
                                 className="btn"
                                 onClick={() => {
                                     setIsAddingNew(true);
-                                    setEditingCategoryId(null); // Close any editing forms
-                                    setTitle(""); // Clear title input
-                                    setImage(null); // Clear image input
+                                    setEditingCategoryId(null);
+                                    setTitle("");
+                                    setImage(null);
                                 }}
                             >
                                 Add New Category

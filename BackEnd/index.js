@@ -21,6 +21,7 @@ const {
   SuggestedItems,
   EditAddress,
   blogs,
+  EditUser,
 } = require("./controllers/userController");
 const verifyUSer = require("./utils/isAuth");
 const {
@@ -40,6 +41,7 @@ const {
   DeleteProducts,
   DispatchOrder,
   fetchALLUsers,
+  DeleteCategory,
 } = require("./controllers/adminControler");
 const { multMid } = require("./middleWares/imgUploader");
 const cookieParser = require("cookie-parser");
@@ -81,7 +83,7 @@ app.post("/user/login", loginHandler);
 app.get("/user/logout", Logout);
 app.post("/user/forgetpassword", forgetPass);
 app.put("/user/resetpassword/:userId", ResetPass);
-app.post("/user/profilePic", IsAuthenticated, multMid, ProfilePic);
+app.post("/user/editUser", IsAuthenticated, multMid, EditUser);
 app.get("/user/verify/:token", verifyUSer);
 app.get("/fetch/user", IsAuthenticated, fetchUserData);
 app.post("/edit/user", IsAuthenticated, EditAddress);
@@ -104,6 +106,7 @@ app.get("/dispatch/order", DispatchOrder);
 app.post("/create/newCategory", multMid, CreateNewCategory);
 app.post("/admin/Creates/newCategory/:categoryId", multMid, EditNewCategory);
 app.get("/fetch/allNewCatwgory", fetchNewCategory);
+app.delete("/admin/deleteCategory", DeleteCategory);
 
 // Products Routes
 app.get("/get/AllProducts", getAllProducts);

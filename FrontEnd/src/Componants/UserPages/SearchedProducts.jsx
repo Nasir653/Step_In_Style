@@ -26,7 +26,6 @@ const SearchedProducts = () => {
                         />
                         <div className="searched-item-details">
                             <h4 className="searched-item-title">{ele.title}</h4>
-                            <h5 className="searched-item-description">{ele.details}</h5>
                             <h3 className="searched-item-price">INR {ele.price}</h3>
                         </div>
                     </div>

@@ -66,8 +66,9 @@ body {
       width: 70%;
       height: 250px;
       margin-bottom: 1.5vw;
-    }
+     
 
+  }
     @media (max-width: 480px) {
       width: 90%;
       height: 200px;
@@ -81,6 +82,8 @@ body {
     padding-left: 1.5vw;
     align-items: start;
     gap:2vh;
+
+    
     @media (max-width: 768px) {
       padding-left: 0;
       text-align: center;
@@ -227,6 +230,7 @@ body {
       @media (max-width: 768px) {
         width: 90%;
         padding: 1.2vw 2vw;
+
       }
     }
   }
@@ -236,6 +240,7 @@ body {
 @media (max-width: 768px) {
   .container-fuild {
     padding: 3vw;
+    text-align: center;
   }
 
   .productDetails-items {

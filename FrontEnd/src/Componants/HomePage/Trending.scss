@@ -12,29 +12,27 @@
     .trending-products {
         gap: 1vw;
         display: flex;
-        height: 70vh;
+        flex-wrap: nowrap;
         padding: 1vw;
         padding-top: 3vh;
 
         .trending-item {
-            width: 20%;
-            height: 70vh;
+            width: 20%;          
             display: flex;
             flex-direction: column;
             transition: transform 0.3s;
             border-radius: 8px;
-            background-color: #f9f9f9; // Optional background
+            background-color: #f9f9f9; 
             padding: 1vh;
             position: relative;
             cursor: pointer;
 
             &:hover {
-                transform: scale(1.02); // Hover scaling effect only
+                transform: scale(1.02); 
             }
 
             .trending-image {
                 width: 100%;
-                height: 50vh;
                 padding-bottom: 1vh;
                 border-radius: 6px;
                 object-fit: cover;
@@ -55,6 +53,27 @@
                 color: black;
                 text-align: center;
             }
+        }
+    }
+}
+@media (max-width: 900px) {
+    .trending-products {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2vw; 
+
+        .trending-item {
+            width: 48%; 
+            margin-bottom: 2vh;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .trending-products {
+        .trending-item {
+            width: 100%; 
         }
     }
 }

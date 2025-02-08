@@ -6,17 +6,13 @@ import NewCollection from "./NewCollection";
 import Trending from "./Trending";
 
 
-
-//import IsAuthorized from '../utils/IsAuthorized';
-
 function Home() {
 
-
-
-
-
     return (
+
         <>
+
+
             <div className="container-fluid">
 
 
@@ -126,6 +122,7 @@ function Home() {
             </div>
 
 
+
             <div className="container-fluid">
 
 
@@ -137,22 +134,22 @@ function Home() {
 
                     <div className="Gender-category">
 
-                        <Link  to="/Category/mens">
-                        <div className="col-mens">
-                        <img src="https://img.freepik.com/premium-vector/men-fashion-collection-social-media-banner-template-design_596383-109.jpg" alt="" />
-                        </div>
+                        <Link to="/Category/mens">
+                            <div className="col-mens">
+                                <img src="https://img.freepik.com/premium-vector/men-fashion-collection-social-media-banner-template-design_596383-109.jpg" alt="" />
+                            </div>
                         </Link>
-                      
-                        
-                        <Link to="/Category/womens"> 
-                        
-                        <div className="col-womens">
 
-                            <img src="https://www.primeemarket.com/cdn/shop/files/1643651730_550x.jpg?v=1645386541" alt="" />
+
+                        <Link to="/Category/womens">
+
+                            <div className="col-womens">
+
+                                <img src="https://www.primeemarket.com/cdn/shop/files/1643651730_550x.jpg?v=1645386541" alt="" />
 
 
                             </div>
-                            
+
 
                         </Link>
 
@@ -173,10 +170,6 @@ function Home() {
 
                     </div>
 
-
-
-
-
                 </div>
 
 
@@ -195,27 +188,12 @@ function Home() {
                 </div>
 
 
-
-
-
-
             </div>
 
 
-
-
-            {/* 
-
-           
-            
-            */
-            }
-
-
-
-
-
         </>
+
+
     );
 }
 

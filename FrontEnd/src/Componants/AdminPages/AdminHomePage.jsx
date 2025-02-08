@@ -26,11 +26,6 @@ const AdminHomePage = () => {
     const CancelledOrders = orders.filter(order => order.orderStatus === "Cancelled").length;
     const CompletedOrders = orders.filter(order => order.orderStatus === "Completed").length;
 
-    console.log("Orders count:", orders.length);
-    console.log("Confirmed Orders:", ConfirmedOrders);
-    console.log("Pending Orders:", PendingOrders);
-    console.log("Cancelled Orders:", CancelledOrders);
-    console.log("Completed Orders:", CompletedOrders);
 
     const orderStatusChartData = {
         labels: ["Pending", "Confirmed", "Cancelled", "Completed"],

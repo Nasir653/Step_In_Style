@@ -292,23 +292,40 @@ const EditAddress = async (req, res) => {
   }
 };
 
-const ProfilePic = async (req, res) => {
+const EditUser = async (req, res) => {
   try {
     const userId = req.userId;
 
-    const upload = await cloudinary.uploader.upload(req.file.path, {
-      folder: "pp",
+    if (req.file) {
+      const upload = await cloudinary.uploader.upload(req.file.path, {
+        folder: "pp", // Folder for storing profile pictures
+      });
+
+      const UpdatePic = await User.findByIdAndUpdate(userId, {
+        profilePic: upload.secure_url,
+      });
+      if (!UpdatePic) {
+        return messageHandler(res, 404, "Something went Wrong");
+      } else {
+        return messageHandler(res, 200, "Profile Updated");
+      }
+    }
+
+    const { username, email, phone, gender, dob } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(userId, {
+      username: username,
+      email: email,
+      phone: phone,
+      gender: gender,
+      dob: dob,
     });
 
-    const user = await User.findByIdAndUpdate(userId, {
-      profilePic: upload.secure_url,
-    });
-
-    if (!user) {
+    if (!updatedUser) {
       return messageHandler(res, 401, "UnAuthorized");
     }
 
-    return messageHandler(res, 200, "Profile Pic Changed");
+    return messageHandler(res, 200, "Profile Updated");
   } catch (error) {
     messageHandler(res, 500, "Server Error");
     console.error(error);
@@ -637,7 +654,6 @@ const SuggestedItems = async (req, res) => {
         "No Suggested Items found for this product"
       );
     }
-
     return messageHandler(res, 200, "Suggested Items for This Product", fetch);
   } catch (error) {
     console.error("❌ Error fetching suggested items:", error);
@@ -682,7 +698,7 @@ module.exports = {
   removeFromCart,
   searchInput,
   Logout,
-  ProfilePic,
+  EditUser,
   EditAddress,
   CancelOrder,
   fetchOrderById,

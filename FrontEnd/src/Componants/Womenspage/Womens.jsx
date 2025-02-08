@@ -148,7 +148,7 @@ const Womens = () => {
 
 
 
-                    <div className="col" onClick={() => handelRoute("Shoes")}>
+                    <div className="col" onClick={() => handelRoute("Flats&Shoes")}>
 
                         <img src="https://assets.myntassets.com/w_163,c_limit,fl_progressive,dpr_2.0/assets/images/2020/7/8/a4dedaa4-3710-4061-b7d6-ca8c83ce9d021594222967117-Heels.jpg" alt="" />
 

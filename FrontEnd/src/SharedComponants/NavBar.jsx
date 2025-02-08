@@ -54,8 +54,7 @@ function NavBar() {
     return (
         <div className="NavBar">
             <div className="header">
-                <img className="logo" src="step-in-style-logo.png" alt="Step in Style Logo" />
-
+                <h4>Step In Style</h4>
                 <div className="search-div">
                     <input
                         type="search"

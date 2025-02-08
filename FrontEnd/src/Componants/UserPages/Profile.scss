@@ -1,125 +1,237 @@
-:root {
-    --primary-color: #4CAF50;
-    --secondary-color: #f4f4f4;
-    --text-color: #333;
-    --border-radius: 10px;
-    --button-bg: #4CAF50;
-    --button-hover-bg: #45a049;
-    --button-text: #fff;
-    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    --transition-duration: 0.3s;
-}
+$primary-color: #ff6f61;
+$secondary-color: #ff9f43;
+$background-color: #f8f9fa;
+$text-color: #333;
+$white: #fff;
+$shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--secondary-color);
-}
-
-.card {
-    width: 40%;
-    margin: 5% auto;
-    background-color: #fff;
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
+.profile-container {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 3vh;
-    padding: 2vw;
-    transition: transform var(--transition-duration), box-shadow var(--transition-duration);
-
-    &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    @media (max-width: 768px) {
-        width: 85%;
-        padding: 4vw;
-    }
-}
-
-.imgDiv {
-    display: flex;
-    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: $background-color;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 3vh;
-    gap: 2vh;
 
+    .sidebar {
+        width: 25%;
+        background: $white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: $shadow;
+        text-align: center;
 
-    >.img-input{
-        display: none;
-    }
-    >label {
-        background-color: var(--primary-color);
-        color: #fff;
-        padding: 0.5rem 0.8rem;
-        font-size: 0.9rem;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        transition: background-color var(--transition-duration);
+        .profile-pic {
+            position: relative;
+            margin-bottom: 15px;
 
-        &:hover {
-            background-color: var(--button-hover-bg);
+            img {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 4px solid $primary-color;
+                transition: 0.3s ease;
+            }
+
+            .upload-label {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: $primary-color;
+                color: $white;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 14px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: 0.3s;
+                gap: 5px;
+                margin-top: 10px;
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+
+                &:hover {
+                    background: $secondary-color;
+                }
+            }
+
+            .img-input {
+                display: none;
+            }
+        }
+
+        h3 {
+            font-size: 20px;
+            color: $primary-color;
+            margin-bottom: 5px;
+        }
+
+        p {
+            font-size: 14px;
+            color: $text-color;
+            margin: 3px 0;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+
+            li {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px;
+                font-size: 16px;
+                font-weight: 500;
+                cursor: pointer;
+                border-bottom: 1px solid #ddd;
+                transition: 0.3s;
+
+                &:hover {
+                    background: $primary-color;
+                    color: $white;
+                    transform: translateX(5px);
+                }
+
+                svg {
+                    font-size: 20px;
+                }
+            }
+        }
+
+        button {
+            background: $primary-color;
+            color: $white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s ease;
+            width: 100%;
+
+            &:hover {
+                background: $secondary-color;
+            }
         }
     }
 
-    >img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
-        box-shadow: var(--card-shadow);
-        transition: transform var(--transition-duration);
+    .profile-details {
+        width: 50%;
+        background: $white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: $shadow;
 
-        &:hover {
-            transform: scale(1.1);
-        }
-    }
-
-    >button {
-        width: 30%;
-        padding: 0.4rem 0.2rem;
-        font-size: 1rem;
-        background-color: var(--button-bg);
-        color: var(--button-text);
-        border: none;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        transition: background-color var(--transition-duration);
-
-        &:hover {
-            background-color: var(--button-hover-bg);
+        .edit-header{
+            display: flex;
+            justify-content: space-between;
         }
 
-        @media (max-width: 768px) {
-            width: 70%;
-            font-size: 0.9rem;
+        h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: $primary-color;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            label {
+                font-weight: bold;
+                font-size: 14px;
+                color: $text-color;
+            }
+
+            input {
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                font-size: 16px;
+                width: 100%;
+                transition: 0.3s ease;
+
+                &:focus {
+                    border-color: $primary-color;
+                    outline: none;
+                    box-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
+                }
+            }
+
+            .mobile-input {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                span {
+                    background: #eee;
+                    padding: 12px;
+                    border-radius: 6px;
+                    font-weight: bold;
+                }
+            }
+
+            .gender-options {
+                display: flex;
+                gap: 20px;
+
+                input {
+                    margin-right: 5px;
+                }
+            }
+
+            button {
+                background: $primary-color;
+                color: $white;
+                border: none;
+                padding: 12px;
+                border-radius: 8px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 10px;
+                transition: 0.3s ease;
+
+                &:hover {
+                    background: $secondary-color;
+                }
+            }
         }
     }
 }
 
-.user-details {
-    text-align: center;
-    color: var(--text-color);
 
-    >h5 {
-        font-size: 1rem;
-        font-weight: 500;
-        margin-bottom: 1vh;
+@media (max-width: 1024px) {
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
 
-        >span {
-            font-weight: 400;
-            color: #666;
-        }
+    
+
+    .sidebar {
+        width: 60%;
     }
 
-    @media (max-width: 768px) {
-        >h5 {
-            font-size: 0.9rem;
-        }
+    .profile-details {
+        width: 80%;
+    }
+
+}
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .profile-details {
+        width: 100%;
     }
 }

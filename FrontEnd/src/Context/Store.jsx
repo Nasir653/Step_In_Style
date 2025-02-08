@@ -130,26 +130,48 @@ const Store = () => {
   };
 
 
-  const ProfiePic = useCallback(async (form) => {
+
+  const EditUser = useCallback(async (formData) => {
     try {
 
       setStore((prev) => ({ ...prev, loading: true }));
 
-      const res = await api.post("/user/profilePic", form)
 
-      toast.success(res.data.message)
+      const res = await api.post("/user/editUser", formData);
 
 
+      toast.success(res.data.message);
 
     } catch (error) {
-      console.log(error);
-
-    }
-    finally {
+      console.error(error);
+      toast.error("Error While Editing");
+    } finally {
       setStore((prev) => ({ ...prev, loading: false }));
     }
+  }, []);
 
-  }, [])
+  const ProfiePic = useCallback(async (form) => {
+    try {
+      console.log(form);
+      setStore((prev) => ({ ...prev, loading: true }));
+
+
+      const res = await api.post("/user/editUser", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success(res.data.message);
+
+    } catch (error) {
+      console.error(error);
+      toast.error("Error uploading profile picture");
+    } finally {
+      setStore((prev) => ({ ...prev, loading: false }));
+    }
+  }, []);
+
 
 
   const editAddress = async (e, formData) => {
@@ -185,7 +207,7 @@ const Store = () => {
     try {
 
 
-
+      setStore((prev) => ({ ...prev, allProducts: [] }));
       const res = await api.get(`/getAllProducts/${category}/${type}`);
 
 
@@ -404,9 +426,9 @@ const Store = () => {
   const UserCancelOrder = async (OrderId) => {
     try {
 
-      const res = await api.get(`/ user / CancelOrder / ${OrderId}`)
+      const res = await api.get(`/user/CancelOrder/${OrderId}`)
       toast.success(res.data.message || "Order Cancelled successfully")
-      navigate("/user/cart");
+
 
     } catch (error) {
 
@@ -416,7 +438,7 @@ const Store = () => {
 
   const SearchInput = async (value) => {
     try {
-      const res = await api.post(`/ product / search / ${value}`);
+      const res = await api.post(`/product/search/${value}`);
 
       if (res) {
 
@@ -549,7 +571,7 @@ const Store = () => {
 
     try {
 
-      const res = await api.put(`/ admin / editProducts / ${productId}`, formData);
+      const res = await api.put(`/admin/editProducts/${productId}`, formData);
 
 
       toast.success(res.data.message);
@@ -629,7 +651,7 @@ const Store = () => {
       setStore((prev) => ({ ...prev, loading: true }));
 
       e.preventDefault();
-      const res = await api.post(`/ admin / Creates / newCategory / ${categoryId}`, formData);
+      const res = await api.post(`/admin/Creates/newCategory/${categoryId}`, formData);
       console.log(res);
 
 
@@ -646,6 +668,21 @@ const Store = () => {
     }
   }, []
   )
+
+  const DeleteCategories = async (CategoryId) => {
+
+    try {
+
+      const res = await api.delete(`/admin/deleteCategory?categoryId=${CategoryId}`);
+      toast.success(res.data.message);
+
+    } catch (error) {
+      console.log(error);
+
+
+    }
+
+  }
 
   const fetchNewCategory = async () => {
     try {
@@ -722,6 +759,7 @@ const Store = () => {
         registerHandler,
         loginHandler,
         ResetLink,
+        EditUser,
         CreateProducts,
         EditProducts,
         fetchAllProducts,
@@ -743,6 +781,7 @@ const Store = () => {
         getTrendingProducts,
         addNewCategory,
         editNewCategory,
+        DeleteCategories,
         fetchNewCategory,
         EditNewCollection,
         deleteAndActiveProducts,

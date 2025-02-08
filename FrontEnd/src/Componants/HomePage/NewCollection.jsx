@@ -12,12 +12,19 @@ const NewCollection = () => {
   }, []);
 
   return (
-    <div>
+
+
+    <>
+
+
       <div className="New-collection">
+
         <h1>New Collections</h1>
         <div className="New_Collections">
+
           {NewCollection &&
             NewCollection.map((product) => (
+
               <div
                 key={product._id}
                 className="items"
@@ -25,6 +32,7 @@ const NewCollection = () => {
                   navigate(`/product/details/${product._id}`);
                 }}
               >
+
                 <img
                   src={product.imageUrl}
                   alt={product.title}
@@ -37,7 +45,9 @@ const NewCollection = () => {
             ))}
         </div>
       </div>
-    </div>
+
+
+    </>
   );
 };
 

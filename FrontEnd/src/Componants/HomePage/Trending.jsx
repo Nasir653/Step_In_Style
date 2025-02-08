@@ -16,11 +16,15 @@ const Trending = () => {
     return (
         <>
             <div className="trending-section">
+
                 <h1 className="trending-title">Trending</h1>
+
                 <div className="trending-products">
+
                     {TrendingProducts &&
                         TrendingProducts.map((product) => (
                             <div
+
                                 key={product._id}
                                 className="trending-item"
                                 onClick={(e) => {
@@ -42,8 +46,12 @@ const Trending = () => {
                                     {product.sizes}
                                 </span>
                             </div>
+
                         ))}
+
                 </div>
+
+
             </div>
         </>
     );

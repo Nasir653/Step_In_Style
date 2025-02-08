@@ -52,8 +52,7 @@ const WomensCategory = () => {
 
                                     <span> INR : {product.price} </span>
                                 </div>
-                                <button onClick={() => addToCart(product._id)}>Add To Cart</button>
-                                <button>Order Now </button>
+
 
 
                             </div>

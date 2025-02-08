@@ -10,7 +10,6 @@ const OrderPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedAddress, setEditedAddress] = useState(null);
 
-
     const items = cart.filter((ele) => ele._id === productId);
 
     const handleEditClick = (address) => {
@@ -43,21 +42,53 @@ const OrderPage = () => {
             return;
         }
 
-        items.forEach((product) => {
-            const formData = {
-                color: product.color,
-                size: product.size,
-                qty: product.qty,
-                price: product.price,
-                addressId: address._id,
-            };
+        // Calculate total amount in paise (Razorpay uses paise)
+        const totalAmount = items.reduce((total, product) => total + product.price * product.qty, 0) * 100;
 
+        // Razorpay options
+        const options = {
+            key: "rzp_test_Z36WCdNzfS0d1c", // Your Razorpay test key
+            amount: totalAmount, // Amount in paise
+            currency: "INR",
+            name: "Step in Style",
+            description: "Order Payment",
+            handler: function (response) {
+                console.log("Payment Success:", response);
 
+                // If payment is successful, place the order
+                items.forEach((product) => {
+                    const formData = {
+                        color: product.color,
+                        size: product.size,
+                        qty: product.qty,
+                        price: product.price,
+                        addressId: address._id,
+                        paymentId: response.razorpay_payment_id, // Store payment ID
+                    };
 
+                    Order(product.productId._id, formData);
+                });
 
-            Order(product.productId._id, formData)
+                alert("Payment Successful! Your order has been placed.");
+            },
+            prefill: {
+                name: UserData?.name,
+                email: UserData?.email,
+                contact: UserData?.contact,
+            },
+            theme: {
+                color: "#F37254",
+            },
+        };
 
-        });
+        // Check if Razorpay is loaded
+        if (!window.Razorpay) {
+            alert("Razorpay SDK not loaded. Please check your connection.");
+            return;
+        }
+
+        const razorpayInstance = new window.Razorpay(options);
+        razorpayInstance.open();
     };
 
     const handleClosePopup = () => {
@@ -77,38 +108,26 @@ const OrderPage = () => {
                     <h3>Ordered Products</h3>
                     {items.map((product) => (
                         <div key={product._id} className="order-item">
-
                             <img
                                 className="item-img"
                                 src={product.productId.imageUrl || "default-image.jpg"}
                                 alt={product.title || "Product Image"}
                             />
                             <div className="item-details">
-
                                 <h4 className="item-title">{product.productId.title || "Untitled Product"}</h4>
 
-
-                                {/* Type */}
                                 <p className="item-info">
                                     <span>Type:</span> {product.productId.type || "No type"}
                                 </p>
-
-                                {/* Size */}
                                 <p className="item-info">
                                     <span>Size:</span> {product.size || "No size"}
                                 </p>
-
-                                {/* Color */}
                                 <p className="item-info">
                                     <span>Color:</span> {product.color || "No color"}
                                 </p>
-
-                                {/* Quantity */}
                                 <p className="item-info">
                                     <span>Quantity:</span> {product.qty || 0}
                                 </p>
-
-                                {/* Price */}
                                 <p className="item-info">
                                     <span>Price:</span> ₹{product.price || 0}
                                 </p>
@@ -117,8 +136,6 @@ const OrderPage = () => {
                     ))}
                 </div>
 
-
-                {/* Total Amount and Actions */}
                 <div className="order-footer">
                     <h3 className="total-amount">
                         <span>Total Amount:</span> ₹
@@ -128,11 +145,7 @@ const OrderPage = () => {
                         <button className="btn-primary" onClick={handleConfirmOrder}>
                             Confirm Order
                         </button>
-
-                        <button
-                            className="btn-secondary"
-                            onClick={() => UserCancelOrder(OrderId)}
-                        >
+                        <button className="btn-secondary" onClick={() => UserCancelOrder(OrderId)}>
                             Cancel Order
                         </button>
                     </div>
@@ -150,68 +163,16 @@ const OrderPage = () => {
                             <div key={addr._id} className="address-details">
                                 {isEditing && editedAddress && editedAddress._id === addr._id ? (
                                     <div className="edit-address">
-                                        <input
-                                            type="text"
-                                            name="fullName"
-                                            value={editedAddress.fullName}
-                                            onChange={handleAddressChange}
-                                            placeholder="Full Name"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="street"
-                                            value={editedAddress.street}
-                                            onChange={handleAddressChange}
-                                            placeholder="Street"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="city"
-                                            value={editedAddress.city}
-                                            onChange={handleAddressChange}
-                                            placeholder="City"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="district"
-                                            value={editedAddress.district}
-                                            onChange={handleAddressChange}
-                                            placeholder="District"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="state"
-                                            value={editedAddress.state}
-                                            onChange={handleAddressChange}
-                                            placeholder="State"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="pincode"
-                                            value={editedAddress.pincode}
-                                            onChange={handleAddressChange}
-                                            placeholder="Pincode"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="landmark"
-                                            value={editedAddress.landmark}
-                                            onChange={handleAddressChange}
-                                            placeholder="Landmark"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="contact"
-                                            value={editedAddress.contact}
-                                            onChange={handleAddressChange}
-                                            placeholder="Contact"
-                                        />
-                                        <button className="btn-primary" onClick={(e) => handleSaveAddress(e)}>
-                                            Update
-                                        </button>
-                                        <button className="btn-secondary" onClick={handleCancelEdit}>
-                                            Cancel
-                                        </button>
+                                        <input type="text" name="fullName" value={editedAddress.fullName} onChange={handleAddressChange} placeholder="Full Name" />
+                                        <input type="text" name="street" value={editedAddress.street} onChange={handleAddressChange} placeholder="Street" />
+                                        <input type="text" name="city" value={editedAddress.city} onChange={handleAddressChange} placeholder="City" />
+                                        <input type="text" name="district" value={editedAddress.district} onChange={handleAddressChange} placeholder="District" />
+                                        <input type="text" name="state" value={editedAddress.state} onChange={handleAddressChange} placeholder="State" />
+                                        <input type="text" name="pincode" value={editedAddress.pincode} onChange={handleAddressChange} placeholder="Pincode" />
+                                        <input type="text" name="landmark" value={editedAddress.landmark} onChange={handleAddressChange} placeholder="Landmark" />
+                                        <input type="text" name="contact" value={editedAddress.contact} onChange={handleAddressChange} placeholder="Contact" />
+                                        <button className="btn-primary" onClick={(e) => handleSaveAddress(e)}>Update</button>
+                                        <button className="btn-secondary" onClick={handleCancelEdit}>Cancel</button>
                                     </div>
                                 ) : (
                                     <div>
@@ -223,12 +184,8 @@ const OrderPage = () => {
                                         <p><strong>Pincode:</strong> {addr.pincode}</p>
                                         <p><strong>Landmark:</strong> {addr.landmark}</p>
                                         <p><strong>Contact:</strong> {addr.contact}</p>
-                                        <button className="btn-secondary" onClick={() => handleEditClick(addr)}>
-                                            Edit
-                                        </button>
-                                        <button className="btn-secondary" onClick={() => handleOrdernow(addr)}>
-                                            Order Now
-                                        </button>
+                                        <button className="btn-secondary" onClick={() => handleEditClick(addr)}>Edit</button>
+                                        <button className="btn-secondary" onClick={() => handleOrdernow(addr)}>Order Now</button>
                                     </div>
                                 )}
                             </div>

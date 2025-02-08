@@ -5,10 +5,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const Cart = () => {
 
+
+
+
   const navigate = useNavigate();
 
   const { cart, removeFromCart } = useContext(context);
-
+  console.log(cart);
 
 
   const [quantities, setQuantities] = useState(
@@ -60,6 +63,10 @@ const Cart = () => {
                   src={ele.productId.imageUrl}
                   alt={ele.productId.title}
                   className="item-img"
+
+                  onClick={() => {
+                    navigate(`/product/details/${ele.productId._id}`);
+                  }}
                 />
                 <div className="item-details">
                   <h4>{ele.productId.title}</h4>
