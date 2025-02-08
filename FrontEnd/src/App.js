@@ -80,8 +80,6 @@ function App() {
           <Route path="/womens/:category" element={<WomensCategory />} />
 
           {/* Admin route */}
-          <Route path="/admin/signup" element={<AdminSignUp />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
 
           <Route path="/admin" element={<AdminHomePage />} />
 

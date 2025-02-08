@@ -27,7 +27,6 @@ const verifyUSer = require("./utils/isAuth");
 const {
   CreateProducts,
   getAllProducts,
-  AdminRegistration,
   AdminLogin,
   newCollectionProducts,
   EditNewCategory,
@@ -91,8 +90,7 @@ app.get("/user/SuggestedItems/:type", IsAuthenticated, SuggestedItems);
 app.post("/user/Blogs", IsAuthenticated, blogs);
 
 // Admin Routes
-//app.post("/admin/signup", AdminRegistration);
-app.post("/admin/login", AdminLogin);
+
 app.post("/admin/createProducts", IsAuthenticated, multMid, CreateProducts);
 app.put("/admin/editProducts/:ProductId", IsAuthenticated, editProducts);
 app.get("/get/newCollection/:category", IsAuthenticated, newCollectionProducts);
