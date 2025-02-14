@@ -45,12 +45,8 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
-    if (!selectedSize) {
-      return alert("Please select a size.");
-    }
-    if (!selectedColor) {
-      return alert("Please select a color.");
-    }
+    console.log(selectedSize);
+
 
     const cartItem = {
       size: selectedSize,
@@ -104,6 +100,7 @@ const ProductDetails = () => {
                         style={{
                           backgroundColor: color.toLowerCase(),
                           cursor: "pointer",
+                          border: "1px solid black",
                         }}
                       ></div>
                     ))}
@@ -134,7 +131,7 @@ const ProductDetails = () => {
 
                 <button
                   onClick={handleAddToCart}
-                  disabled={!selectedSize || !selectedColor}
+
                   className="add-to-cart-button"
                 >
                   Add To Cart

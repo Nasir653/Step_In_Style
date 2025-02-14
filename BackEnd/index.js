@@ -15,7 +15,6 @@ const {
   removeFromCart,
   searchInput,
   Logout,
-  ProfilePic,
   fetchOrderById,
   CancelOrder,
   SuggestedItems,
@@ -27,7 +26,6 @@ const verifyUSer = require("./utils/isAuth");
 const {
   CreateProducts,
   getAllProducts,
-  AdminLogin,
   newCollectionProducts,
   EditNewCategory,
   fetchNewCategory,
@@ -86,14 +84,14 @@ app.post("/user/editUser", IsAuthenticated, multMid, EditUser);
 app.get("/user/verify/:token", verifyUSer);
 app.get("/fetch/user", IsAuthenticated, fetchUserData);
 app.post("/edit/user", IsAuthenticated, EditAddress);
-app.get("/user/SuggestedItems/:type", IsAuthenticated, SuggestedItems);
+app.get("/user/SuggestedItems/:type", SuggestedItems);
 app.post("/user/Blogs", IsAuthenticated, blogs);
 
 // Admin Routes
 
 app.post("/admin/createProducts", IsAuthenticated, multMid, CreateProducts);
 app.put("/admin/editProducts/:ProductId", IsAuthenticated, editProducts);
-app.get("/get/newCollection/:category", IsAuthenticated, newCollectionProducts);
+app.get("/get/newCollection/:category", newCollectionProducts);
 app.put(
   "/admin/edits/newCollection/:productId",
   IsAuthenticated,
@@ -121,7 +119,7 @@ app.get("/getAllProducts/:category/:type", getAllProducts);
 app.get("/getProductById/:productId", getProductById);
 app.get("/get/newCollection/:category", getAllProducts);
 app.get("/get/trendingCollection/:category", getAllProducts);
-app.post("/product/search/:value", IsAuthenticated, searchInput);
+app.post("/product/search/:value", searchInput);
 
 //Cart Routes
 app.post("/user/cart/:ProductId", IsAuthenticated, AddToCart);

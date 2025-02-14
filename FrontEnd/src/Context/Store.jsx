@@ -294,10 +294,16 @@ const Store = () => {
 
   const addToCart = async (productId, formData) => {
 
-
     try {
       setStore((prev) => ({ ...prev, loading: true }));
-      console.log(formData);
+
+      if (formData.size == "") {
+        return toast.error("Choose size");
+      }
+
+      if (formData.color == "") {
+        return toast.error("Choose Color");
+      }
 
       const res = await api.post(`/user/cart/${productId}`, formData);
 
@@ -306,6 +312,10 @@ const Store = () => {
     } catch (error) {
 
       console.log(error);
+      if (error.response && error.response.data.message === "Please Login Again") {
+        navigate("/user/login");
+        toast.error("Please Login");
+      }
 
     }
     finally {
@@ -315,21 +325,16 @@ const Store = () => {
   }
 
   const fetchCartItems = useCallback(async () => {
-
     try {
-
-
       const res = await api.get("/user/fetch/cartItems");
-
       setStore((prev) => ({ ...prev, cart: res.data.payload }));
-
     } catch (error) {
-      console.log(Error);
+      console.log(error); // This will log the actual error object
+
+
     }
+  }, []);
 
-
-  }
-    , []);
 
   const removeFromCart = async (productId) => {
 

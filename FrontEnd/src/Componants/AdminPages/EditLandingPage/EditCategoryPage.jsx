@@ -6,16 +6,12 @@ import IsAuthorized from '../../../utils/IsAuthorized';
 
 
 const EditCategoryPage = () => {
-
-
-    const { UserData, editNewCategory, AllCategories, addNewCategory, DeleteCategories } = useContext(context);
+    const { UserData, editNewCategory, AllCategories, addNewCategory, DeleteCategories, setStore } = useContext(context);
     const [editingCategoryId, setEditingCategoryId] = useState(null);
     const [isAddingNew, setIsAddingNew] = useState(false);
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState("");
     const [image, setImage] = useState(null);
-
-
 
     IsAuthorized();
 
@@ -36,8 +32,20 @@ const EditCategoryPage = () => {
         try {
             if (categoryId) {
                 await editNewCategory(e, formData, categoryId);
+                // Update the edited category in the state
+                setStore(prevState => ({
+                    ...prevState,
+                    AllCategories: prevState.AllCategories.map(cat =>
+                        cat._id === categoryId ? { ...cat, title, img: URL.createObjectURL(image) } : cat
+                    )
+                }));
             } else {
                 await addNewCategory(e, formData);
+                // Update the categories after adding a new one
+                setStore(prevState => ({
+                    ...prevState,
+                    AllCategories: [...prevState.AllCategories, { _id: Date.now(), title, img: URL.createObjectURL(image) }]
+                }));
                 setIsAddingNew(false);
                 setEditingCategoryId(null);
                 setTitle("");
@@ -52,30 +60,24 @@ const EditCategoryPage = () => {
 
     const handleDelete = (e, categoryId) => {
         e.preventDefault();
-
         DeleteCategories(categoryId);
-
-    }
+        // Remove the deleted category from the state
+        setStore(prevState => ({
+            ...prevState,
+            AllCategories: prevState.AllCategories.filter(cat => cat._id !== categoryId)
+        }));
+    };
 
     return (
         <>
-
             <div className="container-fluid">
-
                 <h2>All Category</h2>
                 <div className="items-category">
                     <div className="row gap-5">
-
                         {AllCategories.map((ele) => (
                             <div key={ele._id}>
                                 {editingCategoryId === (ele._id) ? (
-
-                                    <form
-                                        encType="multipart/form-data"
-                                        onSubmit={(e) => handleSubmit(e, ele._id)}
-                                    >
-
-
+                                    <form encType="multipart/form-data" onSubmit={(e) => handleSubmit(e, ele._id)}>
                                         <input
                                             type="text"
                                             name="title"
@@ -103,7 +105,6 @@ const EditCategoryPage = () => {
                                         </button>
                                     </form>
                                 ) : (
-
                                     <>
                                         <img src={ele.img} alt={ele.title} />
                                         <h5>{ele.title}</h5>
@@ -118,10 +119,7 @@ const EditCategoryPage = () => {
                                 )}
                             </div>
                         ))}
-
-
                         {isAddingNew ? (
-
                             <form encType="multipart/form-data" onSubmit={handleSubmit}>
                                 <input
                                     type="text"
@@ -150,7 +148,6 @@ const EditCategoryPage = () => {
                                 </button>
                             </form>
                         ) : (
-
                             <button
                                 className="btn"
                                 onClick={() => {
@@ -166,10 +163,8 @@ const EditCategoryPage = () => {
                     </div>
                 </div>
             </div>
-
-
         </>
-    )
-}
+    );
+};
 
-export default EditCategoryPage
+export default EditCategoryPage;
