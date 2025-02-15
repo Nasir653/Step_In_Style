@@ -6,14 +6,17 @@ import "./OrderPage.scss";
 const OrderPage = () => {
     const { fetchOrderBtyId, UserCancelOrder, editAddress, UserData, Order, cart } = useContext(context);
     const { OrderId, productId } = useParams();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [isAddingNewAddress, setIsAddingNewAddress] = useState(false);
     const [editedAddress, setEditedAddress] = useState(null);
 
     const items = cart.filter((ele) => ele._id === productId);
 
     const handleEditClick = (address) => {
         setIsEditing(true);
+        setIsAddingNewAddress(false);
         setEditedAddress(address);
     };
 
@@ -25,74 +28,17 @@ const OrderPage = () => {
     const handleSaveAddress = (e) => {
         editAddress(e, editedAddress);
         setIsEditing(false);
+        setIsAddingNewAddress(false);
     };
 
     const handleCancelEdit = () => {
         setIsEditing(false);
+        setIsAddingNewAddress(false);
         setEditedAddress(null);
     };
 
     const handleConfirmOrder = () => {
         setIsModalOpen(true);
-    };
-
-    const handleOrdernow = (address) => {
-        if (items.length === 0) {
-            alert("No products available for ordering.");
-            return;
-        }
-
-        // Calculate total amount in paise (Razorpay uses paise)
-        const totalAmount = items.reduce((total, product) => total + product.price * product.qty, 0) * 100;
-
-        // Razorpay options
-        const options = {
-            key: "rzp_test_Z36WCdNzfS0d1c", // Your Razorpay test key
-            amount: totalAmount, // Amount in paise
-            currency: "INR",
-            name: "Step in Style",
-            description: "Order Payment",
-            handler: function (response) {
-                console.log("Payment Success:", response);
-
-                // If payment is successful, place the order
-                items.forEach((product) => {
-                    const formData = {
-                        color: product.color,
-                        size: product.size,
-                        qty: product.qty,
-                        price: product.price,
-                        addressId: address._id,
-                        paymentId: response.razorpay_payment_id, // Store payment ID
-                    };
-
-                    Order(product.productId._id, formData);
-                });
-
-                alert("Payment Successful! Your order has been placed.");
-            },
-            prefill: {
-                name: UserData?.name,
-                email: UserData?.email,
-                contact: UserData?.contact,
-            },
-            theme: {
-                color: "#F37254",
-            },
-        };
-
-        // Check if Razorpay is loaded
-        if (!window.Razorpay) {
-            alert("Razorpay SDK not loaded. Please check your connection.");
-            return;
-        }
-
-        const razorpayInstance = new window.Razorpay(options);
-        razorpayInstance.open();
-    };
-
-    const handleClosePopup = () => {
-        setIsModalOpen(false);
     };
 
     if (items.length === 0 || !UserData || !UserData.address) {
@@ -115,22 +61,11 @@ const OrderPage = () => {
                             />
                             <div className="item-details">
                                 <h4 className="item-title">{product.productId.title || "Untitled Product"}</h4>
-
-                                <p className="item-info">
-                                    <span>Type:</span> {product.productId.type || "No type"}
-                                </p>
-                                <p className="item-info">
-                                    <span>Size:</span> {product.size || "No size"}
-                                </p>
-                                <p className="item-info">
-                                    <span>Color:</span> {product.color || "No color"}
-                                </p>
-                                <p className="item-info">
-                                    <span>Quantity:</span> {product.qty || 0}
-                                </p>
-                                <p className="item-info">
-                                    <span>Price:</span> ₹{product.price || 0}
-                                </p>
+                                <p className="item-info"><span>Type:</span> {product.productId.type || "No type"}</p>
+                                <p className="item-info"><span>Size:</span> {product.size || "No size"}</p>
+                                <p className="item-info"><span>Color:</span> {product.color || "No color"}</p>
+                                <p className="item-info"><span>Quantity:</span> {product.qty || 0}</p>
+                                <p className="item-info"><span>Price:</span> ₹{product.price || 0}</p>
                             </div>
                         </div>
                     ))}
@@ -138,16 +73,11 @@ const OrderPage = () => {
 
                 <div className="order-footer">
                     <h3 className="total-amount">
-                        <span>Total Amount:</span> ₹
-                        {items.reduce((total, product) => total + product.price * product.qty, 0)}
+                        <span>Total Amount:</span> ₹{items.reduce((total, product) => total + product.price * product.qty, 0)}
                     </h3>
                     <div className="actions">
-                        <button className="btn-primary" onClick={handleConfirmOrder}>
-                            Confirm Order
-                        </button>
-                        <button className="btn-secondary" onClick={() => UserCancelOrder(OrderId)}>
-                            Cancel Order
-                        </button>
+                        <button className="btn-primary" onClick={handleConfirmOrder}>Confirm Order</button>
+                        <button className="btn-secondary" onClick={() => UserCancelOrder(OrderId)}>Cancel Order</button>
                     </div>
                 </div>
             </div>
@@ -155,46 +85,76 @@ const OrderPage = () => {
             {isModalOpen && (
                 <div className="address-popup">
                     <div className="popup-content">
-                        <button className="close-popup-btn" onClick={handleClosePopup}>
-                            &#8592;
-                        </button>
+                        <button className="close-popup-btn" onClick={() => setIsModalOpen(false)}>↩ Back</button>
                         <h3>Shipping Address</h3>
-                        {UserData.address.map((addr) => (
-                            <div key={addr._id} className="address-details">
-                                {isEditing && editedAddress && editedAddress._id === addr._id ? (
-                                    <div className="edit-address">
-                                        <input type="text" name="fullName" value={editedAddress.fullName} onChange={handleAddressChange} placeholder="Full Name" />
-                                        <input type="text" name="street" value={editedAddress.street} onChange={handleAddressChange} placeholder="Street" />
-                                        <input type="text" name="city" value={editedAddress.city} onChange={handleAddressChange} placeholder="City" />
-                                        <input type="text" name="district" value={editedAddress.district} onChange={handleAddressChange} placeholder="District" />
-                                        <input type="text" name="state" value={editedAddress.state} onChange={handleAddressChange} placeholder="State" />
-                                        <input type="text" name="pincode" value={editedAddress.pincode} onChange={handleAddressChange} placeholder="Pincode" />
-                                        <input type="text" name="landmark" value={editedAddress.landmark} onChange={handleAddressChange} placeholder="Landmark" />
-                                        <input type="text" name="contact" value={editedAddress.contact} onChange={handleAddressChange} placeholder="Contact" />
-                                        <button className="btn-primary" onClick={(e) => handleSaveAddress(e)}>Update</button>
-                                        <button className="btn-secondary" onClick={handleCancelEdit}>Cancel</button>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <p><strong>Full Name:</strong> {addr.fullName}</p>
-                                        <p><strong>Street:</strong> {addr.street}</p>
-                                        <p><strong>City:</strong> {addr.city}</p>
-                                        <p><strong>District:</strong> {addr.district}</p>
-                                        <p><strong>State:</strong> {addr.state}</p>
-                                        <p><strong>Pincode:</strong> {addr.pincode}</p>
-                                        <p><strong>Landmark:</strong> {addr.landmark}</p>
-                                        <p><strong>Contact:</strong> {addr.contact}</p>
-                                        <button className="btn-secondary" onClick={() => handleEditClick(addr)}>Edit</button>
-                                        <button className="btn-secondary" onClick={() => handleOrdernow(addr)}>Order Now</button>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+
+                        {UserData.address.length > 0 ? (
+                            UserData.address.map((addr) => (
+                                <div key={addr._id} className="address-details">
+                                    {isEditing && editedAddress && editedAddress._id === addr._id ? (
+                                        <AddressForm
+                                            editedAddress={editedAddress}
+                                            handleAddressChange={handleAddressChange}
+                                            handleSaveAddress={handleSaveAddress}
+                                            handleCancelEdit={handleCancelEdit}
+                                        />
+                                    ) : (
+                                        <div>
+                                            <p><strong>Full Name:</strong> {addr.fullName}</p>
+                                            <p><strong>Street:</strong> {addr.street}</p>
+                                            <p><strong>City:</strong> {addr.city}</p>
+                                            <p><strong>District:</strong> {addr.district}</p>
+                                            <p><strong>State:</strong> {addr.state}</p>
+                                            <p><strong>Pincode:</strong> {addr.pincode}</p>
+                                            <p><strong>Landmark:</strong> {addr.landmark}</p>
+                                            <p><strong>Contact:</strong> {addr.contact}</p>
+                                            <button className="btn-secondary" onClick={() => handleEditClick(addr)}>Edit</button>
+                                        </div>
+                                    )}
+                                </div>
+                            ))
+                        ) : (
+                            <p>No address found. Please add a new address.</p>
+                        )}
+
+                        {!isAddingNewAddress && (
+                            <button className="btn-secondary" onClick={() => {
+                                setIsAddingNewAddress(true);
+                                setIsEditing(true);
+                                setEditedAddress({ fullName: "", street: "", city: "", district: "", state: "", pincode: "", landmark: "", contact: "" });
+                            }}>
+                                Add Address
+                            </button>
+                        )}
+
+                        {isAddingNewAddress && (
+                            <AddressForm
+                                editedAddress={editedAddress}
+                                handleAddressChange={handleAddressChange}
+                                handleSaveAddress={handleSaveAddress}
+                                handleCancelEdit={handleCancelEdit}
+                            />
+                        )}
                     </div>
                 </div>
             )}
         </div>
     );
 };
+
+const AddressForm = ({ editedAddress, handleAddressChange, handleSaveAddress, handleCancelEdit }) => (
+    <div className="edit-address">
+        <input type="text" name="fullName" value={editedAddress.fullName} onChange={handleAddressChange} placeholder="Full Name" />
+        <input type="text" name="street" value={editedAddress.street} onChange={handleAddressChange} placeholder="Street" />
+        <input type="text" name="city" value={editedAddress.city} onChange={handleAddressChange} placeholder="City" />
+        <input type="text" name="district" value={editedAddress.district} onChange={handleAddressChange} placeholder="District" />
+        <input type="text" name="state" value={editedAddress.state} onChange={handleAddressChange} placeholder="State" />
+        <input type="text" name="pincode" value={editedAddress.pincode} onChange={handleAddressChange} placeholder="Pincode" />
+        <input type="text" name="landmark" value={editedAddress.landmark} onChange={handleAddressChange} placeholder="Landmark" />
+        <input type="text" name="contact" value={editedAddress.contact} onChange={handleAddressChange} placeholder="Contact" />
+        <button className="btn-primary" onClick={(e) => handleSaveAddress(e)}>Save Address</button>
+        <button className="btn-secondary" onClick={handleCancelEdit}>Cancel</button>
+    </div>
+);
 
 export default OrderPage;

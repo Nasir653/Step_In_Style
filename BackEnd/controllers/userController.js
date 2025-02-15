@@ -14,12 +14,12 @@ const signup = async (req, res) => {
     console.log("Request Body:", req.body);
 
     if (!username || !email || !password) {
-      return res.json({ message: "All Fields Required" });
+      return messageHandler(res, 404, "All Fields Required");
     }
 
     const getEmail = await User.findOne({ email });
     if (getEmail) {
-      return res.json({ message: "Email already registered" });
+      return messageHandler(res, 404, "Email Already Exists");
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -235,8 +235,6 @@ const EditAddress = async (req, res) => {
       landmark,
       contact,
     } = req.body;
-
-    console.log(req.body);
 
     const userId = req.userId;
 

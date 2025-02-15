@@ -3,11 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { context } from "../../Context/Store";
 import "./ProductDetails.scss";
 import SuggestedPro from "./SuggestedPro";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
 
   const navigate = useNavigate();
-  const { productById, addToCart, ProductDetails, SuggestedProducts } = useContext(context);
+  const { UserData, productById, addToCart, ProductDetails, SuggestedProducts } = useContext(context);
   const { productId } = useParams();
 
   const [selectedSize, setSelectedSize] = useState("");
@@ -45,7 +46,15 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
-    console.log(selectedSize);
+
+    if (UserData.length == 0) {
+      toast.error("Please Login First")
+
+      setTimeout(() => {
+        return navigate("/user/login");
+      }, 1000);
+
+    }
 
 
     const cartItem = {

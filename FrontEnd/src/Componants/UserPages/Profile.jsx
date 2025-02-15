@@ -5,6 +5,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { AiOutlineHeart, AiOutlineEdit } from "react-icons/ai";
 import { MdLocationOn, MdLocalOffer, MdContactSupport } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import Address from "./Address";
 
 const Profile = () => {
 
@@ -13,6 +14,7 @@ const Profile = () => {
     const { UserData, ProfiePic, EditUser } = useContext(context);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [ShowProfile, setShowProfile] = useState(true);
     const [formData, setFormData] = useState({
         username: "",
         email: "",
@@ -63,6 +65,12 @@ const Profile = () => {
         setIsEditing(false);
     };
 
+    const handleAddress = () => {
+        setShowProfile(false);
+
+
+    }
+
     return (
         <div className="profile-container">
             <div className="sidebar">
@@ -82,100 +90,109 @@ const Profile = () => {
                     {selectedImage && <button onClick={handleUpload}>Upload</button>}
                 </div>
                 <h3>{UserData.username}</h3>
+                <p> {UserData.IsAdmin && "Admin"} </p>
                 <p>{UserData.email}</p>
-                <p>{UserData.mobile}</p>
+
 
                 <ul className="menu">
                     <li onClick={() => navigate("/user/OrderStatus")}><FaShoppingCart /> My Orders</li>
-                    <li><MdLocationOn /> My Address</li>
+                    <li onClick={handleAddress}><MdLocationOn /> My Address</li>
                     <li><AiOutlineHeart /> Wishlist</li>
                     <li><MdLocalOffer /> Coupons</li>
                     <li><MdContactSupport /> Contact Us</li>
                 </ul>
             </div>
 
+
+
             <div className="profile-details">
-                <div className="edit-header">
-                    <h2>My Profile</h2>
-                    <AiOutlineEdit onClick={handleEditClick} className="edit-icon" />
-                </div>
+                {ShowProfile ? (
+                    <>
+                        <div className="edit-header">
+                            <h2>My Profile</h2>
+                            <AiOutlineEdit onClick={handleEditClick} className="edit-icon" />
+                        </div>
 
-                <form>
-                    <label>Full Name *</label>
-                    <input
-                        type="text"
-                        value={formData.username}
-                        disabled={!isEditing}
-                        onChange={handleChange}
-                        name="username"
-                    />
+                        <form>
+                            <label>Full Name *</label>
+                            <input
+                                type="text"
+                                value={formData.username}
+                                disabled={!isEditing}
+                                onChange={handleChange}
+                                name="username"
+                            />
 
-                    <label>Email ID *</label>
-                    <input
-                        type="email"
-                        value={formData.email}
-                        disabled={!isEditing}
-                        onChange={handleChange}
-                        name="email"
-                    />
+                            <label>Email ID *</label>
+                            <input
+                                type="email"
+                                value={formData.email}
+                                disabled={!isEditing}
+                                onChange={handleChange}
+                                name="email"
+                            />
 
-                    <label>Mobile *</label>
-                    <div className="mobile-input">
-                        <span>+91</span>
-                        <input
-                            type="text"
-                            name="phone"
-                            value={formData.phone}
-                            disabled={!isEditing}
-                            onChange={handleChange}
-                        />
-                    </div>
+                            <label>Mobile *</label>
+                            <div className="mobile-input">
+                                <span>+91</span>
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value={formData.phone}
+                                    disabled={!isEditing}
+                                    onChange={handleChange}
+                                />
+                            </div>
 
-                    <label>Gender *</label>
-                    <div className="gender-options">
-                        <input
-                            type="radio"
-                            name="gender"
-                            value="Male"
-                            checked={formData.gender === "Male"}
-                            disabled={!isEditing}
-                            onChange={handleChange}
-                        /> Male
-                        <input
-                            type="radio"
-                            name="gender"
-                            value="Female"
-                            checked={formData.gender === "Female"}
-                            disabled={!isEditing}
-                            onChange={handleChange}
-                        /> Female
-                        <input
-                            type="radio"
-                            name="gender"
-                            value="Other"
-                            checked={formData.gender === "Other"}
-                            disabled={!isEditing}
-                            onChange={handleChange}
-                        /> Other
-                    </div>
+                            <label>Gender *</label>
+                            <div className="gender-options">
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Male"
+                                    checked={formData.gender === "Male"}
+                                    disabled={!isEditing}
+                                    onChange={handleChange}
+                                /> Male
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Female"
+                                    checked={formData.gender === "Female"}
+                                    disabled={!isEditing}
+                                    onChange={handleChange}
+                                /> Female
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Other"
+                                    checked={formData.gender === "Other"}
+                                    disabled={!isEditing}
+                                    onChange={handleChange}
+                                /> Other
+                            </div>
 
-                    <label>Date of Birth *</label>
-                    <input
-                        type="date"
-                        name="dob"
-                        value={formData.dob}
-                        disabled={!isEditing}
-                        onChange={handleChange}
-                    />
+                            <label>Date of Birth *</label>
+                            <input
+                                type="date"
+                                name="dob"
+                                value={formData.dob}
+                                disabled={!isEditing}
+                                onChange={handleChange}
+                            />
 
-                    {isEditing && (
-                        <button type="button" onClick={handleSaveChanges}>
-                            Save Changes
-                        </button>
-                    )}
-                </form>
+                            {isEditing && (
+                                <button type="button" onClick={handleSaveChanges}>
+                                    Save Changes
+                                </button>
+                            )}
+                        </form> </>)
+                    : <Address />}
             </div>
+
         </div>
+
+
     );
 };
 

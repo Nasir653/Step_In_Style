@@ -34,16 +34,22 @@ const Store = () => {
   const registerHandler = async (e, formData) => {
     try {
       e.preventDefault();
-      const url = "http://localhost:4000/user/register";
-      const url2 = "https://localhost:7247/api/Values/register";
 
-      const response = await axios.post(url, formData)
 
-      toast.success(response.data.message);
+      const res = await api.post("/user/register", formData)
 
+      if (res.status === 200 && res.data.message === "Account Created Successfully") {
+        toast.success(res.data.message);
+
+        setTimeout(() => {
+
+          navigate("/user/login")
+        }, 1000)
+      };
 
     } catch (error) {
       console.error(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -53,8 +59,7 @@ const Store = () => {
       setStore((prev) => ({ ...prev, loading: true }));
       e.preventDefault();
 
-      const url = "/user/login";
-      const res = await api.post(url, formData);
+      const res = await api.post("/user/login", formData);
 
 
 
@@ -295,13 +300,15 @@ const Store = () => {
   const addToCart = async (productId, formData) => {
 
     try {
+
+
       setStore((prev) => ({ ...prev, loading: true }));
 
-      if (formData.size == "") {
+      if (formData.size === "") {
         return toast.error("Choose size");
       }
 
-      if (formData.color == "") {
+      if (formData.color === "") {
         return toast.error("Choose Color");
       }
 
@@ -312,11 +319,6 @@ const Store = () => {
     } catch (error) {
 
       console.log(error);
-      if (error.response && error.response.data.message === "Please Login Again") {
-        navigate("/user/login");
-        toast.error("Please Login");
-      }
-
     }
     finally {
       setStore((prev) => ({ ...prev, loading: false }));
