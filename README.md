@@ -30,12 +30,15 @@ cd Step-in-Style
 
 # Install dependencies
 npm install
+npm i Mongoose
+npm i Bcrypt
+npm i Jsonwebtoken
+npm i scss
+npm i Chart.js
+etc etc 
 
 # Configure Environment Variables
 Create a `.env` file and add:
-MONGO_URI=your_mongo_db_connection_string
-JWT_SECRET=your_jwt_secret_key
-STRIPE_SECRET_KEY=your_stripe_secret_key
 
 # Run the Application
 npm start
