@@ -7,10 +7,6 @@ cloudinary.config({
   cloud_name: process.env.cloud_name,
   api_key: process.env.api_key,
   api_secret: process.env.api_secret,
-
-  // cloud_name: "dhc6axjlg",
-  // api_key: "439222735114564",
-  // api_secret: "_knbw7gZ8HbKV_kRNUOPa3pfXEQ"
 });
 
 const upload = multer({
