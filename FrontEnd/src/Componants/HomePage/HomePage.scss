@@ -1,66 +1,92 @@
-$border : 2px solid black;
-$border-red : 2px solid red;
+$border: 2px solid black;
+$border-red: 2px solid red;
 
-
-.img{
+.img {
     height: 60vh;
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+    }
 }
 
-.content{
-
+.content {
     width: 100%;
-   
-    
 }
-.Gender-category{
+
+.Gender-category {
     width: 100%;
-   display: flex;
-    
-    justify-content: center; 
+    display: flex;
+    justify-content: center;
     align-items: center;
     height: 40vh;
     gap: 5vw;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease-in-out forwards;
 }
 
-.col-mens{
-    width: 20vw;
-    height: 50%;
-
-    >img{
-        
-        width: 100%;
-        height: 100%;
-    
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-}
-.col-womens{
-    width: 20vw;
-    height: 50%;
 
-    >img{
-        width: 100%;
-
-        height: 100%;
-    }
-}
-.col-kids{
-    width: 20vw;
-    height: 50%;
-
-    >img{
-        width: 100%;
-
-        height: 100%;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
+@mixin col-style {
+    width: 20vw;
+    height: 50%;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
-.sector_1{
+    &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
 
+    >img {
+        width: 100%;
+        height: 100%;
+        transition: transform 0.3s ease-in-out;
 
-  
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+.col-mens {
+    @include col-style;
+}
+
+.col-womens {
+    @include col-style;
+}
+
+.col-kids {
+    @include col-style;
+}
+
+.sector_1 {
     width: 100%;
     height: 60vh;
-
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fadeInScale 0.8s ease-in-out forwards;
 }
 
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

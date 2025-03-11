@@ -45,7 +45,7 @@ const cookieParser = require("cookie-parser");
 const { IsAuthenticated } = require("./middleWares/IsAuthenticated");
 
 // Port
-const port = 4000;
+const port = process.env.Port;
 
 // Database
 connDb();
